@@ -16,9 +16,9 @@ import AccordionNav from "./AccordionNav";
 
 const Navitems = () => {
   return (
-    <div className=" text-white p-4">
+    <div className="relative z-10 text-white p-4">
       <div className="hidden md:block">
-        <div className="container mx-auto flex space-x-5 ">
+        <div className="container mx-auto flex space-x-5">
           <div className="relative navbar">
             <Link href="/" className="focus:outline-none">
               Home

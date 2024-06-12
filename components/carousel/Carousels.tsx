@@ -9,7 +9,7 @@ import { carouselImage } from "@/utils/config/data";
 
 const Carousels = () => {
   return (
-    <div>
+    <div className="relative z-0">
       <Swiper
         autoplay={{
           delay: 2500,

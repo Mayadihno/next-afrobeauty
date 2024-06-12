@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <div className="w-full md:h-[70px] h-[100px] bg-[#B10C62] px-3 md:px-8 py-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-        <div className="flex space-x-5 mb-4 md:mb-0 text-white">
+        <div className="flex space-x-5 mb-4 md:mb-0 text-white cursor-pointer">
           <ICONS.facebook size={25} />
           <ICONS.instagram size={25} />
         </div>
