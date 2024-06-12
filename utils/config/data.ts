@@ -1,3 +1,8 @@
+import image1 from "../../public/assets/carousel1.jpg";
+import image2 from "../../public/assets/carousel-2.jpg";
+import image3 from "../../public/assets/carousel-3.png";
+import image4 from "../../public/assets/carousel-4.jpg";
+
 export const skinCare = [
   {
     id: 1,
@@ -201,5 +206,24 @@ export const foods = [
     id: 6,
     label: "Snacks",
     link: "/snacks",
+  },
+];
+
+export const carouselImage = [
+  {
+    id: 1,
+    image: image1,
+  },
+  {
+    id: 2,
+    image: image2,
+  },
+  {
+    id: 3,
+    image: image3,
+  },
+  {
+    id: 4,
+    image: image4,
   },
 ];
