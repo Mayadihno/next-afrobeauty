@@ -10,3 +10,14 @@
 body {
   font-family: 'Prociono', serif;
 }
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+@layer components {
+  .navbar {
+    @apply font-ebgaramond font-medium text-black text-lg hover:border-t hover:border-b hover:border-t-[#B10C62] hover:border-b-[#B10C62] hover:text-[#B10C62] hover:py-0.5;
+  }
+}
