@@ -28,7 +28,7 @@ const sections = [
 
 const AccordionNav = () => {
   return (
-    <div className="w-full text-base mt-4">
+    <div className="w-full text-base mt-4 font-ebgaramond">
       <div className="relative navbar mb-4 w-full border-b-1 border-t-0 border-l-0 border-r-0 border">
         <Link href="/" className="focus:outline-none ">
           Home
@@ -52,7 +52,7 @@ const AccordionNav = () => {
                     <Link
                       href={item.link}
                       key={item.id}
-                      className={`block py-2 border-b-1 border-t-0 border-l-0 border-r-0 border ${
+                      className={`block py-2 border-b-1 border-t-0 border-l-0 border-r-0 border font-urbanist ${
                         itemIndex === section.items.length - 1
                           ? "border-b-0"
                           : ""
