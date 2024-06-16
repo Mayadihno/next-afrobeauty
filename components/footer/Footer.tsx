@@ -140,7 +140,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="w-full bg-[#1B1B1B] text-white font-ebgaramond text-center text-base py-4">
+      <div className="w-full bg-[#1B1B1B] text-white font-ebgaramond text-center md:px-0 px-4 text-base py-4">
         <h3>Copyright 2024 - Designed for Mayabeauty by mayadihno</h3>
       </div>
     </div>

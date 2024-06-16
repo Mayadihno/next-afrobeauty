@@ -1,6 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks/hooks";
+import {
+  addProductToCart,
+  removeProductFromCart,
+} from "@/redux/slice/cartSlice";
+import {
+  addProductToWishList,
+  removeProductFromWishList,
+} from "@/redux/slice/wishList";
 import { ICONS } from "@/utils/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import ProductQuickView from "./ProductQuickView";
 
 type CardProp = {
   item: {
@@ -11,7 +23,71 @@ type CardProp = {
     price: string;
   };
 };
+
+type Item = {
+  id: number;
+  image: { src: string };
+  title: string;
+  category: string;
+  price: string;
+};
+
 const Card = ({ item }: CardProp) => {
+  const [existing, setExisting] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [existingWishList, setExistingWishList] = useState(false);
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const { wishListItems } = useAppSelector((state) => state.wishList);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Check if the product already exists in the cart
+    const isExisting = cartItems.some((cartItem) => cartItem.id === item.id);
+    setExisting(isExisting);
+
+    // Check if the product already exists in the wishlist
+    const isExistingInWishlist = wishListItems.some(
+      (wishListItem) => wishListItem.id === item.id
+    );
+    setExistingWishList(isExistingInWishlist);
+  }, [cartItems, wishListItems, item.id]);
+
+  const handleAddToCart = (item: Item) => {
+    const cartItem = { ...item, image: item.image.src, qty: 1 };
+    dispatch(addProductToCart(cartItem));
+    localStorage.setItem("cart", JSON.stringify([...cartItems, cartItem]));
+    setExisting(true);
+    toast.success("Item added to cart successfully");
+  };
+
+  const handleAddToWishList = (item: Item) => {
+    const wishListItem = { ...item, image: item.image.src };
+    dispatch(addProductToWishList(wishListItem));
+    localStorage.setItem(
+      "wishlist",
+      JSON.stringify([...wishListItems, wishListItem])
+    );
+    setExistingWishList(true);
+    toast.success("Item added to wishlist successfully");
+  };
+
+  const handleRemove = (id: number) => {
+    dispatch(removeProductFromCart(id));
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(cartItems.filter((product) => product.id !== id))
+    );
+  };
+
+  const handleRemoveFromWishList = (id: number) => {
+    dispatch(removeProductFromWishList(id));
+    setExistingWishList(false);
+    localStorage.setItem(
+      "wishlist",
+      JSON.stringify(wishListItems.filter((product) => product.id !== id))
+    );
+  };
+
   return (
     <div
       key={item.id}
@@ -26,12 +102,33 @@ const Card = ({ item }: CardProp) => {
           />
           <div className="absolute top-4 md:right-[-30px] right-0">
             <div className="flex flex-col md:space-y-4 space-y-6">
-              <button className="">
-                <ICONS.eye size={20} className="" />
+              <button>
+                <ICONS.eye
+                  size={20}
+                  title="Quick View"
+                  color="#333"
+                  onClick={() => setOpen(!open)}
+                />
               </button>
-              <button className="">
-                <ICONS.heart size={20} className="" />
-              </button>
+              {existingWishList ? (
+                <button onClick={() => handleRemoveFromWishList(item.id)}>
+                  <ICONS.heartFilled
+                    size={20}
+                    className=" cursor-pointer "
+                    title="Remove from wishlist"
+                    color={existingWishList ? "red" : "#333"}
+                  />
+                </button>
+              ) : (
+                <button onClick={() => handleAddToWishList(item)}>
+                  <ICONS.heart
+                    size={20}
+                    className=" cursor-pointer"
+                    title="Add to wishlist"
+                    color={existingWishList ? "red" : "#333"}
+                  />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -45,19 +142,33 @@ const Card = ({ item }: CardProp) => {
         </div>
       </div>
       <div className="flex justify-between items-center mt-4">
-        <h4 className=" flex items-center text-[#B10C62]">
+        <h4 className="flex items-center text-[#B10C62]">
           <ICONS.naira size={25} />
-          <span className=" text-2xl font-semibold font-ebgaramond ">
+          <span className="text-2xl font-semibold font-ebgaramond">
             {item.price}
           </span>
         </h4>
-        <div className="">
-          <button className="bg-[#B10C62] text-white py-2 px-4 rounded flex items-center font-prociono">
-            <ICONS.addToCart className="mr-2" />
-            <span> Add to cart</span>
-          </button>
+        <div>
+          {existing ? (
+            <button
+              className="bg-[#B10C62] text-white py-2 px-4 rounded flex items-center font-prociono"
+              onClick={() => handleRemove(item.id)}
+            >
+              <ICONS.remove className="mr-2" />
+              <span className=" text-nowrap">Remove item</span>
+            </button>
+          ) : (
+            <button
+              className="bg-[#B10C62] text-white py-2 px-4 rounded flex items-center font-prociono"
+              onClick={() => handleAddToCart(item)}
+            >
+              <ICONS.addToCart className="mr-2" />
+              <span>Add to cart</span>
+            </button>
+          )}
         </div>
       </div>
+      {open && <ProductQuickView setOpen={setOpen} item={item} />}
     </div>
   );
 };
