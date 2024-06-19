@@ -1,57 +1,57 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import image from "../../public/assets/myLogo.png";
 import Navitems from "./Navitems";
 import { ICONS } from "@/utils/icons";
 import AccordionNav from "./AccordionNav";
+import { useAppSelector } from "@/redux/hooks/hooks";
+import Link from "next/link";
 
 const Navbar = () => {
-  const [active, setActive] = useState<boolean>(false);
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const { wishListItems } = useAppSelector((state) => state.wishList);
   const [show, setShow] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 70) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  });
   return (
     <>
-      <div
-        className={`${
-          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } w-full bg-[#FEFFFE] py-3`}
-      >
+      <div className={` w-full bg-[#FEFFFE] py-3 sticky top-0 z-50`}>
         <div className="flex justify-between items-center md:px-10 px-3">
-          <div className="logo">
-            <Image
+          <Link href={"/"}>
+            <img
               alt="logo"
-              src={image}
+              src={image.src}
               width={80}
               height={80}
-              className=" rounded-[10px]"
+              className="rounded-[10px]"
             />
-          </div>
+          </Link>
           <div className="md:block hidden">
             <Navitems />
           </div>
           <div className="flex items-center space-x-6">
-            <div className=" flex items-center space-x-1 font-prociono">
-              <div className="relative md:block hidden">
-                <ICONS.heart size={25} />
+            {mounted && (
+              <div className=" flex items-center space-x-1 font-prociono">
+                <div className="relative md:block hidden cursor-pointer">
+                  <ICONS.heart size={25} />
+                  <span className="absolute font-ebgaramond -top-3 -right-3 bg-[#B10C62] w-[20px] h-[20px] text-white rounded-full flex items-center justify-center">
+                    {wishListItems?.length}
+                  </span>
+                </div>
+              </div>
+            )}
+            {mounted && (
+              <div className="relative cursor-pointer">
+                <ICONS.cart size={25} />
                 <span className=" absolute font-ebgaramond -top-3 -right-3 bg-[#B10C62] w-[20px] h-[20px] text-white rounded-full flex items-center justify-center">
-                  4
+                  {cartItems?.length}
                 </span>
               </div>
-            </div>
-            <div className="relative">
-              <ICONS.cart size={25} />
-              <span className=" absolute font-ebgaramond -top-3 -right-3 bg-[#B10C62] w-[20px] h-[20px] text-white rounded-full flex items-center justify-center">
-                84
-              </span>
-            </div>
+            )}
             <div className="block md:hidden" onClick={() => setShow(!show)}>
               {show ? <ICONS.close size={25} /> : <ICONS.menu size={25} />}
             </div>

@@ -2,7 +2,123 @@ import image1 from "../../public/assets/carousel1.jpg";
 import image2 from "../../public/assets/carousel-2.jpg";
 import image3 from "../../public/assets/carousel-3.png";
 import image4 from "../../public/assets/carousel-4.jpg";
+import image5 from "../../public/assets/accessories.jpg";
+import image6 from "../../public/assets/barsoap.jpg";
+import image7 from "../../public/assets/body-cream&lotion.jpg";
+import image8 from "../../public/assets/braids.jpg";
+import image9 from "../../public/assets/facila-treatment.jpg";
+import image10 from "../../public/assets/food.jpg";
+import image11 from "../../public/assets/oil.jpg";
+import image12 from "../../public/assets/pony-tail.jpg";
+import image13 from "../../public/assets/relaxer.jpg";
+import image14 from "../../public/assets/soap.jpg";
+import image16 from "../../public/assets/sulphate-free-product.jpg";
+import image17 from "../../public/assets/wig.jpg";
+import image18 from "../../public/assets/brand1.png";
+import image19 from "../../public/assets/brand2.jpg";
+import image20 from "../../public/assets/brand3.jpg";
+import image21 from "../../public/assets/brand4.png";
+import image22 from "../../public/assets/brand5.jpg";
+import image23 from "../../public/assets/brand6.jpg";
+import image24 from "../../public/assets/brand7.jpg";
+import image25 from "../../public/assets/brand8.png";
 
+export const brandImage = [
+  {
+    id: 1,
+    image: image18,
+  },
+  {
+    id: 2,
+    image: image19,
+  },
+  {
+    id: 3,
+    image: image20,
+  },
+  {
+    id: 4,
+    image: image21,
+  },
+  {
+    id: 5,
+    image: image22,
+  },
+  {
+    id: 6,
+    image: image23,
+  },
+  {
+    id: 7,
+    image: image24,
+  },
+  {
+    id: 8,
+    image: image25,
+  },
+];
+export const categoriesImage = [
+  {
+    id: 1,
+    image: image5,
+    label: "Accessories",
+  },
+  {
+    id: 2,
+    image: image6,
+    label: "Bar Soap",
+  },
+  {
+    id: 3,
+    image: image7,
+    label: "Body Cream and Lotion",
+  },
+  {
+    id: 4,
+    image: image8,
+    label: "Braids",
+  },
+  {
+    id: 5,
+    image: image9,
+    label: "Facial Treatment",
+  },
+  {
+    id: 6,
+    image: image10,
+    label: "Food",
+  },
+  {
+    id: 7,
+    image: image11,
+    label: "Oil",
+  },
+  {
+    id: 8,
+    image: image12,
+    label: "Pony Tail",
+  },
+  {
+    id: 9,
+    image: image13,
+    label: "Relaxer",
+  },
+  {
+    id: 10,
+    image: image14,
+    label: "Cloth",
+  },
+  {
+    id: 11,
+    image: image16,
+    label: "Sulphate Free Products",
+  },
+  {
+    id: 12,
+    image: image17,
+    label: "Wigs",
+  },
+];
 export const skinCare = [
   {
     id: 1,
