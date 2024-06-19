@@ -1,3 +1,4 @@
+import { Weight } from "lucide-react";
 import image1 from "../../public/assets/product/product1.jpg";
 import image2 from "../../public/assets/product/product2.jpg";
 import image3 from "../../public/assets/product/product3.jpeg";
@@ -13,6 +14,8 @@ export const product = [
     title: "RedOne Matte Hair Wax",
     price: "65,000",
     image: image1,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
   {
     id: 2,
@@ -20,6 +23,8 @@ export const product = [
     title: "RedOne Aqua Hair Wax Full Force",
     price: "65,000",
     image: image2,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
   {
     id: 3,
@@ -27,6 +32,8 @@ export const product = [
     title: "Mielle Rosemary Scalp&Hair Strengthening Oil",
     price: "125,000",
     image: image3,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
   {
     id: 4,
@@ -34,6 +41,8 @@ export const product = [
     title: "Mielle Rosemary Mint Daily Styling Creme",
     price: "155,000",
     image: image4,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
   {
     id: 5,
@@ -41,6 +50,8 @@ export const product = [
     title: "Mielle Rosemary Mint Strengthening Leave-In Conditioner",
     price: "155,000",
     image: image5,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
   {
     id: 6,
@@ -48,6 +59,8 @@ export const product = [
     title: "Mielle Rosemary Mint Strengthening Hair Masque",
     price: "155,000",
     image: image6,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
   {
     id: 7,
@@ -55,6 +68,8 @@ export const product = [
     title: "Mielle Rosemary Mint Strengthening Conditioner",
     price: "155,000",
     image: image7,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
   {
     id: 8,
@@ -62,5 +77,53 @@ export const product = [
     title: "Mielle Pomegranate & Honey Leave-In Conditioner",
     price: "150,000",
     image: image8,
+    brand: "RedOne",
+    Weight: "0.45kg",
   },
+];
+
+export const productCatogories = [
+  "Afrokinky",
+  "Bar Soap",
+  "Body Cream & Lotion",
+  "Body Lotion",
+  "Braids",
+  "Brush",
+  "Canned Food",
+  "Cereal & Milk",
+  "Cloths",
+  "Comb",
+  "Conditioner",
+  "Crochet",
+  "Detangler",
+  "Facial Treatment",
+  "Flours & Meals",
+  "Food",
+  "Hair Cap",
+  "Hair Cream",
+  "Hair Extension",
+  "Hair Glue & Clips",
+  "Hair Ribbon",
+  "Hair Treatment",
+  "Human Hair",
+  "Jewelry",
+  "Kid Relaxer",
+  "Kid Shampoo",
+  "Make-Up Kits",
+  "Musical Instrument",
+  "Oil",
+  "Oil & Sauce",
+  "On Sale",
+  "Parfume",
+  "Pony Tail",
+  "Relaxer",
+  "Shoes",
+  "Shower Gel",
+  "Snacks",
+  "Soup Ingredients",
+  "Spices",
+  "Sulphate Free Product",
+  "Weave-On",
+  "Wig",
+  "Wig Cap",
 ];

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Prociono } from "next/font/google";
 import "./globals.css";
+import Providers from "@/lib/Provider";
 
 // Import Prociono font
 const prociono = Prociono({
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={prociono.className}>{children}</body>
+      <body className={prociono.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

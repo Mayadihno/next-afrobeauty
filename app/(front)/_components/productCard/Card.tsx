@@ -13,6 +13,7 @@ import { ICONS } from "@/utils/icons";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ProductQuickView from "./ProductQuickView";
+import Link from "next/link";
 
 type CardProp = {
   item: {
@@ -95,11 +96,13 @@ const Card = ({ item }: CardProp) => {
     >
       <div className="flex-grow">
         <div className="md:w-64 w-full h-64 relative">
-          <img
-            src={item.image.src}
-            className="w-full h-full object-contain"
-            alt={item.title}
-          />
+          <Link href={`/product/${item.id}`}>
+            <img
+              src={item.image.src}
+              className="w-full h-full object-contain"
+              alt={item.title}
+            />
+          </Link>
           <div className="absolute top-4 md:right-[-30px] right-0">
             <div className="flex flex-col md:space-y-4 space-y-6">
               <button>
@@ -132,14 +135,16 @@ const Card = ({ item }: CardProp) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-center items-center mt-4 font-urbanist">
-          <h5 className="text-center text-sm font-medium text-[#999999]">
-            {item.category}
-          </h5>
-          <h3 className="text-center pt-2 md:text-base text-lg line-clamp-2 font-semibold">
-            {item.title}
-          </h3>
-        </div>
+        <Link href={`/product/${item.id}`}>
+          <div className="flex flex-col justify-center items-center mt-4 font-urbanist">
+            <h5 className="text-center text-sm font-medium text-[#999999]">
+              {item.category}
+            </h5>
+            <h3 className="text-center pt-2 md:text-base text-lg line-clamp-2 font-semibold">
+              {item.title}
+            </h3>
+          </div>
+        </Link>
       </div>
       <div className="flex justify-between items-center mt-4">
         <h4 className="flex items-center text-[#B10C62]">
