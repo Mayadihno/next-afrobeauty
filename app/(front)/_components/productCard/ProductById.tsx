@@ -14,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { formatCurrency } from "@/utils/formatter";
 
 const ProductById = ({ params }: { params: { id: number } }) => {
   const item = product.find((item) => item.id === Number(params.id));
@@ -167,8 +168,7 @@ const ProductById = ({ params }: { params: { id: number } }) => {
                 </h3>
                 <div className="flex justify-between py-3">
                   <h3 className="text-2xl font-semibold flex items-center text-[#B10C62]">
-                    <ICONS.naira />
-                    <span className="">{item.price}</span>
+                    {formatCurrency(item.price)}
                   </h3>
                   <div className="">
                     {click ? (

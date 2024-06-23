@@ -319,7 +319,7 @@ export const foods = [
     link: "/spices",
   },
   {
-    id: 6,
+    id: 7,
     label: "Snacks",
     link: "/snacks",
   },

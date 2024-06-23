@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ProductQuickView from "./ProductQuickView";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/formatter";
 
 type CardProp = {
   item: {
@@ -21,7 +22,9 @@ type CardProp = {
     image: { src: string };
     title: string;
     category: string;
-    price: string;
+    price: number;
+    seller: string;
+    stock: number;
   };
 };
 
@@ -30,7 +33,9 @@ type Item = {
   image: { src: string };
   title: string;
   category: string;
-  price: string;
+  price: number;
+  seller: string;
+  stock: number;
 };
 
 const Card = ({ item }: CardProp) => {
@@ -148,9 +153,8 @@ const Card = ({ item }: CardProp) => {
       </div>
       <div className="flex justify-between items-center mt-4">
         <h4 className="flex items-center text-[#B10C62]">
-          <ICONS.naira size={25} />
           <span className="text-2xl font-semibold font-ebgaramond">
-            {item.price}
+            {formatCurrency(item.price)}
           </span>
         </h4>
         <div>
@@ -173,7 +177,12 @@ const Card = ({ item }: CardProp) => {
           )}
         </div>
       </div>
-      {open && <ProductQuickView setOpen={setOpen} item={item} />}
+      {open && (
+        <ProductQuickView
+          setOpen={setOpen}
+          item={{ ...item, image: item.image.src }}
+        />
+      )}
     </div>
   );
 };

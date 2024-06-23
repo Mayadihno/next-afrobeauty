@@ -2,6 +2,7 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { addProductToCart } from "@/redux/slice/cartSlice";
+import { formatCurrency } from "@/utils/formatter";
 import { ICONS } from "@/utils/icons";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -9,11 +10,14 @@ import toast from "react-hot-toast";
 type QuickView = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   item: {
+    seller: string;
+    stock: number;
     id: number;
-    image: { src: string };
     title: string;
+    price: number; // Changed to number for price calculations
+    image: string;
     category: string;
-    price: string;
+    qty?: number;
   };
 };
 
@@ -72,7 +76,7 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
               <div className="flex md:justify-between flex-col md:flex-row md:space-x-8 md:mt-10">
                 <div className="w-full md:h-[400px] h-[200px]">
                   <img
-                    src={item.image.src}
+                    src={item.image}
                     alt=""
                     className="w-full h-full object-contain"
                   />
@@ -83,8 +87,7 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
                   </h3>
                   <div className="flex justify-between py-3">
                     <h3 className="text-2xl font-semibold flex items-center text-[#B10C62]">
-                      <ICONS.naira />
-                      <span className="">{item.price}</span>
+                      {formatCurrency(item.price)}
                     </h3>
                     <div className="">
                       {click ? (

@@ -29,3 +29,32 @@ input[type="radio"] {
     @apply font-ebgaramond font-medium text-black text-lg hover:border-t hover:border-b hover:border-t-[#B10C62] hover:border-b-[#B10C62] hover:text-[#B10C62] hover:py-0.5;
   }
 }
+
+.input-phone-number input:focus {
+  outline: none !important;
+  /* border: none !important; */
+  box-shadow: none !important;
+}
+
+.react-tel-input .selected-flag.open:before {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 .2rem rgba(255, 255, 255, 0.122) !important;
+}
+
+.react-tel-input .selected-flag:before {
+  border: 0px solid #eee !important;
+}
+
+.react-tel-input .selected-flag.open:after {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 .2rem rgba(255, 255, 255, 0.122) !important;
+}
+
+.react-tel-input .selected-flag:after {
+  border: 0px solid #eee !important;
+}
+
+.react-tel-input .selected-flag:focus:before {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 .2rem rgba(255, 255, 255, 0.122) !important;
+}
