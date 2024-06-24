@@ -15,30 +15,9 @@ import toast from "react-hot-toast";
 import ProductQuickView from "./ProductQuickView";
 import Link from "next/link";
 import { formatCurrency } from "@/utils/formatter";
+import Image from "next/image";
 
-type CardProp = {
-  item: {
-    id: number;
-    image: { src: string };
-    title: string;
-    category: string;
-    price: number;
-    seller: string;
-    stock: number;
-  };
-};
-
-type Item = {
-  id: number;
-  image: { src: string };
-  title: string;
-  category: string;
-  price: number;
-  seller: string;
-  stock: number;
-};
-
-const Card = ({ item }: CardProp) => {
+const Card = ({ item }: any) => {
   const [existing, setExisting] = useState(false);
   const [open, setOpen] = useState(false);
   const [existingWishList, setExistingWishList] = useState(false);
@@ -58,16 +37,16 @@ const Card = ({ item }: CardProp) => {
     setExistingWishList(isExistingInWishlist);
   }, [cartItems, wishListItems, item.id]);
 
-  const handleAddToCart = (item: Item) => {
-    const cartItem = { ...item, image: item.image.src, qty: 1 };
+  const handleAddToCart = (item: ProductProp) => {
+    const cartItem = { ...item, image: item.image, qty: 1 };
     dispatch(addProductToCart(cartItem));
     localStorage.setItem("cart", JSON.stringify([...cartItems, cartItem]));
     setExisting(true);
     toast.success("Item added to cart successfully");
   };
 
-  const handleAddToWishList = (item: Item) => {
-    const wishListItem = { ...item, image: item.image.src };
+  const handleAddToWishList = (item: ProductProp) => {
+    const wishListItem = { ...item, image: item.image };
     dispatch(addProductToWishList(wishListItem));
     localStorage.setItem(
       "wishlist",
@@ -102,8 +81,8 @@ const Card = ({ item }: CardProp) => {
       <div className="flex-grow">
         <div className="md:w-64 w-full h-64 relative">
           <Link href={`/product/${item.id}`}>
-            <img
-              src={item.image.src}
+            <Image
+              src={item.image}
               className="w-full h-full object-contain"
               alt={item.title}
             />

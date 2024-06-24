@@ -17,3 +17,17 @@ type RegisterProp = {
   password: string;
   confirmPassword: string;
 };
+
+type ProductProp = {
+  id: number;
+  title: string;
+  image: string;
+  price: number;
+  discountPrice?: number;
+  weight?: number;
+  seller?: string;
+  category?: string;
+  stock?: string;
+  qty: number;
+  brand?: string;
+};

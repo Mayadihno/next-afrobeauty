@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { addProductToCart } from "@/redux/slice/cartSlice";
 import { formatCurrency } from "@/utils/formatter";
 import { ICONS } from "@/utils/icons";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -14,7 +15,7 @@ type QuickView = {
     stock: number;
     id: number;
     title: string;
-    price: number; // Changed to number for price calculations
+    price: number;
     image: string;
     category: string;
     qty?: number;
@@ -75,9 +76,11 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
             <div className="w-full">
               <div className="flex md:justify-between flex-col md:flex-row md:space-x-8 md:mt-10">
                 <div className="w-full md:h-[400px] h-[200px]">
-                  <img
+                  <Image
                     src={item.image}
-                    alt=""
+                    alt={item.title}
+                    width={500}
+                    height={500}
                     className="w-full h-full object-contain"
                   />
                 </div>

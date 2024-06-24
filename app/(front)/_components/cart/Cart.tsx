@@ -9,6 +9,7 @@ import {
 } from "@/redux/slice/cartSlice";
 import { formatCurrency, formatNumber } from "@/utils/formatter";
 import { ICONS } from "@/utils/icons";
+import Image from "next/image";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -96,7 +97,7 @@ const SingleCart = ({ item }: { item: CartItem }) => {
       <div className="flex justify-between">
         <div className="flex items-center">
           <div className="w-[80px] h-[80px]">
-            <img
+            <Image
               src={item.image}
               className="w-full h-full object-cover"
               alt={item.title}
