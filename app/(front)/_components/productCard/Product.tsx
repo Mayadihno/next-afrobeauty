@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { product } from "@/utils/config/products";
-import { ICONS } from "@/utils/icons";
 import React from "react";
 import Card from "./Card";
 

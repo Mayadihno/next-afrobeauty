@@ -14,26 +14,10 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ProductQuickView from "./ProductQuickView";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/formatter";
+import Image from "next/image";
 
-type CardProp = {
-  item: {
-    id: number;
-    image: { src: string };
-    title: string;
-    category: string;
-    price: string;
-  };
-};
-
-type Item = {
-  id: number;
-  image: { src: string };
-  title: string;
-  category: string;
-  price: string;
-};
-
-const Card = ({ item }: CardProp) => {
+const Card = ({ item }: any) => {
   const [existing, setExisting] = useState(false);
   const [open, setOpen] = useState(false);
   const [existingWishList, setExistingWishList] = useState(false);
@@ -53,16 +37,16 @@ const Card = ({ item }: CardProp) => {
     setExistingWishList(isExistingInWishlist);
   }, [cartItems, wishListItems, item.id]);
 
-  const handleAddToCart = (item: Item) => {
-    const cartItem = { ...item, image: item.image.src, qty: 1 };
+  const handleAddToCart = (item: ProductProp) => {
+    const cartItem = { ...item, image: item.image, qty: 1 };
     dispatch(addProductToCart(cartItem));
     localStorage.setItem("cart", JSON.stringify([...cartItems, cartItem]));
     setExisting(true);
     toast.success("Item added to cart successfully");
   };
 
-  const handleAddToWishList = (item: Item) => {
-    const wishListItem = { ...item, image: item.image.src };
+  const handleAddToWishList = (item: ProductProp) => {
+    const wishListItem = { ...item, image: item.image };
     dispatch(addProductToWishList(wishListItem));
     localStorage.setItem(
       "wishlist",
@@ -97,8 +81,8 @@ const Card = ({ item }: CardProp) => {
       <div className="flex-grow">
         <div className="md:w-64 w-full h-64 relative">
           <Link href={`/product/${item.id}`}>
-            <img
-              src={item.image.src}
+            <Image
+              src={item.image}
               className="w-full h-full object-contain"
               alt={item.title}
             />
@@ -148,9 +132,8 @@ const Card = ({ item }: CardProp) => {
       </div>
       <div className="flex justify-between items-center mt-4">
         <h4 className="flex items-center text-[#B10C62]">
-          <ICONS.naira size={25} />
           <span className="text-2xl font-semibold font-ebgaramond">
-            {item.price}
+            {formatCurrency(item.price)}
           </span>
         </h4>
         <div>
@@ -173,7 +156,12 @@ const Card = ({ item }: CardProp) => {
           )}
         </div>
       </div>
-      {open && <ProductQuickView setOpen={setOpen} item={item} />}
+      {open && (
+        <ProductQuickView
+          setOpen={setOpen}
+          item={{ ...item, image: item.image.src }}
+        />
+      )}
     </div>
   );
 };

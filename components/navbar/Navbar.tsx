@@ -19,7 +19,9 @@ const Navbar = () => {
 
   return (
     <>
-      <div className={` w-full bg-[#FEFFFE] py-3 sticky top-0 z-50`}>
+      <div
+        className={` w-full bg-[#FEFFFE] py-3 sticky top-0 z-50 border-b-2 shadow-md`}
+      >
         <div className="flex justify-between items-center md:px-10 px-3">
           <Link href={"/"}>
             <img
@@ -45,12 +47,14 @@ const Navbar = () => {
               </div>
             )}
             {mounted && (
-              <div className="relative cursor-pointer">
-                <ICONS.cart size={25} />
-                <span className=" absolute font-ebgaramond -top-3 -right-3 bg-[#B10C62] w-[20px] h-[20px] text-white rounded-full flex items-center justify-center">
-                  {cartItems?.length}
-                </span>
-              </div>
+              <Link href={"/cart"}>
+                <div className="relative cursor-pointer">
+                  <ICONS.cart size={25} />
+                  <span className=" absolute font-ebgaramond -top-3 -right-3 bg-[#B10C62] w-[20px] h-[20px] text-white rounded-full flex items-center justify-center">
+                    {cartItems?.length}
+                  </span>
+                </div>
+              </Link>
             )}
             <div className="block md:hidden" onClick={() => setShow(!show)}>
               {show ? <ICONS.close size={25} /> : <ICONS.menu size={25} />}

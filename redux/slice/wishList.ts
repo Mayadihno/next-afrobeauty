@@ -3,8 +3,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface WishListItem {
   id: number;
   title: string;
-  price: string;
   image: string;
+  price: number;
+  discountPrice?: number;
+  weight?: number;
+  seller?: string;
+  category?: string;
+  stock?: string;
+  qty?: number;
+  brand?: string;
 }
 
 interface WishListState {
@@ -12,13 +19,15 @@ interface WishListState {
 }
 
 const getInitialWishListItems = (): WishListItem[] => {
-  try {
-    const storedCart = localStorage.getItem("wishlist");
-    if (storedCart) {
-      return JSON.parse(storedCart);
+  if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+    try {
+      const storedWishList = localStorage.getItem("wishlist");
+      if (storedWishList) {
+        return JSON.parse(storedWishList);
+      }
+    } catch (error) {
+      console.error("Failed to parse wishlist items from localStorage", error);
     }
-  } catch (error) {
-    console.error("Failed to parse wishlist items from localStorage", error);
   }
   return [];
 };
@@ -27,7 +36,7 @@ const initialState: WishListState = {
   wishListItems: getInitialWishListItems(),
 };
 
-const cartSlice = createSlice({
+const wishlistSlice = createSlice({
   name: "wishlist",
   initialState,
   reducers: {
@@ -41,6 +50,12 @@ const cartSlice = createSlice({
       } else {
         state.wishListItems = [...state.wishListItems, { ...item }];
       }
+      if (
+        typeof window !== "undefined" &&
+        typeof localStorage !== "undefined"
+      ) {
+        localStorage.setItem("wishlist", JSON.stringify(state.wishListItems));
+      }
     },
     removeProductFromWishList: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
@@ -48,10 +63,16 @@ const cartSlice = createSlice({
       if (itemIndex >= 0) {
         state.wishListItems.splice(itemIndex, 1);
       }
+      if (
+        typeof window !== "undefined" &&
+        typeof localStorage !== "undefined"
+      ) {
+        localStorage.setItem("wishlist", JSON.stringify(state.wishListItems));
+      }
     },
   },
 });
 
 export const { addProductToWishList, removeProductFromWishList } =
-  cartSlice.actions;
-export default cartSlice.reducer;
+  wishlistSlice.actions;
+export default wishlistSlice.reducer;
