@@ -22,7 +22,7 @@ export const PATCH = async (request: NextRequest) => {
 
     await user.save();
     return new NextResponse(
-      JSON.stringify({ message: "Password changed successfully" }),
+      JSON.stringify({ message: "Password changed successfully welldone!!" }),
       { status: 201 }
     );
   } catch (error) {
