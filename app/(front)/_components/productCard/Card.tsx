@@ -16,6 +16,7 @@ import ProductQuickView from "./ProductQuickView";
 import Link from "next/link";
 import { formatCurrency } from "@/utils/formatter";
 import Image from "next/image";
+import { ProductProp } from "@/types/types";
 
 const Card = ({ item }: any) => {
   const [existing, setExisting] = useState(false);

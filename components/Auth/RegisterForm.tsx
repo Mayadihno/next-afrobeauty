@@ -8,6 +8,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { RegisterProp } from "@/types/types";
 
 const RegisterForm = () => {
   const router = useRouter();
