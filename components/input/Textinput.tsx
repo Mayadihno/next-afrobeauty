@@ -12,8 +12,10 @@ type TextInputProps = {
   className?: string;
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
-  options?: { value: string; label: string }[];
+  options?: { value: string; displayValue: string }[];
   value?: string | number | Date;
+  onChange?: any;
+  isDisabled?: any;
 };
 
 const TextInput = ({
@@ -28,6 +30,8 @@ const TextInput = ({
   suffixIcon,
   options,
   value,
+  onChange,
+  isDisabled,
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePasswordVisibility = () => {
@@ -65,11 +69,13 @@ const TextInput = ({
                 id={`${name}`}
                 name={`${name}`}
                 className={baseClass}
+                onChange={onChange}
+                disabled={isDisabled}
                 value={inputValue as string | number | readonly string[]}
               >
                 {options?.map((option) => (
                   <option key={option.value} value={option.value}>
-                    {option.label}
+                    {option.displayValue}
                   </option>
                 ))}
               </select>
@@ -114,7 +120,7 @@ const TextInput = ({
               >
                 {options?.map((option) => (
                   <option key={option.value} value={option.value}>
-                    {option.label}
+                    {option.displayValue}
                   </option>
                 ))}
               </select>

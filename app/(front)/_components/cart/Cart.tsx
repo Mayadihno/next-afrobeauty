@@ -10,6 +10,7 @@ import {
 import { formatCurrency, formatNumber } from "@/utils/formatter";
 import { ICONS } from "@/utils/icons";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -46,15 +47,21 @@ const Cart = () => {
           <div className="text-sm font-normal font-urbanist px-4 border-b-[1px] pb-3 text-gray-500">
             <h5>Delivery fees not included yet.</h5>
           </div>
-          <div className="p-4 text-white font-ebgaramond pt-6 md:block hidden">
+          <Link
+            href={"/checkout"}
+            className="p-4 text-white font-ebgaramond pt-6 md:block hidden"
+          >
             <Button className="flex hover:bg-[#B10C62] !text-lg items-center !rounded-[10px] cursor-pointer justify-center space-x-2 bg-[#B10C62] w-full">
               <h3 className="">{formatCurrency(subtotal)}</h3>
               <span>Checkout</span>
             </Button>
-          </div>
+          </Link>
         </div>
       </div>
-      <div className="p-4 text-white font-ebgaramond pt-8 md:hidden block">
+      <Link
+        href={"/checkout"}
+        className="p-4 text-white font-ebgaramond pt-8 md:hidden block"
+      >
         <Button
           className="flex hover:bg-[#B10C62]
          !text-xl items-center py-8 !rounded-[10px] cursor-pointer justify-center space-x-2 bg-[#B10C62] w-full"
@@ -62,7 +69,7 @@ const Cart = () => {
           <h3 className="">{formatCurrency(subtotal)}</h3>
           <span>Checkout</span>
         </Button>
-      </div>
+      </Link>
     </div>
   );
 };

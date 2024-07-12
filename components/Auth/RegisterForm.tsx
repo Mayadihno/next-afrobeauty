@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { ICONS } from "@/utils/icons";
 import React from "react";
@@ -7,20 +6,53 @@ import TextInput from "../input/Textinput";
 import Link from "next/link";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
   const {
     register,
     reset,
     handleSubmit,
     control,
+    setError,
     formState: { errors },
   } = useForm<RegisterProp>();
 
-  function onSubmit(data: LoginProp) {
-    console.log(data);
-    reset();
+  async function onSubmit(data: RegisterProp) {
+    if (data.password !== data.confirmPassword) {
+      setError("confirmPassword", {
+        type: "manual",
+        message: "Password and confirm password do not match",
+      });
+      return;
+    }
+    try {
+      const { confirmPassword, ...userData } = data;
+      const response = await fetch("/api/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userData }),
+      });
+
+      const result = await response.json();
+
+      if (response.status === 201) {
+        router.push("/login");
+        toast.success("Registration Successful");
+        reset();
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error: any) {
+      toast.error("An unexpected error occurred");
+      console.error(error);
+    }
   }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className=" my-3">
@@ -83,13 +115,18 @@ const RegisterForm = () => {
       <div className="py-3">
         <TextInput
           label="Confirm Password"
-          placeholder="Confirm Passwordd"
+          placeholder="Confirm Password"
           type="password"
           name="confirmPassword"
           register={register}
           errors={errors}
           suffixIcon={<ICONS.eye />}
         />
+        {errors.confirmPassword && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.confirmPassword.message}
+          </p>
+        )}
       </div>
       <div className=" w-full my-3 py-2 font-ebgaramond text-2xl font-semibold text-center bg-[#B10C62] !rounded-2xl text-white">
         <button type="submit">Create Account</button>

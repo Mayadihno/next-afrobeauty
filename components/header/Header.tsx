@@ -9,6 +9,7 @@ const Header = () => {
     console.log(search);
     setSearch("");
   };
+
   return (
     <div className="w-full md:h-[70px] h-[100px] bg-[#B10C62] px-3 md:px-8 py-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center">

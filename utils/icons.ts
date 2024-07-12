@@ -1,5 +1,10 @@
 import { FaFacebook, FaRegEyeSlash } from "react-icons/fa6";
-import { FaInstagram, FaAngleDown } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaAngleDown,
+  FaAddressCard,
+  FaCamera,
+} from "react-icons/fa";
 import { CiSearch, CiMenuBurger } from "react-icons/ci";
 import { IoIosHeartEmpty, IoIosHeart } from "react-icons/io";
 import { SlHandbag } from "react-icons/sl";
@@ -17,6 +22,7 @@ import { IoLocationOutline, IoCall } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import { LuMinus } from "react-icons/lu";
 import { FcGoogle } from "react-icons/fc";
+import { GrCreditCard } from "react-icons/gr";
 
 export const ICONS = {
   facebook: FaFacebook,
@@ -41,4 +47,7 @@ export const ICONS = {
   add: MdAdd,
   eyelock: FaRegEyeSlash,
   gogogle: FcGoogle,
+  address: FaAddressCard,
+  card: GrCreditCard,
+  camera: FaCamera,
 };

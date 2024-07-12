@@ -16,6 +16,7 @@ export const product = [
     image: image1,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "1",
   },
   {
     id: 2,
@@ -25,6 +26,7 @@ export const product = [
     image: image2,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "2",
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ export const product = [
     image: image3,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "1",
   },
   {
     id: 4,
@@ -43,6 +46,7 @@ export const product = [
     image: image4,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "1",
   },
   {
     id: 5,
@@ -52,6 +56,7 @@ export const product = [
     image: image5,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "2",
   },
   {
     id: 6,
@@ -61,6 +66,7 @@ export const product = [
     image: image6,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "2",
   },
   {
     id: 7,
@@ -70,6 +76,7 @@ export const product = [
     image: image7,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "3",
   },
   {
     id: 8,
@@ -79,6 +86,7 @@ export const product = [
     image: image8,
     brand: "RedOne",
     Weight: "0.45kg",
+    sellerId: "1",
   },
 ];
 

@@ -12,6 +12,7 @@ export interface CartItem {
   stock?: string;
   qty: number;
   brand?: string;
+  sellerId?: string;
 }
 
 interface CartState {
@@ -82,9 +83,22 @@ const cartSlice = createSlice({
         localStorage.setItem("cart", JSON.stringify(state.cartItems));
       }
     },
+    clearCart: (state) => {
+      state.cartItems = [];
+      if (
+        typeof window !== "undefined" &&
+        typeof localStorage !== "undefined"
+      ) {
+        localStorage.removeItem("cart");
+      }
+    },
   },
 });
 
-export const { addProductToCart, removeProductFromCart, updateCartItemQty } =
-  cartSlice.actions;
+export const {
+  addProductToCart,
+  removeProductFromCart,
+  updateCartItemQty,
+  clearCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;
