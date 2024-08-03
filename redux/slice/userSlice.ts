@@ -14,9 +14,14 @@ interface Admin {
   token: string;
 }
 
-interface Seller {
-  data: User[];
+interface Seller extends Omit<User, "name"> {
   token: string;
+  image: string;
+  accountType: string;
+  fullName: string;
+  shopName: string;
+  shopAddress: string;
+  createdAt: string;
 }
 
 interface Buyer {
@@ -34,11 +39,10 @@ interface AuthState {
   };
   admin: {
     data: User[] | null;
-    token: "";
+    token: string;
   };
   seller: {
-    data: User[] | null;
-    token: "";
+    data: Seller | null;
   };
   buyer: {
     data: User | null;
@@ -59,12 +63,11 @@ const initialState: AuthState = {
     pagination: {},
   },
   admin: {
-    data: [],
+    data: null,
     token: "",
   },
   seller: {
-    data: [],
-    token: "",
+    data: null,
   },
   buyer: {
     data: null,
@@ -76,7 +79,7 @@ const initialState: AuthState = {
 };
 
 const authSlice = createSlice({
-  name: "users",
+  name: "auth",
   initialState,
   reducers: {
     setAllUsers(
@@ -86,7 +89,6 @@ const authSlice = createSlice({
         pagination: { [key: string]: any };
       }>
     ) {
-      console.log(action.payload.data);
       state.allUsers.data = action.payload.data;
       state.allUsers.pagination = action.payload.pagination;
     },
@@ -100,7 +102,6 @@ const authSlice = createSlice({
       state.allSellers.data = action.payload.data;
       state.allSellers.pagination = action.payload.pagination;
     },
-
     setBuyer(
       state,
       action: PayloadAction<{
@@ -109,6 +110,18 @@ const authSlice = createSlice({
     ) {
       state.buyer.data = action.payload.data;
       state.isAuthenticated = true;
+    },
+    setSeller(
+      state,
+      action: PayloadAction<{
+        data: Seller | null;
+      }>
+    ) {
+      state.seller.data = action.payload.data;
+      state.isAuthenticated = true;
+    },
+    setError(state, action: PayloadAction<string | null>) {
+      state.error = action.payload;
     },
     setSessionToken(state, action: PayloadAction<string | null>) {
       state.sessionToken = action.payload;
@@ -119,13 +132,22 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.buyer = { data: null };
+      state.seller = { data: null };
       state.sessionToken = null;
       state.isAuthenticated = false;
     },
   },
 });
 
-export const { setAllUsers, setBuyer, setSessionToken, logout } =
-  authSlice.actions;
+export const {
+  setAllUsers,
+  setAllSellers,
+  setBuyer,
+  setSeller,
+  setError,
+  setSessionToken,
+  setLoading,
+  logout,
+} = authSlice.actions;
 
 export default authSlice.reducer;

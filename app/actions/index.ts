@@ -1,6 +1,7 @@
 "use server";
 
 import { signIn, signOut } from "@/auth/auth";
+import { LoginProp } from "@/types/types";
 
 export async function doLogout() {
   await signOut({ redirectTo: "/" });

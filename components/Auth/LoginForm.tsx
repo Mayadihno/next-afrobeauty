@@ -85,7 +85,7 @@ const LoginForm = () => {
             suffixIcon={<ICONS.eye />}
           />
           <div className="flex justify-end py-3 text-gray-400 font-medium font-urbanist text-base">
-            <Link href={"/"}>Forget password?</Link>
+            <Link href={"/forget-password"}>Forget password?</Link>
           </div>
           <SubmitButton
             isLoading={loading}
