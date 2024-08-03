@@ -14,7 +14,7 @@ interface Admin {
   token: string;
 }
 
-interface Seller extends Omit<User, "name"> {
+export interface Seller extends Omit<User, "name"> {
   token: string;
   image: string;
   accountType: string;
@@ -22,6 +22,7 @@ interface Seller extends Omit<User, "name"> {
   shopName: string;
   shopAddress: string;
   createdAt: string;
+  description?: string;
 }
 
 interface Buyer {

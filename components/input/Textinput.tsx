@@ -151,7 +151,7 @@ const TextInput = ({
           </span>
         )}
       </div>
-      {errors[`${name}`] && (
+      {errors && errors[`${name}`] && (
         <span className="text-red-500 text-sm">{label} field is required</span>
       )}
     </div>

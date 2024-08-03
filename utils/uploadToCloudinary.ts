@@ -17,7 +17,7 @@ interface CloudinaryUploadResult {
 export const uploadImageToCloudinary = async (
   files: File[] | File,
   folder: string
-): Promise<string[] | null> => {
+): Promise<string[] | string | null> => {
   try {
     const fileArray = Array.isArray(files) ? files : [files];
     const uploadPromises = fileArray.map(async (file) => {
