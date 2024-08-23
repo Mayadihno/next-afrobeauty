@@ -22,6 +22,7 @@ import image22 from "../../public/assets/brand5.jpg";
 import image23 from "../../public/assets/brand6.jpg";
 import image24 from "../../public/assets/brand7.jpg";
 import image25 from "../../public/assets/brand8.png";
+import { ICONS } from "../icons";
 
 export const brandImage = [
   {
@@ -575,4 +576,82 @@ export const businessDaysOptions = [
   { value: "10-15 days", label: "10 - 15 Business Days" },
   { value: "15-25 days", label: "15 - 25 Business Days" },
   { value: "25-30 days", label: "25 - 30 Business Days" },
+];
+
+export const category = [
+  {
+    id: 1,
+    cat: "Skin Care",
+    icon: ICONS.spa,
+  },
+  {
+    id: 2,
+    cat: "Hair Care",
+    icon: ICONS.hair,
+  },
+  {
+    id: 3,
+    cat: "Hair",
+    icon: ICONS.hair,
+  },
+  {
+    id: 4,
+    cat: "Kids",
+    icon: ICONS.kids,
+  },
+  {
+    id: 5,
+    cat: "Accessories",
+    icon: ICONS.accessories,
+  },
+  {
+    id: 6,
+    cat: "Lounge",
+    icon: ICONS.lounge,
+  },
+  {
+    id: 7,
+    cat: "Food",
+    icon: ICONS.food,
+  },
+  {
+    id: 8,
+    cat: "Makeup",
+    icon: ICONS.makeup,
+  },
+  {
+    id: 9,
+    cat: "Fragrance",
+    icon: ICONS.fragrance,
+  },
+  {
+    id: 10,
+    cat: "Bath & Body",
+    icon: ICONS.bath,
+  },
+  {
+    id: 11,
+    cat: "Nail Care",
+    icon: ICONS.nailCare,
+  },
+  {
+    id: 12,
+    cat: "Men's Grooming",
+    icon: ICONS.men,
+  },
+  {
+    id: 13,
+    cat: "Oral Care",
+    icon: ICONS.body,
+  },
+  {
+    id: 14,
+    cat: "Health & Wellness",
+    icon: ICONS.beauty,
+  },
+  {
+    id: 15,
+    cat: "Sun Care",
+    icon: ICONS.sun,
+  },
 ];

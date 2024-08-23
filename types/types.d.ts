@@ -126,6 +126,9 @@ export interface Shop {
   fullName: string;
   email: string;
   shopAddress: string;
+  image?: string;
+  description?: string;
+  createdAt?: string;
 }
 
 export interface Product {
@@ -150,6 +153,12 @@ export interface Product {
   sold_out: number;
   updatedAt: string;
   __v: number;
+}
+
+export interface UserProductResponse {
+  products: Product[];
+  totalPages: number;
+  totalProducts: number;
 }
 
 export interface ProductResponse {

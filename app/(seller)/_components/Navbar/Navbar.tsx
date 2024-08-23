@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import React from "react";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { seller } = useAppSelector((state) => state.users);
@@ -13,11 +14,12 @@ const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
 
-  const handleLogout = (e: React.FormEvent) => {
+  const handleLogout = (e: any) => {
     e.preventDefault();
     dispatch(logout());
     localStorage.removeItem("sellerSessionToken");
-    router.push("/");
+    toast.success("Logout successfull");
+    router.push("/seller-login");
   };
   return (
     <header className="flex justify-between h-14 font-ebgaramond items-center gap-4 border-b bg-slate-50 px-4 lg:h-[60px] lg:px-6">

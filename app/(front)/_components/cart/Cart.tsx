@@ -29,7 +29,7 @@ const Cart = () => {
             </h3>
           </div>
           {cartItems?.map((item) => (
-            <div key={item.id} className="border-b-[1px] p-3">
+            <div key={item._id} className="border-b-[1px] p-3">
               <SingleCart item={item} />
             </div>
           ))}
@@ -83,16 +83,16 @@ const SingleCart = ({ item }: { item: CartItem }) => {
   const increment = () => {
     const newQty = value + 1;
     setValue(newQty);
-    dispatch(updateCartItemQty({ id: item.id, qty: newQty }));
+    dispatch(updateCartItemQty({ _id: item._id, qty: newQty }));
   };
 
   const decrement = () => {
     const newQty = value === 1 ? 1 : value - 1;
     setValue(newQty);
-    dispatch(updateCartItemQty({ id: item.id, qty: newQty }));
+    dispatch(updateCartItemQty({ _id: item._id, qty: newQty }));
   };
 
-  const handleRemoveFromCart = (id: number) => {
+  const handleRemoveFromCart = (id: string) => {
     toast.success("Item successfully removed from cart");
     dispatch(removeProductFromCart(id));
   };
@@ -102,25 +102,29 @@ const SingleCart = ({ item }: { item: CartItem }) => {
   return (
     <div>
       <div className="flex justify-between">
-        <div className="flex items-center">
+        <Link href={`product/${item._id}`} className="flex items-center">
           <div className="w-[80px] h-[80px]">
             <Image
               src={item.image}
-              className="w-full h-full object-cover"
-              alt={item.title}
+              className="w-full h-full object-contain"
+              alt={item.name}
+              width={80}
+              height={80}
             />
           </div>
           <div className="flex flex-col ml-4 font-ebgaramond space-y-2">
-            <h3 className="text-lg font-medium">{item.title}</h3>
+            <h3 className="text-lg font-medium">{item.name}</h3>
+            <div className="flex space-x-2 items-center font-urbanist text-base font-normal text-gray-400">
+              <h4 className="">Color: {item?.colors?.[0]?.label ?? "N/A"}</h4>
+              <span>|</span>
+              <h4 className="">Size: {item?.size ?? "N/A"}</h4>
+            </div>
             <h4 className="font-urbanist text-base font-normal">
-              <span className="text-gray-400">Seller:</span>{" "}
-              {item?.seller || "Maya Store"}
-            </h4>
-            <h4 className="font-urbanist text-base font-normal text-gray-400">
-              {item.stock || "20"} in stock
+              <span className="text-gray-400">Seller:</span>
+              {item?.shop.shopName || "Maya Store"}
             </h4>
           </div>
-        </div>
+        </Link>
         <div className="flex flex-col font-urbanist">
           <h3 className="text-sm text-gray-400 font-normal flex items-center">
             <span>
@@ -135,7 +139,7 @@ const SingleCart = ({ item }: { item: CartItem }) => {
       <div className="flex justify-between items-center px-4 pt-4 pb-2">
         <div
           className="flex items-center font-ebgaramond cursor-pointer"
-          onClick={() => handleRemoveFromCart(item.id)}
+          onClick={() => handleRemoveFromCart(item._id)}
         >
           <ICONS.delete size={20} className="text-[#B10C62]" />
           <span className="text-[#B10C62] text-lg uppercase ml-2">Remove</span>

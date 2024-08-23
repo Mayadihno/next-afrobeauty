@@ -7,7 +7,7 @@ import React from "react";
 const Profile = () => {
   const { seller } = useAppSelector((state) => state.users);
 
-  console.log(seller.data);
+  
   return (
     <div className="">
       <Card className="w-full mt-[150px] p-3 shadow-lg border-none rounded-[10px] bg-[#27272a74]">

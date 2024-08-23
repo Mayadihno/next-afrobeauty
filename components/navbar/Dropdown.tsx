@@ -36,7 +36,7 @@ const Dropdown = ({ title, items, icon }: DropdownProps) => {
           <div className="absolute border-t-[#B10C62] border-t-[2px] bg-white font-ebgaramond text-sm text-black w-56 border shadow-sm">
             {items.map((item) => (
               <Link
-                href={item.link}
+                href={`/subcategory/${item.label}`}
                 key={item.id}
                 className="block px-3 py-2 hover:bg-gray-200 border-b-1 border-t-0 border-l-0 border-r-0 border"
               >

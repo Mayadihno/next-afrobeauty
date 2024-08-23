@@ -9,8 +9,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import Image from "next/image";
 import { formatCurrency } from "@/utils/formatter";
 import { Switch } from "@/components/ui/switch";
-import { ProductResponse } from "@/types/types";
-import { deleteProduct } from "../../actions/deleteProduct";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader/Loader";
 import {
@@ -19,6 +17,12 @@ import {
   updateProductInState,
 } from "@/redux/slice/productSlice";
 import { LoaderCircleIcon } from "lucide-react";
+import {
+  useDeleteProductMutation,
+  useGetProductByShopIdQuery,
+  useUpdateProductStatusMutation,
+} from "@/redux/rtk/products";
+import SellerProductLoader from "@/components/loader/SellerProductLoader";
 
 const ProductStatusCell = ({ value, row, updateProductStatus }: any) => {
   const [isChecked, setIsChecked] = useState(value);
@@ -47,7 +51,7 @@ const ProductTable = ({
   setTotal: any;
 }) => {
   const { seller } = useAppSelector((state) => state.users);
-  const [rows, setRows] = useState<ProductResponse | null>(null);
+  const { products } = useAppSelector((state) => state.products);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [loading, setLoading] = useState(false);
@@ -55,51 +59,7 @@ const ProductTable = ({
   const [confirmDelete, setConfirmDelete] = useState({ open: false, id: "" });
   const dispatch = useAppDispatch();
 
-  const handleDeleteProduct = async () => {
-    if (confirmDelete.id) {
-      setDeleteLoading(true);
-      const res = await deleteProduct(confirmDelete.id);
-      setDeleteLoading(false);
-
-      if (res) {
-        toast.success(res.message);
-        dispatch(deleteProductById({ productId: confirmDelete.id }));
-        setRows((prevRows) => {
-          if (!prevRows) return prevRows;
-          const updatedProducts = prevRows.products.filter(
-            (product) => product._id !== confirmDelete.id
-          );
-          setTotal(updatedProducts.length);
-          return {
-            ...prevRows,
-            products: updatedProducts,
-          };
-        });
-        setConfirmDelete({ open: false, id: "" });
-      } else {
-        toast.error(res.message);
-      }
-    }
-  };
-  const updateProductStatus = async (productId: string, newStatus: boolean) => {
-    setLoading(true);
-    const res = await fetch(`/api/seller/update-product-status`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ newStatus, productId }),
-    });
-    const response = await res.json();
-    if (response.status === 201) {
-      toast.success(response.message);
-      dispatch(updateProductInState({ productId, newStatus }));
-      setLoading(false);
-    } else {
-      toast.error(response.message);
-      setLoading(false);
-    }
-  };
+  const [deleteProducts] = useDeleteProductMutation();
 
   const columns: GridColDef[] = [
     {
@@ -221,64 +181,103 @@ const ProductTable = ({
     soldOut: number;
   }[] = [];
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const query = new URLSearchParams({
-        ...filters,
-        page: (page + 1).toString(),
-        limit: pageSize.toString(),
-      }).toString();
+  const query = new URLSearchParams({
+    ...filters,
+    page: (page + 1).toString(),
+    limit: pageSize.toString(),
+  }).toString();
 
-      const response = await fetch(
-        `/api/seller/get-product?shopId=${seller.data?._id}&${query}`
-      );
+  const shopId = seller.data?._id ?? "";
 
-      if (!response.ok) {
-        console.error("Failed to fetch products");
-        return;
-      }
-
-      try {
-        const data: ProductResponse = await response.json();
-        setRows(data);
-        setTotal(data.total);
-        dispatch(setProduct(data.products));
-      } catch (error) {
-        console.error("Failed to parse JSON:", error);
-      }
-    };
-
-    fetchProducts();
-  }, [filters, page, pageSize, seller.data?._id, setTotal]);
-
-  rows?.products.forEach((item) => {
-    row.push({
-      id: item._id,
-      productName: item.name,
-      image: item.image[0],
-      salesPrice: formatCurrency(item.price),
-      status: item.isAvailable,
-      stock: item.quantity,
-      soldOut: item.sold_out,
-    });
+  const { data, error, isLoading, isFetching } = useGetProductByShopIdQuery({
+    shopId,
+    querys: query,
   });
+
+  useEffect(() => {
+    if (data && data.products) {
+      setTotal(data.total);
+      dispatch(setProduct(data.products));
+    } else if (error) {
+      console.error("Failed to fetch products:", error);
+    }
+  }, [data, setTotal, dispatch]);
+
+  const [updateProductstatus] = useUpdateProductStatusMutation();
+
+  const updateProductStatus = async (productId: string, newStatus: boolean) => {
+    setLoading(true);
+    const { data } = await updateProductstatus({ newStatus, productId });
+    if (data.status === 201) {
+      toast.success(data.message);
+      dispatch(updateProductInState({ productId, newStatus }));
+      setLoading(false);
+    } else {
+      toast.error(data.message);
+      setLoading(false);
+    }
+  };
+  const handleDeleteProduct = async () => {
+    if (confirmDelete.id) {
+      setDeleteLoading(true);
+      try {
+        const res = await deleteProducts(confirmDelete.id).unwrap();
+        setDeleteLoading(false);
+        if (res) {
+          toast.success(res.message);
+          dispatch(deleteProductById({ productId: confirmDelete.id }));
+          setConfirmDelete({ open: false, id: "" });
+        } else {
+          toast.error(res.message);
+        }
+      } catch (error) {
+        toast.error("Failed to delete the product.");
+        setDeleteLoading(false);
+      }
+    }
+  };
+
+  const handlePaginationChange = (paginationModel: GridPaginationModel) => {
+    setPage(paginationModel.page);
+    setPageSize(paginationModel.pageSize);
+  };
+
+  if (isLoading || isFetching) return <SellerProductLoader />;
+
+  if (products) {
+    products.forEach((item) => {
+      row.push({
+        id: item._id,
+        productName: item.name,
+        image: item.image[0],
+        salesPrice: formatCurrency(item.price),
+        status: item.isAvailable,
+        stock: item.quantity,
+        soldOut: item.sold_out,
+      });
+    });
+  }
 
   return (
     <div>
       <div className="w-[98%] mx-auto">
-        {rows ? (
-          rows.products.length > 0 ? (
+        {products ? (
+          products?.length > 0 ? (
             <DataGrid
               rows={row}
               columns={columns}
               checkboxSelection
               disableRowSelectionOnClick
               autoHeight
-              pageSizeOptions={[10, 15, 25]}
-              paginationMode="client"
-              initialState={{
-                pagination: { paginationModel: { pageSize: pageSize } },
+              pagination
+              pageSizeOptions={[10, 15, 20]}
+              paginationMode="server"
+              rowCount={data?.total || 0}
+              paginationModel={{
+                page: page,
+                pageSize: pageSize,
               }}
+              onPaginationModelChange={handlePaginationChange}
             />
           ) : (
             <div className="text-center my-10">

@@ -18,7 +18,7 @@ import { logout } from "@/redux/slice/userSlice";
 import { removeItem } from "@/utils/config/storage";
 
 const Dropdown = () => {
-  const { isAuthenticated, buyer } = useAppSelector((state) => state.users);
+  const { isUserAuthenticated, buyer } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +50,7 @@ const Dropdown = () => {
 
   return (
     <div className="pt-2">
-      {isAuthenticated && (
+      {isUserAuthenticated && (
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">

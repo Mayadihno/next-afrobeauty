@@ -243,3 +243,34 @@ export default Payments;
     return ErrorMessage(error.message, 500);
   }
 };
+
+
+ // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const query = new URLSearchParams({
+  //       ...filters,
+  //       page: (page + 1).toString(),
+  //       limit: pageSize.toString(),
+  //     }).toString();
+
+  //     const response = await fetch(
+  //       `/api/seller/get-product?shopId=${seller.data?._id}&${query}`
+  //     );
+
+  //     if (!response.ok) {
+  //       console.error("Failed to fetch products");
+  //       return;
+  //     }
+
+  //     try {
+  //       const data: ProductResponse = await response.json();
+  //       setRows(data);
+  //       setTotal(data.total);
+  //       dispatch(setProduct(data.products));
+  //     } catch (error) {
+  //       console.error("Failed to parse JSON:", error);
+  //     }
+  //   };
+
+  //   fetchProducts();
+  // }, [filters, page, pageSize, seller.data?._id, setTotal]);

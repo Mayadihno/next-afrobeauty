@@ -50,7 +50,7 @@ const AccordionNav = () => {
                 <div className="bg-white font-ebgaramond text-base text-black w-full">
                   {section.items.map((item, itemIndex) => (
                     <Link
-                      href={item.link}
+                      href={`/subcategory/${item.label}`}
                       key={item.id}
                       className={`block py-2 border-b-1 border-t-0 border-l-0 border-r-0 border ${
                         itemIndex === section.items.length - 1

@@ -25,7 +25,7 @@ export default function Sidebar() {
     },
     {
       name: "Orders",
-      link: "/dashboard/orders",
+      link: "/seller-orders",
       icons: ShoppingCart,
       badgeCount: 6,
     },

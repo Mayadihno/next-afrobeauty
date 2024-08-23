@@ -9,7 +9,7 @@ import { Autoplay } from "swiper/modules";
 
 const Brands = () => {
   return (
-    <div className="mt-10">
+    <div className="">
       <div className="bg-[#B10C62] w-full py-5 text-center font-abril font-bold text-4xl md:text-5xl">
         <h3>
           Popular <span className="text-white hover:text-black">Brands</span>

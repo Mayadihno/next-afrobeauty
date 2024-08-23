@@ -34,7 +34,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     // Upload images to Cloudinary
-    let imageUrl: string[] | null = null;
+    let imageUrl: string[] | string | null = null;
     const folder = "productImages";
     if (images.length > 0) {
       try {

@@ -2,6 +2,7 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { addProductToCart } from "@/redux/slice/cartSlice";
+import { Product } from "@/types/types";
 import { formatCurrency } from "@/utils/formatter";
 import { ICONS } from "@/utils/icons";
 import Image from "next/image";
@@ -10,16 +11,7 @@ import toast from "react-hot-toast";
 
 type QuickView = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  item: {
-    seller: string;
-    stock: number;
-    id: number;
-    title: string;
-    price: number;
-    image: string;
-    category: string;
-    qty?: number;
-  };
+  item: Product;
 };
 
 const ProductQuickView = ({ setOpen, item }: QuickView) => {
@@ -29,19 +21,18 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
   const [click, setClick] = useState(false);
   const [count, setCount] = useState(1);
   const dispatch = useAppDispatch();
-  const colors = ["Blue", "Red", "Green", "Orange", "Black", "Violettal"];
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color);
   };
 
   useEffect(() => {
-    if (wishListItems && wishListItems.find((i) => i.id === item.id)) {
+    if (wishListItems && wishListItems.find((i) => i._id === item._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  }, [item.id, wishListItems]);
+  }, [item._id, wishListItems]);
 
   const decrementCount = () => {
     setCount((prev) => (prev === 1 ? 1 : prev - 1));
@@ -51,15 +42,41 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
   };
 
   const handleAddToCart = (item: any) => {
-    const isItemExist = cartItems && cartItems.find((i) => i.id === item.id);
+    if (!selectedColor) {
+      toast.error("Please select a color");
+      return;
+    }
+    const isItemExist = cartItems && cartItems.find((i) => i._id === item._id);
     if (isItemExist) {
       toast.error("Item already exist in cart");
       return;
+    } else {
+      if (item.quantity < count) {
+        toast.error("Product Stock Limited");
+      } else {
+        const cartItem = {
+          _id: item._id,
+          name: item.name,
+          category: item.category,
+          price: item.price,
+          shopId: item.shopId,
+          shop: item.shop,
+          image: item.image[0],
+          qty: count,
+          colors:
+            selectedColor === null
+              ? undefined
+              : [{ label: selectedColor, value: selectedColor }],
+          discountPrice: item.discountPrice,
+          gender: item.gender,
+          processingTime: item.processingTime,
+          size: item.sizes?.[0],
+        };
+        dispatch(addProductToCart(cartItem));
+        localStorage.setItem("cart", JSON.stringify([...cartItems, cartItem]));
+        toast.success("Item added to cart successfully");
+      }
     }
-    const cartItem = { ...item, image: item.image.src, qty: count };
-    dispatch(addProductToCart(cartItem));
-    localStorage.setItem("cart", JSON.stringify([...cartItems, cartItem]));
-    toast.success("Item added to cart successfully");
   };
 
   return (
@@ -77,8 +94,8 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
               <div className="flex md:justify-between flex-col md:flex-row md:space-x-8 md:mt-10">
                 <div className="w-full md:h-[400px] h-[200px]">
                   <Image
-                    src={item.image}
-                    alt={item.title}
+                    src={item.image[0]}
+                    alt={item.name}
                     width={500}
                     height={500}
                     className="w-full h-full object-contain"
@@ -86,7 +103,7 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
                 </div>
                 <div className="w-full font-ebgaramond">
                   <h3 className="md:text-3xl text-base font-medium">
-                    {item.title}
+                    {item.name}
                   </h3>
                   <div className="flex justify-between py-3">
                     <h3 className="text-2xl font-semibold flex items-center text-[#B10C62]">
@@ -116,22 +133,24 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
                   <hr className="mt-3" />
                   <div className="">
                     <h3 className="text-lg font-medium uppercase py-2">
-                      Available Colors:{" "}
+                      Available Colors:
                       <span className="ml-2">{selectedColor}</span>
                     </h3>
                     <hr className="mb-3" />
-                    <div className="grid grid-cols-4 md:grid-cols-5 gap-x-5 gap-y-4 cursor-pointer">
-                      {colors.map((color) => (
+                    <div className="grid grid-cols-4 md:grid-cols-5 gap-y-4 cursor-pointer">
+                      {item.colors.map((colorObject, index) => (
                         <div
-                          key={color}
+                          key={index}
                           className={`border text-center p-2 rounded-sm border-[#777777] ${
-                            selectedColor === color
+                            selectedColor === colorObject.label
                               ? "bg-[#B10C62] text-white border-[#B10C62]"
                               : ""
                           }`}
-                          onClick={() => handleColorClick(color)}
+                          onClick={() => handleColorClick(colorObject.label)}
                         >
-                          <p className="text-base font-medium">{color}</p>
+                          <p className="text-base font-medium">
+                            {colorObject.label}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -185,7 +204,10 @@ const ProductQuickView = ({ setOpen, item }: QuickView) => {
                     <hr />
                     <div className="mt-5">
                       <h3 className="text-lg font-medium font-ebgaramond">
-                        Category: <span className="ml-1">{item.category}</span>
+                        Category:
+                        {item.category
+                          .map((category) => category.label)
+                          .join(", ")}
                       </h3>
                     </div>
                   </div>

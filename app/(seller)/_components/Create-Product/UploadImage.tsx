@@ -76,7 +76,7 @@ const UploadImageAndColor = ({
         {images.length > 0 && (
           <h3 className="text-sm font-medium my-3">Product Display Images</h3>
         )}
-        <div className="grid gap-y-3 gap-x-16 grid-cols-5 mb-2">
+        <div className="grid gap-y-3 gap-x-6 grid-cols-4 mb-2">
           {images.map((image: any, index: number) => (
             <div key={index} className="relative w-[80px] h-[80px] ">
               <img

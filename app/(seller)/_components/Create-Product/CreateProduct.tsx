@@ -13,6 +13,7 @@ import { useAppSelector } from "@/redux/hooks/hooks";
 import SubmitButton from "@/components/button/SubmitButton";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useCreateProductMutation } from "@/redux/rtk/products";
 
 const CreateProduct = () => {
   const { seller } = useAppSelector((state) => state.users);
@@ -80,23 +81,39 @@ const CreateProduct = () => {
     },
   });
 
+  const [createProducts] = useCreateProductMutation();
   const onSubmit = async (data: IFormInput) => {
-    const formData = {
-      ...data,
-      images,
-      shopId: seller.data?._id,
-    };
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("category", JSON.stringify(data.category));
+    formData.append("subcategory", JSON.stringify(data.subcategory));
+    formData.append("description", data.description);
+    formData.append("price", data.price.toString());
+    formData.append("discountPrice", data.discountPrice.toString());
+    formData.append("quantity", data.quantity.toString());
+    formData.append("sizes", data.size.join(","));
+    formData.append("colors", JSON.stringify(data.colors));
+    formData.append("processingTime", JSON.stringify(data.processingTime));
+    formData.append("gender", data.gender);
+    formData.append("shopId", seller.data?._id ?? "");
 
+    images.forEach((image: { file: string | Blob | File }) => {
+      formData.append("images", image.file);
+    });
     setIsLoading(true);
-    const res = await createProduct(formData);
-    if (res) {
-      toast.success(res.message);
+    try {
+      const res = await createProducts(formData).unwrap();
+      if (res.status === 201) {
+        toast.success(res.message);
+        router.push("/seller-product");
+        reset();
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error("Sorry, please try to upload your product again.");
+    } finally {
       setIsLoading(false);
-      router.push("/seller-product");
-      reset();
-    } else {
-      setIsLoading(false);
-      toast.error("Sorry try to upload your product again");
     }
   };
 

@@ -13,7 +13,6 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { MdDelete } from "react-icons/md";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { deleteImageByIndex } from "../../actions/deleteImageByIndex";
 import toast from "react-hot-toast";
 import {
   updateImagesInState,
@@ -22,7 +21,11 @@ import {
 import { LoaderCircle, LoaderCircleIcon, RefreshCcw } from "lucide-react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useDropzone, FileRejection } from "react-dropzone";
-import { updateProduct } from "../../actions/updateProduct";
+import {
+  useDeleteProductImageByImageMutation,
+  useUpdateProductImagesMutation,
+  useUpdateProductMutation,
+} from "@/redux/rtk/products";
 
 const animatedComponents = makeAnimated();
 
@@ -94,11 +97,17 @@ const EditProduct = ({ productId }: { productId: string }) => {
     setImages(updatedImages);
   };
 
+  const [deleteproductImageByIndex] = useDeleteProductImageByImageMutation();
   const handleDeleteImage = async (index: number) => {
+    const shopId = product?.shopId;
     if (product?.shopId) {
       setLoading(true);
-      const res = await deleteImageByIndex(index, productId, product.shopId);
-      if (res) {
+      const res = await deleteproductImageByIndex({
+        id: productId,
+        index,
+        shopId,
+      }).unwrap();
+      if (res.status === 210) {
         setLoading(false);
         const updatedImages = product.image.filter((_, i) => i !== index);
         dispatch(updateImagesInState({ productId, updatedImages }));
@@ -111,6 +120,7 @@ const EditProduct = ({ productId }: { productId: string }) => {
     }
   };
 
+  const [updateProductImages] = useUpdateProductImagesMutation();
   const handleAddMoreImageToProduct = async (e: any) => {
     e.preventDefault();
     setUploadLoading(true);
@@ -129,13 +139,8 @@ const EditProduct = ({ productId }: { productId: string }) => {
     });
 
     try {
-      const res = await fetch("/api/seller/update-product-image", {
-        method: "PUT",
-        body: newForm,
-      });
-
-      const response = await res.json();
-      if (res.ok) {
+      const response = await updateProductImages(newForm).unwrap();
+      if (response.status === 201) {
         const updatedImages = response.image;
         toast.success(response.message);
         dispatch(updateNewImagesInState({ productId, updatedImages }));
@@ -154,7 +159,6 @@ const EditProduct = ({ productId }: { productId: string }) => {
   const {
     handleSubmit,
     control,
-    reset,
     setValue,
     clearErrors,
     setError,
@@ -206,13 +210,14 @@ const EditProduct = ({ productId }: { productId: string }) => {
     }
   }, [selectedCategories, setValue]);
 
+  const [updateProduct] = useUpdateProductMutation();
   const onSubmit = async (data: Product) => {
     setUpdateLoad(true);
     data.sizes =
       selectedSizes.length > 0 ? selectedSizes : product?.sizes || [];
     const shopId = product?.shopId;
     if (!shopId) return;
-    const res = await updateProduct(data, shopId, productId);
+    const res = await updateProduct({ data, shopId, productId }).unwrap();
     if (res.status === 201) {
       toast.success(res.message);
       router.replace("/seller-product");

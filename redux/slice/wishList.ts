@@ -1,17 +1,16 @@
+import { Shop } from "@/types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface WishListItem {
-  id: number;
-  title: string;
-  image: string;
+  _id: string;
+  name: string;
+  image: string[];
   price: number;
   discountPrice?: number;
-  weight?: number;
-  seller?: string;
-  category?: string;
-  stock?: string;
-  qty?: number;
-  brand?: string;
+  category: { label: string; value: string }[];
+  shop: Shop;
+  shopId: string;
+  qty: number;
 }
 
 interface WishListState {
@@ -42,10 +41,10 @@ const wishlistSlice = createSlice({
   reducers: {
     addProductToWishList: (state, action: PayloadAction<WishListItem>) => {
       const item = action.payload;
-      const exist = state.wishListItems.find((x) => x.id === item.id);
+      const exist = state.wishListItems.find((x) => x._id === item._id);
       if (exist) {
         state.wishListItems = state.wishListItems.map((x) =>
-          x.id === item.id ? { ...exist } : x
+          x._id === item._id ? { ...exist } : x
         );
       } else {
         state.wishListItems = [...state.wishListItems, { ...item }];
@@ -57,9 +56,9 @@ const wishlistSlice = createSlice({
         localStorage.setItem("wishlist", JSON.stringify(state.wishListItems));
       }
     },
-    removeProductFromWishList: (state, action: PayloadAction<number>) => {
+    removeProductFromWishList: (state, action: PayloadAction<string>) => {
       const itemId = action.payload;
-      const itemIndex = state.wishListItems.findIndex((x) => x.id === itemId);
+      const itemIndex = state.wishListItems.findIndex((x) => x._id === itemId);
       if (itemIndex >= 0) {
         state.wishListItems.splice(itemIndex, 1);
       }

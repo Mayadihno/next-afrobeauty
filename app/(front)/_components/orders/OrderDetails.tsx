@@ -1,14 +1,17 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { formatCurrency } from "@/utils/formatter";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { BsFillBagFill } from "react-icons/bs";
 
 const OrderDetails = ({ orderId }: { orderId: string }) => {
   const { orders } = useAppSelector((state) => state.order);
   const order = orders.find((order) => order._id === orderId);
+  const router = useRouter();
   return (
     <div className="w-[85%] mx-auto py-4 min-h-screen font-ebgaramond">
       <div className="flex w-full items-center justify-between">
@@ -16,15 +19,14 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
           <BsFillBagFill size={30} color="crimson" />
           <h1 className="pl-1 text-[25px]">Order Details</h1>
         </div>
-        <Link href={"/orders"}>
-          <div
-            className={` !bg-[black] px-6 py-3 !rounded-[4px] font-[600] text-white text-[18px]`}
-          >
-            Order List
-          </div>
-        </Link>
+        <Button
+          className="bg-black text-white px-8 hover:bg-black rounded-[5px]"
+          onClick={() => router.back()}
+        >
+          Back
+        </Button>
       </div>
-      <div className="flex w-full justify-between items-center pt-3">
+      <div className="flex w-full justify-between items-center pt-2">
         <h5 className="text-[#00000089]">
           Order ID: <span>#{order?._id?.slice(0, 8)}</span>
         </h5>
@@ -40,7 +42,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
       <div className="grid grid-cols-3 gap-6">
         {order?.cartItems?.map((item) => (
           <div
-            className="flex flex-col items-center justify-center space-y-2"
+            className="flex flex-col p-3 border items-center justify-center space-y-2"
             key={item.id}
           >
             <Image src={item.image} alt={item.title} width={150} height={150} />
@@ -49,7 +51,9 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
                 {item.title}
               </h5>
               <h5 className="text-base">
-                {formatCurrency(item.price)} X {item.qty}
+                {formatCurrency(item.price)}
+                <span className="text-2xl px-1">X</span>
+                {item.qty}
               </h5>
             </div>
           </div>

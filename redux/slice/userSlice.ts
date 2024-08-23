@@ -49,7 +49,9 @@ interface AuthState {
     data: User | null;
   };
   sessionToken: string | null;
+  userSessionToken: string | null;
   isAuthenticated: boolean;
+  isUserAuthenticated: boolean;
   error: string | null;
   isLoading: boolean;
 }
@@ -74,7 +76,9 @@ const initialState: AuthState = {
     data: null,
   },
   sessionToken: null,
+  userSessionToken: null,
   isAuthenticated: false,
+  isUserAuthenticated: false,
   error: null,
   isLoading: false,
 };
@@ -110,7 +114,7 @@ const authSlice = createSlice({
       }>
     ) {
       state.buyer.data = action.payload.data;
-      state.isAuthenticated = true;
+      state.isUserAuthenticated = true;
     },
     setSeller(
       state,
@@ -128,6 +132,10 @@ const authSlice = createSlice({
       state.sessionToken = action.payload;
       state.isAuthenticated = !!action.payload;
     },
+    setUserSessionToken(state, action: PayloadAction<string | null>) {
+      state.userSessionToken = action.payload;
+      state.isUserAuthenticated = !!action.payload;
+    },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
@@ -135,7 +143,9 @@ const authSlice = createSlice({
       state.buyer = { data: null };
       state.seller = { data: null };
       state.sessionToken = null;
+      state.userSessionToken = null;
       state.isAuthenticated = false;
+      state.isUserAuthenticated = false;
     },
   },
 });
@@ -147,6 +157,7 @@ export const {
   setSeller,
   setError,
   setSessionToken,
+  setUserSessionToken,
   setLoading,
   logout,
 } = authSlice.actions;
