@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { useRouter } from "next/navigation";
 import { clearCart } from "@/redux/slice/cartSlice";
 import toast from "react-hot-toast";
+import { useCreateOrderMutation } from "@/redux/rtk/orders";
 const PaymentInfo = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const [select, setSelect] = useState(1);
@@ -33,26 +34,37 @@ const PaymentInfo = () => {
     setOrderData(storedOrderData);
   }, []);
 
+  const [createOrder] = useCreateOrderMutation();
+
   const cashOnDeliveryHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     const paymentInfo = {
       type: "Cash on delivery",
+      value: "Not Paid",
     };
 
-    const res = await fetch("/api/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userData: orderData.userData,
-        cartItems,
-        shippingFee: orderData.shippingFee,
-        totalPrice: orderData.totalPrice,
-        paymentInfo,
-      }),
+    // const res = await fetch("/api/create-order", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     userData: orderData.userData,
+    //     cartItems,
+    //     shippingFee: orderData.shippingFee,
+    //     totalPrice: orderData.totalPrice,
+    //     paymentInfo,
+    //   }),
+    // });
+
+    const result = await createOrder({
+      userData: orderData.userData,
+      cartItems,
+      shippingFee: orderData.shippingFee,
+      totalPrice: orderData.totalPrice,
+      paymentInfo,
     });
-    if (res.ok) {
+    if (result?.data) {
       toast.success("Order successfully created");
       localStorage.removeItem("orderData");
       dispatch(clearCart());

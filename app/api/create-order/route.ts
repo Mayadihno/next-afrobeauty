@@ -7,17 +7,33 @@ export const POST = async (request: NextRequest) => {
     await request.json();
 
   try {
-    // Create a single order containing all cart items
-    const orders = await orderModel.create({
-      cartItems,
-      shippingFee,
-      totalPrice,
-      userData,
-      paymentInfo,
-    });
+    // Group cart items by shopId
+    const shopItemsMap = new Map<string, typeof cartItems>();
+
+    for (const item of cartItems) {
+      const shopId = item.shopId;
+      if (!shopItemsMap.has(shopId)) {
+        shopItemsMap.set(shopId, []);
+      }
+      shopItemsMap.get(shopId)?.push(item);
+    }
+
+    // Create orders for each shop
+    const orders = [];
+    for (const [shopId, items] of shopItemsMap) {
+      const order = await orderModel.create({
+        cartItems: items,
+        shippingFee,
+        totalPrice,
+        userData,
+        paymentInfo,
+        shopId,
+      });
+      orders.push(order);
+    }
 
     return new NextResponse(
-      JSON.stringify({ message: "Order Created Successfully", orders }),
+      JSON.stringify({ message: "Orders Created Successfully", orders }),
       {
         status: 201,
         headers: {

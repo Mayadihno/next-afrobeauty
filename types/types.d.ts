@@ -62,12 +62,17 @@ export interface CartItem {
   id: number;
   category: string;
   title: string;
+  name?: string;
   price: number;
   image: Image;
   brand: string;
   Weight: string;
   sellerId: string;
   qty: number;
+  gender?: string;
+  size?: string;
+  colors?: { label: string; value: string };
+  processingTime?: { label: string; value: string };
 }
 
 export interface PaymentInfo {
