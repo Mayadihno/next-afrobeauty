@@ -40,7 +40,7 @@ export default function Sidebar() {
       icons: AiOutlineFolderAdd,
     },
     {
-      name: "Events",
+      name: "Create Events",
       link: "/create-events",
       icons: MdOutlineLocalOffer,
     },

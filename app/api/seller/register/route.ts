@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { sellerModel } from "@/models/sellerModel";
 import { tokenModel } from "@/models/tokenModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
@@ -18,6 +19,7 @@ const transporter = nodemailer.createTransport({
 export const POST = async (req: NextRequest) => {
   try {
     const { fullName, email, shopName, shopAddress, phone } = await req.json();
+    await dbConnect();
 
     const user = await sellerModel.findOne({ email });
 

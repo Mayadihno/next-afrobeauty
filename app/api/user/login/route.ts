@@ -3,10 +3,13 @@ import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { sendToken } from "@/lib/sendToken";
+import dbConnect from "@/lib/db";
 
 export const POST = async (request: NextRequest) => {
   const { data } = await request.json();
   const { email, password } = data;
+
+  await dbConnect();
 
   try {
     if (!email || !password) {

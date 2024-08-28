@@ -21,6 +21,7 @@ import productApi from "./rtk/products";
 import { setupListeners } from "@reduxjs/toolkit/query/react";
 import allProductSlice from "./slice/allProductSlice";
 import orderApi from "./rtk/orders";
+import eventApi from "./rtk/event";
 
 const persistConfig = {
   key: "root",
@@ -40,6 +41,7 @@ const rootReducers = combineReducers({
   allProduct: allProductSlice,
   [productApi.reducerPath]: productApi.reducer,
   [orderApi.reducerPath]: orderApi.reducer,
+  [eventApi.reducerPath]: eventApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);
@@ -51,7 +53,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(productApi.middleware, orderApi.middleware),
+    }).concat(productApi.middleware, orderApi.middleware, eventApi.middleware),
 });
 
 export const persistor = persistStore(store);

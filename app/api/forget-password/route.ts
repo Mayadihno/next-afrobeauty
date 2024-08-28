@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { UserModel } from "@/models/userModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
@@ -19,6 +20,7 @@ export const POST = async (request: NextRequest) => {
   if (!email) {
     return ErrorMessage("Email is required", 400);
   }
+  await dbConnect();
   try {
     const user = await UserModel.findOne({ email });
     if (!user) {

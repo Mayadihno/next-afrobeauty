@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { productModel } from "@/models/productModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
@@ -16,6 +17,8 @@ export const GET = async (req: NextRequest) => {
   if (!shopId) {
     return ErrorMessage("shopId is required", 400);
   }
+
+  await dbConnect();
 
   const query: any = { shopId };
 

@@ -1,9 +1,12 @@
+import dbConnect from "@/lib/db";
 import orderModel from "@/models/orderModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
 
 export const PATCH = async (req: NextRequest) => {
   const { orderId, orderStatus } = await req.json();
+
+  await dbConnect();
 
   try {
     const order = await orderModel.findOneAndUpdate(

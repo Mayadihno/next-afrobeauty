@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { productModel } from "@/models/productModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
@@ -6,6 +7,7 @@ export const GET = async (req: NextRequest) => {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
+    await dbConnect();
 
     const result = await productModel.aggregate([
       {

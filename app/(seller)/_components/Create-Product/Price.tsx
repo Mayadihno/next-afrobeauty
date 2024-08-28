@@ -9,18 +9,19 @@ const PriceAndQuantity = ({
   setValue,
   register,
   clearErrors,
+  title,
 }: any) => {
   return (
-    <div className="col-span-2 bg-[#F9F9F9] rounded-[10px] shadow-lg p-5">
-      <h2 className="text-xl font-semibold pb-3">Price and Quantity</h2>
+    <div className="col-span-2 bg-[#F9F9F9] rounded-[10px] shadow-lg p-5 font-ebgaramond">
+      <h2 className="text-xl font-semibold pb-3">{title} Price and Quantity</h2>
       <div className="flex space-x-10 items-center">
         <div className="flex-1">
           <div className="">
             <label
               htmlFor="price"
-              className="block pb-1 text-sm font-medium text-gray-700"
+              className="block pb-1 text-base font-medium text-gray-700"
             >
-              Discount Price
+              {title} Discount Price
             </label>
             <div className="relative rounded-xl w-full">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-700">
@@ -42,7 +43,7 @@ const PriceAndQuantity = ({
 
           {errors.discountPrice && (
             <p className="text-red-500">
-              Discount Price must be greater than 0
+              {title} Discount Price must be greater than 0
             </p>
           )}
         </div>
@@ -51,9 +52,9 @@ const PriceAndQuantity = ({
           <div className="">
             <label
               htmlFor="price"
-              className="block pb-1 text-sm font-medium text-gray-700"
+              className="block pb-1 text-base font-medium text-gray-700"
             >
-              Price
+              {title} Price
             </label>
             <div className="relative rounded-xl w-full">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-700">
@@ -74,7 +75,7 @@ const PriceAndQuantity = ({
           </div>
 
           {errors.price && (
-            <p className="text-red-500">Price must be greater than 0</p>
+            <p className="text-red-500">{title} Price must be greater than 0</p>
           )}
         </div>
       </div>
@@ -83,9 +84,9 @@ const PriceAndQuantity = ({
           <div className="">
             <label
               htmlFor="quantity"
-              className="block text-sm pb-1 font-medium text-gray-700"
+              className="block text-base pb-1 font-medium text-gray-700"
             >
-              Quantity
+              {title} Quantity
             </label>
             <input
               {...register("quantity", {
@@ -101,16 +102,18 @@ const PriceAndQuantity = ({
           </div>
 
           {errors.quantity && (
-            <p className="text-red-500">Quantity must be greater than 0</p>
+            <p className="text-red-500">
+              {title} Quantity must be greater than 0
+            </p>
           )}
         </div>
         <div className="flex-1">
           <div className="">
             <label
               htmlFor="processingTime"
-              className="block pb-1 text-sm font-medium text-gray-700"
+              className="block pb-1 text-base font-medium text-gray-700"
             >
-              Processing Time
+              {title} Processing Time
             </label>
             <Select
               {...control}
@@ -133,7 +136,7 @@ const PriceAndQuantity = ({
           </div>
 
           {errors.processingTime && (
-            <p className="text-red-500">Processing Time is required</p>
+            <p className="text-red-500">{title} Processing Time is required</p>
           )}
         </div>
       </div>

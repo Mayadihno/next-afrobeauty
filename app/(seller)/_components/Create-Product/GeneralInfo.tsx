@@ -7,6 +7,7 @@ const GeneralInformation = ({
   selectedSizes,
   handleSizeClick,
   register,
+  title,
 }: any) => {
   const sizes = ["xs", "s", "m", "l", "xl", "xxl"];
 
@@ -14,7 +15,7 @@ const GeneralInformation = ({
     <div className="col-span-4 bg-[#F9F9F9] h-fit rounded-[10px] shadow-lg p-5">
       <h3 className="text-xl pb-5 font-semibold">General Information</h3>
       <div className="flex flex-col space-y-2">
-        <label htmlFor="name">Product Name</label>
+        <label htmlFor="name">{title} Name</label>
         <input
           {...register("name", { required: true, minLength: 4 })}
           name="name"
@@ -24,12 +25,12 @@ const GeneralInformation = ({
 
         {errors.name && (
           <p className="text-red-500">
-            Product name must be at least 4 characters long
+            {title} name must be at least 4 characters long
           </p>
         )}
       </div>
       <div className="flex flex-col my-4 space-y-2">
-        <label htmlFor="description">Product Description</label>
+        <label htmlFor="description">{title} Description</label>
 
         <textarea
           {...register("description", { required: true, minLength: 10 })}
@@ -42,7 +43,7 @@ const GeneralInformation = ({
 
         {errors.description && (
           <p className="text-red-500">
-            Product description must be at least 10 characters long
+            {title} description must be at least 10 characters long
           </p>
         )}
       </div>

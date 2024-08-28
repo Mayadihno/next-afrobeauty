@@ -2,9 +2,11 @@ import { UserModel } from "@/models/userModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import dbConnect from "@/lib/db";
 
 export const PATCH = async (request: NextRequest) => {
   const { oldPassword, newPassword, userId } = await request.json();
+  await dbConnect();
 
   try {
     const user = await UserModel.findById(userId).select("+password");

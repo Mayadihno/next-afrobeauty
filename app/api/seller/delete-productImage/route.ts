@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { productModel } from "@/models/productModel";
 import { sellerModel } from "@/models/sellerModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
@@ -7,6 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const PUT = async (req: NextRequest) => {
   try {
     const { index, id, shopId } = await req.json();
+    await dbConnect();
 
     const shop = await sellerModel.findById(shopId);
     if (!shop) {

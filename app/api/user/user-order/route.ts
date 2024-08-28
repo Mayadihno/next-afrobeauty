@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import orderModel from "@/models/orderModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
@@ -5,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get("userId");
+  await dbConnect();
   try {
     if (!userId) {
       return ErrorMessage("Please provide userId", 401);

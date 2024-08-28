@@ -3,10 +3,12 @@ import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import dbConnect from "@/lib/db";
 
 export const POST = async (req: NextRequest) => {
   try {
     const { email, password } = await req.json();
+    await dbConnect();
 
     const user = await sellerModel.findOne({ email }).select("+password");
     if (!user) {

@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { productModel } from "@/models/productModel";
 import { sellerModel } from "@/models/sellerModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
@@ -11,6 +12,8 @@ export const GET = async (req: NextRequest) => {
   if (!shopId || !productId) {
     return ErrorMessage("Missing shopId or productId", 400);
   }
+
+  await dbConnect();
 
   try {
     const shop = await sellerModel.findById(shopId);

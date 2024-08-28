@@ -16,6 +16,7 @@ const Category = ({
   setValue,
   register,
   clearErrors,
+  title,
 }: any) => {
   const selectedCategories = useWatch({
     control,
@@ -51,10 +52,10 @@ const Category = ({
   return (
     <div>
       <h2 className="text-xl font-semibold pb-3">
-        Product Category and SubCategory
+        {title} Category and SubCategory
       </h2>
       <div className="mt-4 space-y-2">
-        <label htmlFor="category">Product Category</label>
+        <label htmlFor="category">{title} Category</label>
 
         <Select
           {...control}
@@ -80,7 +81,7 @@ const Category = ({
         )}
       </div>
       <div className="mt-4 space-y-2">
-        <label htmlFor="subcategory">Product SubCategory</label>
+        <label htmlFor="subcategory">{title} SubCategory</label>
 
         <Select
           defaultValue={[]}

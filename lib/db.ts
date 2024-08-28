@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import "@/lib/cronJon";
 
 async function dbConnect() {
   try {

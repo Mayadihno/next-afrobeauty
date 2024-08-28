@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { productModel } from "@/models/productModel";
 import { sellerModel } from "@/models/sellerModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
@@ -8,7 +9,7 @@ export const PUT = async (req: NextRequest) => {
   const formData = await req.formData();
   const shopId = formData.get("shopId") as string;
   const productId = formData.get("productId") as string;
-
+  await dbConnect();
   const images: File[] = [];
   formData.forEach((value, key) => {
     if (key === "images") {
@@ -26,7 +27,7 @@ export const PUT = async (req: NextRequest) => {
     }
 
     // Upload images to Cloudinary
-    let imageUrl: string[] | null = null;
+    let imageUrl: string | string[] | null = null;
     const folder = "productImages";
     if (images.length > 0) {
       try {

@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import orderModel from "@/models/orderModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
@@ -12,6 +13,8 @@ export const GET = async (req: NextRequest) => {
     if (!shopId) {
       return ErrorMessage("Shop ID is required", 400);
     }
+
+    await dbConnect();
 
     const orders = await orderModel
       .find({ "cartItems.shopId": shopId })

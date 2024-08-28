@@ -4,6 +4,7 @@ import { ErrorMessage } from "@/utils/ErrorMessage";
 import { uploadImageToCloudinary } from "@/utils/uploadToCloudinary";
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import dbConnect from "@/lib/db";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -27,6 +28,8 @@ export const POST = async (req: NextRequest) => {
         images.push(value as File);
       }
     });
+
+    await dbConnect();
 
     const shop = await sellerModel.findById(shopId);
     if (!shop) {

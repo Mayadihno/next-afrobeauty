@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Prociono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/lib/Provider";
-import dbConnect from "@/lib/db";
 
 // Import Prociono font
 const prociono = Prociono({
@@ -20,7 +19,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await dbConnect();
   return (
     <html lang="en">
       <body className={prociono.className}>

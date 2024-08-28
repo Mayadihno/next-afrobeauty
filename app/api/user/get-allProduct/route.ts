@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { productModel } from "@/models/productModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
@@ -11,6 +12,8 @@ export const GET = async (req: NextRequest) => {
     const category = searchParams.get("category") || "";
     const subcategory = searchParams.get("subcategory") || "";
     const gender = searchParams.get("gender") || "";
+
+    await dbConnect();
 
     const filters = {} as any;
 

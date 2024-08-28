@@ -242,7 +242,7 @@ const ProductTable = ({
     setPageSize(paginationModel.pageSize);
   };
 
-  if (isLoading || isFetching) return <SellerProductLoader />;
+  if (isLoading) return <SellerProductLoader />;
 
   if (products) {
     products.forEach((item) => {

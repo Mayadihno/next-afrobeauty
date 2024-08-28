@@ -26,7 +26,9 @@ const Product = () => {
       </div>
       <div className="md:container md:mx-auto">
         {isLoading || isFetching ? (
-          <ProductSkeleton count={8} />
+          <div className="my-5">
+            <ProductSkeleton count={8} />
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 md:gap-x-7 gap-y-12 md:mt-20 mt-10 px-4 md:px-0">
             {products &&

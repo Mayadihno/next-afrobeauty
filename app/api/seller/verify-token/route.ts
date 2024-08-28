@@ -4,6 +4,7 @@ import { ErrorMessage } from "@/utils/ErrorMessage";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { uploadImageToCloudinary } from "@/utils/uploadToCloudinary";
+import dbConnect from "@/lib/db";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -17,6 +18,8 @@ export const POST = async (req: NextRequest) => {
     const shopAddress = formData.get("shopAddress") as string;
     const accountType = formData.get("accountType") as string;
     const avatarFile = formData.get("avatar") as File;
+
+    await dbConnect();
 
     // Find the token in the database
     const tokenDoc = await tokenModel.findOne({ email, token });

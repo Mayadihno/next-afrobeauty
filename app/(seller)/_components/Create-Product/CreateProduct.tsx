@@ -144,6 +144,7 @@ const CreateProduct = () => {
             selectedSizes={selectedSizes}
             handleSizeClick={handleSizeClick}
             register={register}
+            title={"Product"}
           />
           <UploadImageAndColor
             control={control}
@@ -155,6 +156,7 @@ const CreateProduct = () => {
             setValue={setValue}
             clearErrors={clearErrors}
             setImages={setImages}
+            title={"Product"}
           />
         </div>
         <div className="mt-5 md:grid md:grid-cols-3 md:gap-5 flex flex-col">
@@ -164,6 +166,7 @@ const CreateProduct = () => {
             register={register}
             setValue={setValue}
             clearErrors={clearErrors}
+            title={"Product"}
           />
           <div className="col-span-1 h-fit bg-[#F9F9F9] rounded-[10px] shadow-lg p-5">
             <Category
@@ -172,6 +175,7 @@ const CreateProduct = () => {
               errors={errors}
               setValue={setValue}
               clearErrors={clearErrors}
+              title={"Product"}
             />
           </div>
         </div>

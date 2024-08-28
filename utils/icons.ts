@@ -44,6 +44,7 @@ import { GrCreditCard } from "react-icons/gr";
 import { RiDraftLine } from "react-icons/ri";
 import { FcCustomerSupport } from "react-icons/fc";
 import { BsEmojiSunglasses, BsShop } from "react-icons/bs";
+import { AiOutlineSmallDash } from "react-icons/ai";
 import {
   FaSpa,
   FaCut,
@@ -65,6 +66,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { LuPackage2 } from "react-icons/lu";
 
 export const ICONS = {
+  dash: AiOutlineSmallDash,
   package: LuPackage2,
   forward: IoIosArrowForward,
   track: MdScreenSearchDesktop,

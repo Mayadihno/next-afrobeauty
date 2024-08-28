@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { sellerModel } from "@/models/sellerModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
 import { uploadImageToCloudinary } from "@/utils/uploadToCloudinary";
@@ -14,6 +15,8 @@ export const PATCH = async (req: NextRequest) => {
   const accountType = formData.get("accountType") as string;
   const avatar = formData.get("avatar") as File;
   const email = formData.get("email") as string;
+
+  await dbConnect();
   try {
     const shop = await sellerModel.findById(shopId);
     if (!shop) {

@@ -18,6 +18,7 @@ const UploadImageAndColor = ({
   setValue,
   clearErrors,
   setImages,
+  title,
 }: any) => {
   const handleDeleteImage = (index: number) => {
     const updatedImages = images.filter((_: any, i: number) => i !== index);
@@ -26,7 +27,7 @@ const UploadImageAndColor = ({
 
   return (
     <div className="col-span-2 h-fit bg-[#F9F9F9] rounded-[10px] shadow-lg p-5">
-      <h3 className="text-xl pb-5 font-semibold">Upload Product Image</h3>
+      <h3 className="text-xl pb-5 font-semibold">Upload {title} Image</h3>
       <div className="flex justify-center items-center mb-1">
         <div className="border-2 border-dashed md:w-[95%] w-[300px] h-52 relative mt-2">
           <Controller
@@ -74,7 +75,7 @@ const UploadImageAndColor = ({
             )}
         </p>
         {images.length > 0 && (
-          <h3 className="text-sm font-medium my-3">Product Display Images</h3>
+          <h3 className="text-sm font-medium my-3">{title} Display Images</h3>
         )}
         <div className="grid gap-y-3 gap-x-6 grid-cols-4 mb-2">
           {images.map((image: any, index: number) => (

@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/db";
 import { productModel } from "@/models/productModel";
 import { sellerModel } from "@/models/sellerModel";
 import { ErrorMessage } from "@/utils/ErrorMessage";
@@ -5,6 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const PATCH = async (req: NextRequest) => {
   const { data, shopId, productId } = await req.json();
+
+  await dbConnect();
 
   try {
     const shop = await sellerModel.findById(shopId);
