@@ -16,6 +16,7 @@ type TextInputProps = {
   value?: string | number | Date;
   onChange?: any;
   isDisabled?: any;
+  isRequired?: boolean;
 };
 
 const TextInput = ({
@@ -32,6 +33,7 @@ const TextInput = ({
   value,
   onChange,
   isDisabled,
+  isRequired = true,
 }: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleTogglePasswordVisibility = () => {
@@ -53,7 +55,15 @@ const TextInput = ({
         htmlFor={`${name}`}
         className="block md:text-xl text-sm pb-2 font-semibold font-Urbanist leading-6 text-black"
       >
-        {label}
+        {isRequired ? (
+          <div className="flex items-center">
+            {label} <span className="text-red-500 pl-1 pt-1">*</span>
+          </div>
+        ) : (
+          <div className="flex items-center">
+            {label} <span className=" text-gray-500 pl-2">(Optional)</span>
+          </div>
+        )}
       </label>
       <div className="relative">
         {prefixIcon && (
@@ -65,7 +75,7 @@ const TextInput = ({
           <>
             {type === "select" ? (
               <select
-                {...register(`${name}`, { required: true })}
+                {...register(`${name}`, { required: isRequired })}
                 id={`${name}`}
                 name={`${name}`}
                 className={baseClass}
@@ -81,7 +91,7 @@ const TextInput = ({
               </select>
             ) : type === "textarea" ? (
               <textarea
-                {...register(`${name}`, { required: true })}
+                {...register(`${name}`, { required: isRequired })}
                 id={`${name}`}
                 name={`${name}`}
                 placeholder={`${placeholder}`}
@@ -90,7 +100,7 @@ const TextInput = ({
               />
             ) : (
               <input
-                {...register(`${name}`, { required: true })}
+                {...register(`${name}`, { required: isRequired })}
                 id={`${name}`}
                 name={`${name}`}
                 type={inputType}

@@ -21,10 +21,31 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useGetProductByIdQuery } from "@/redux/rtk/products";
 import ProductSkeleton from "@/components/productskeleton/productSkeleton";
+import { useSearchParams } from "next/navigation";
+import { useGetEventByEventIdQuery } from "@/redux/rtk/event";
 
 const ProductById = ({ params }: { params: { id: string } }) => {
-  const { data, isFetching, isLoading } = useGetProductByIdQuery(params.id);
-  const item = data && data?.product;
+  const searchParams = useSearchParams();
+  const eventData = searchParams.get("isEvent");
+  const eventId = params.id;
+  const {
+    data: eventResponse,
+    isFetching: isFetchingEvent,
+    isLoading: isLoadingEvent,
+  } = useGetEventByEventIdQuery(eventId, {
+    skip: !eventData,
+  });
+
+  const {
+    data: productResponse,
+    isFetching: isFetchingProduct,
+    isLoading: isLoadingProduct,
+  } = useGetProductByIdQuery(eventId, {
+    skip: !!eventData,
+  });
+  const item = eventData ? eventResponse?.event : productResponse?.product;
+  const isFetching = eventData ? isFetchingEvent : isFetchingProduct;
+  const isLoading = eventData ? isLoadingEvent : isLoadingProduct;
   const [selectedCategory, setSelectedCategory] = useState("");
   const { cartItems } = useAppSelector((state) => state.cart);
   const { wishListItems } = useAppSelector((state) => state.wishList);
@@ -115,7 +136,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
     setSelectedCategory(category);
     router.push(`/category/${category}`);
   };
-  const productList = data && data.totalProductsByVendor;
+  const productList = productResponse && productResponse.totalProductsByVendor;
   return (
     <div>
       <div className="w-full bg-[#B10C62] md:flex md:justify-between md:items-center text-white font-prociono md:text-3xl text-lg font-semibold py-4 md:py-5 md:pl-10 pl-8">

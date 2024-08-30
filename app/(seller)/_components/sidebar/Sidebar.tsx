@@ -56,7 +56,7 @@ export default function Sidebar() {
     },
     {
       name: "Discounts Codes",
-      link: "/",
+      link: "/discount-code",
       icons: AiOutlineGift,
     },
     {
