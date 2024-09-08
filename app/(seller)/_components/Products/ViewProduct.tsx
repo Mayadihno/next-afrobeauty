@@ -1,16 +1,43 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useAppSelector } from "@/redux/hooks/hooks";
+import { useGetProductByIdQuery } from "@/redux/rtk/products";
 import { formatCurrency } from "@/utils/formatter";
+import { LoaderCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { format } from "timeago.js";
 
 const ViewProduct = ({ productId }: { productId: string }) => {
-  const { products } = useAppSelector((state) => state.products);
-  const product = products?.find((item) => item._id === productId);
+  const { data, error, isLoading } = useGetProductByIdQuery(productId);
+  const product = data?.product;
   const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderCircle className="animate-spin" size={50} color="#e94560" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center my-[50px]">
+        <p className="text-red-500">
+          Failed to load product details. Please try again.
+        </p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="flex justify-center items-center my-[50px]">
+        <p className="text-red-500">Product not found.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="font-ebgaramond p-6 bg-white shadow-md rounded-lg">
@@ -53,19 +80,25 @@ const ViewProduct = ({ productId }: { productId: string }) => {
             <p className="text-gray-600 text-lg font-medium">
               Category:
               <span className="capitalize ml-2">
-                {product?.category.map((i) => i.label).join(", ")}
+                {product?.category
+                  .map((i: { label: string }) => i.label)
+                  .join(", ")}
               </span>
             </p>
             <p className="text-gray-600 text-lg font-medium">
               Color:
               <span className="capitalize ml-2">
-                {product?.colors.map((i) => i.label).join(", ")}
+                {product?.colors
+                  .map((i: { label: string }) => i.label)
+                  .join(", ")}
               </span>
             </p>
             <p className="text-gray-600 text-lg font-medium">
               Subcategory:
               <span className="capitalize ml-2">
-                {product?.subcategory.map((i) => i.label).join(", ")}
+                {product?.subcategory
+                  .map((i: { label: string }) => i.label)
+                  .join(", ")}
               </span>
             </p>
             <p className="text-gray-600 text-lg font-medium">
@@ -104,7 +137,7 @@ const ViewProduct = ({ productId }: { productId: string }) => {
             </p>
           </div>
           <div className="grid grid-cols-4 gap-5 my-6">
-            {product?.image.map((image) => (
+            {product?.image.map((image: string) => (
               <div className="w-[250px] h-[250px]" key={image}>
                 <Image
                   src={image}

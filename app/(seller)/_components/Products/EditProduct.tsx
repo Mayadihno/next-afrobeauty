@@ -23,6 +23,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useDropzone, FileRejection } from "react-dropzone";
 import {
   useDeleteProductImageByImageMutation,
+  useGetProductByIdQuery,
   useUpdateProductImagesMutation,
   useUpdateProductMutation,
 } from "@/redux/rtk/products";
@@ -30,8 +31,8 @@ import {
 const animatedComponents = makeAnimated();
 
 const EditProduct = ({ productId }: { productId: string }) => {
-  const { products } = useAppSelector((state) => state.products);
-  const product = products.find((item) => item._id === productId);
+  const { data, error, isLoading } = useGetProductByIdQuery(productId);
+  const product = data?.product;
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false);
@@ -109,7 +110,9 @@ const EditProduct = ({ productId }: { productId: string }) => {
       }).unwrap();
       if (res.status === 210) {
         setLoading(false);
-        const updatedImages = product.image.filter((_, i) => i !== index);
+        const updatedImages = product.image.filter(
+          (_: any, i: number) => i !== index
+        );
         dispatch(updateImagesInState({ productId, updatedImages }));
         toast.success(res.message);
       } else {
@@ -166,14 +169,24 @@ const EditProduct = ({ productId }: { productId: string }) => {
     formState: { errors },
   } = useForm<Product>({
     defaultValues: {
-      name: product?.name || "",
-      description: product?.description || "",
+      name: "",
+      description: "",
       sizes: selectedSizes,
-      price: product?.price,
-      quantity: product?.quantity,
-      discountPrice: product?.discountPrice,
+      price: 0,
+      quantity: 0,
+      discountPrice: 0,
     },
   });
+  useEffect(() => {
+    if (product) {
+      setValue("name", product.name || "");
+      setValue("description", product.description || "");
+      setValue("price", product.price);
+      setValue("quantity", product.quantity);
+      setValue("discountPrice", product.discountPrice || 0);
+      setValue("subcategory", product?.subcategory);
+    }
+  }, [product, setValue]);
   interface SelectedCategory {
     value: string;
     label: string;
@@ -205,7 +218,7 @@ const EditProduct = ({ productId }: { productId: string }) => {
     : [];
 
   useEffect(() => {
-    if (!selectedCategories.length) {
+    if (!selectedCategories?.length) {
       setValue("subcategory", []);
     }
   }, [selectedCategories, setValue]);
@@ -227,6 +240,32 @@ const EditProduct = ({ productId }: { productId: string }) => {
       setUpdateLoad(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderCircle className="animate-spin" size={50} color="#e94560" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center my-[50px]">
+        <p className="text-red-500">
+          Failed to load product details. Please try again.
+        </p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="flex justify-center items-center my-[50px]">
+        <p className="text-red-500">Product not found.</p>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -542,7 +581,7 @@ const EditProduct = ({ productId }: { productId: string }) => {
                       placeholder="Select Product SubCategory"
                       className="basic-multi-select"
                       classNamePrefix="select"
-                      isDisabled={!selectedCategories.length}
+                      isDisabled={!selectedCategories?.length}
                       onChange={(value) => {
                         field.onChange(value);
                         clearErrors("subcategory");
@@ -646,7 +685,7 @@ const EditProduct = ({ productId }: { productId: string }) => {
                     : "Product Images"}
                 </h2>
                 <div className="w-full gap-6 grid grid-cols-2 rounded-xl">
-                  {product?.image.map((i, index) => (
+                  {product?.image.map((i: string, index: number) => (
                     <div className="relative" key={i}>
                       <Image
                         src={i}

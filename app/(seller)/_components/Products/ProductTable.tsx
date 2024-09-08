@@ -10,21 +10,21 @@ import Image from "next/image";
 import { formatCurrency } from "@/utils/formatter";
 import { Switch } from "@/components/ui/switch";
 import toast from "react-hot-toast";
-import Loader from "@/components/loader/Loader";
-import {
-  deleteProductById,
-  setProduct,
-  updateProductInState,
-} from "@/redux/slice/productSlice";
-import { LoaderCircleIcon } from "lucide-react";
+import { updateProductInState } from "@/redux/slice/productSlice";
+import { LoaderCircle, LoaderCircleIcon } from "lucide-react";
 import {
   useDeleteProductMutation,
   useGetProductByShopIdQuery,
   useUpdateProductStatusMutation,
 } from "@/redux/rtk/products";
-import SellerProductLoader from "@/components/loader/SellerProductLoader";
+import { Product } from "@/types/types";
 
-const ProductStatusCell = ({ value, row, updateProductStatus }: any) => {
+const ProductStatusCell = ({
+  value,
+  row,
+  updateProductStatus,
+  isLoading,
+}: any) => {
   const [isChecked, setIsChecked] = useState(value);
 
   const handleToggle = () => {
@@ -34,8 +34,12 @@ const ProductStatusCell = ({ value, row, updateProductStatus }: any) => {
   };
 
   return (
-    <div className="flex space-x-2 mt-5">
-      <Switch checked={isChecked} onCheckedChange={handleToggle} />
+    <div className="flex items-center space-x-2 mt-5">
+      {isLoading ? (
+        <LoaderCircle size={15} color="#e94560" />
+      ) : (
+        <Switch checked={isChecked} onCheckedChange={handleToggle} />
+      )}
       <span className="text-xs font-normal">
         {isChecked ? "Available" : "Unavailable"}
       </span>
@@ -46,17 +50,21 @@ const ProductStatusCell = ({ value, row, updateProductStatus }: any) => {
 const ProductTable = ({
   filters,
   setTotal,
+  total,
 }: {
   filters: any;
   setTotal: any;
+  total: number;
 }) => {
   const { seller } = useAppSelector((state) => state.users);
-  const { products } = useAppSelector((state) => state.products);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [row, setRow] = useState<any[]>([]);
   const [confirmDelete, setConfirmDelete] = useState({ open: false, id: "" });
+  const [loadingRows, setLoadingRows] = useState<{ [key: string]: boolean }>(
+    {}
+  );
   const dispatch = useAppDispatch();
 
   const [deleteProducts] = useDeleteProductMutation();
@@ -73,8 +81,10 @@ const ProductTable = ({
       headerName: "Image",
       minWidth: 130,
       flex: 0.7,
+      align: "center",
+      headerAlign: "center",
       renderCell: (params: any) => (
-        <div className="">
+        <div className="flex justify-center items-center">
           <Image
             src={params.value}
             alt={params.row.productName}
@@ -97,12 +107,15 @@ const ProductTable = ({
       headerName: "Status",
       type: "singleSelect",
       minWidth: 130,
+      align: "center",
+      headerAlign: "center",
       flex: 0.7,
       renderCell: (params: any) => (
         <ProductStatusCell
           value={params.value}
           row={params.row}
           updateProductStatus={updateProductStatus}
+          isLoading={loadingRows[params.row.id] || false}
         />
       ),
     },
@@ -112,11 +125,15 @@ const ProductTable = ({
       type: "singleSelect",
       minWidth: 130,
       flex: 0.5,
+      align: "center",
+      headerAlign: "center",
     },
     {
       field: "soldOut",
       headerName: "Sold Out",
       type: "singleSelect",
+      align: "center",
+      headerAlign: "center",
       minWidth: 80,
       flex: 0.5,
     },
@@ -125,13 +142,18 @@ const ProductTable = ({
       flex: 1,
       minWidth: 80,
       headerName: "Actions",
+      headerAlign: "center",
+      align: "center",
       type: "singleSelect",
       renderCell: (params: any) => {
+        const isRowLoading = loadingRows[params.id] || false;
         return (
-          <div className="flex space-x-2">
+          <div className="flex items-center justify-center space-x-2">
             <Link href={`/seller-product/${params.id}`}>
-              {loading ? (
-                <LoaderCircleIcon className="mt-4 animate-spin" />
+              {isRowLoading ? (
+                <div className="px-3">
+                  <LoaderCircleIcon className="mt-4 animate-spin" />
+                </div>
               ) : (
                 <Button variant="ghost">
                   <ICONS.eye title="View Product" size={20} />
@@ -139,8 +161,10 @@ const ProductTable = ({
               )}
             </Link>
             <Link href={`/edit-product/${params.id}`}>
-              {loading ? (
-                <LoaderCircleIcon className="mt-4 animate-spin" />
+              {isRowLoading ? (
+                <div className="px-3">
+                  <LoaderCircleIcon className="mt-4 animate-spin" />
+                </div>
               ) : (
                 <Button variant="ghost">
                   <ICONS.edit
@@ -151,8 +175,10 @@ const ProductTable = ({
                 </Button>
               )}
             </Link>
-            {loading ? (
-              <LoaderCircleIcon className="mt-4 animate-spin" />
+            {isRowLoading ? (
+              <div className="px-3">
+                <LoaderCircleIcon className="mt-4 animate-spin" />
+              </div>
             ) : (
               <Button
                 onClick={() => setConfirmDelete({ open: true, id: params.id })}
@@ -171,16 +197,6 @@ const ProductTable = ({
     },
   ];
 
-  const row: {
-    id: string;
-    productName: string;
-    image: string;
-    salesPrice: string;
-    status: boolean;
-    stock: number;
-    soldOut: number;
-  }[] = [];
-
   const query = new URLSearchParams({
     ...filters,
     page: (page + 1).toString(),
@@ -189,33 +205,43 @@ const ProductTable = ({
 
   const shopId = seller.data?._id ?? "";
 
-  const { data, error, isLoading, isFetching } = useGetProductByShopIdQuery({
+  const { data, error, isLoading } = useGetProductByShopIdQuery({
     shopId,
     querys: query,
   });
 
   useEffect(() => {
     if (data && data.products) {
+      const formattedRows = data.products.map((item: Product) => ({
+        id: item._id,
+        productName: item.name,
+        image: item.image[0],
+        salesPrice: formatCurrency(item.price),
+        status: item.isAvailable,
+        stock: item.quantity,
+        soldOut: item.sold_out,
+      }));
+      setRow(formattedRows);
       setTotal(data.total);
-      dispatch(setProduct(data.products));
     } else if (error) {
-      console.error("Failed to fetch products:", error);
+      toast.error("Failed to fetch products");
     }
-  }, [data, setTotal, dispatch]);
+  }, [data, setTotal]);
 
   const [updateProductstatus] = useUpdateProductStatusMutation();
 
   const updateProductStatus = async (productId: string, newStatus: boolean) => {
-    setLoading(true);
+    setLoadingRows((prevState) => ({ ...prevState, [productId]: true }));
     const { data } = await updateProductstatus({ newStatus, productId });
+
     if (data.status === 201) {
       toast.success(data.message);
       dispatch(updateProductInState({ productId, newStatus }));
-      setLoading(false);
     } else {
       toast.error(data.message);
-      setLoading(false);
     }
+
+    setLoadingRows((prevState) => ({ ...prevState, [productId]: false }));
   };
   const handleDeleteProduct = async () => {
     if (confirmDelete.id) {
@@ -225,7 +251,10 @@ const ProductTable = ({
         setDeleteLoading(false);
         if (res) {
           toast.success(res.message);
-          dispatch(deleteProductById({ productId: confirmDelete.id }));
+          setRow((prev) =>
+            prev.filter((product) => product.id !== confirmDelete.id)
+          );
+          setTotal((prevTotal: number) => prevTotal - 1);
           setConfirmDelete({ open: false, id: "" });
         } else {
           toast.error(res.message);
@@ -242,59 +271,45 @@ const ProductTable = ({
     setPageSize(paginationModel.pageSize);
   };
 
-  if (isLoading) return <SellerProductLoader />;
-
-  if (products) {
-    products.forEach((item) => {
-      row.push({
-        id: item._id,
-        productName: item.name,
-        image: item.image[0],
-        salesPrice: formatCurrency(item.price),
-        status: item.isAvailable,
-        stock: item.quantity,
-        soldOut: item.sold_out,
-      });
-    });
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center my-[50px]">
+        <LoaderCircle className=" animate-spin" size={50} color="#e94560" />
+      </div>
+    );
   }
 
   return (
     <div>
       <div className="w-[98%] mx-auto">
-        {products ? (
-          products?.length > 0 ? (
-            <DataGrid
-              rows={row}
-              columns={columns}
-              checkboxSelection
-              disableRowSelectionOnClick
-              autoHeight
-              pagination
-              pageSizeOptions={[10, 15, 20]}
-              paginationMode="server"
-              rowCount={data?.total || 0}
-              paginationModel={{
-                page: page,
-                pageSize: pageSize,
-              }}
-              onPaginationModelChange={handlePaginationChange}
-            />
-          ) : (
-            <div className="text-center my-10">
-              <h3 className="text-3xl font-semibold py-4">
-                No products available for this vendor.
-              </h3>
-              <Link
-                href="/create-product"
-                className="px-4 py-2 rounded-[5px] text-white font-semibold hover:bg-green-300 bg-green-500"
-              >
-                Create Product
-              </Link>
-            </div>
-          )
+        {data && data.products?.length > 0 ? (
+          <DataGrid
+            rows={row}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+            autoHeight
+            pagination
+            pageSizeOptions={[10, 15, 20]}
+            paginationMode="server"
+            rowCount={total || 0}
+            paginationModel={{
+              page: page,
+              pageSize: pageSize,
+            }}
+            onPaginationModelChange={handlePaginationChange}
+          />
         ) : (
-          <div className="mt-[-200px]">
-            <Loader />
+          <div className="text-center my-10">
+            <h3 className="text-3xl font-semibold py-4">
+              No products available for this vendor.
+            </h3>
+            <Link
+              href="/create-product"
+              className="px-4 py-2 rounded-[5px] text-white font-semibold hover:bg-green-300 bg-green-500"
+            >
+              Create Product
+            </Link>
           </div>
         )}
       </div>

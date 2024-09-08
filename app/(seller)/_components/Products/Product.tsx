@@ -28,13 +28,13 @@ const gender = [
 
 const Product = () => {
   const [active, setActive] = useState<string>("All Product");
-  const [search, setSearch] = useState("");
-  const [show, setShow] = useState(false);
-  const [processTime, setProcessTime] = useState("");
-  const [sex, setSex] = useState("");
+  const [search, setSearch] = useState<string>("");
+  const [show, setShow] = useState<boolean>(false);
+  const [processTime, setProcessTime] = useState<string>("");
+  const [sex, setSex] = useState<string>("");
   const [price, setPrice] = useState<number>();
   const [category, setCategory] = useState<string>("");
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState<number>(0);
 
   const categoryOptions = categories.map((category) => ({
     label: category.cat,
@@ -202,7 +202,7 @@ const Product = () => {
               </div>
             )}
           </div>
-          <ProductTable filters={filters} setTotal={setTotal} />
+          <ProductTable filters={filters} setTotal={setTotal} total={total} />
         </Card>
       </div>
     </div>
