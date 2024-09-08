@@ -98,12 +98,21 @@ const Events = () => {
                   </Link>
                 </div>
               </div>
-              <Button
-                className={` text-white bg-black px-4 my-3 py-2 hover:bg-black`}
-                onClick={() => handleAddToCart(data.event[0])}
-              >
-                Add to cart
-              </Button>
+              {data.events[0].status === "End" ? (
+                <Button
+                  className={` text-white bg-black/50 px-4 my-3 py-2 hover:bg-black`}
+                  disabled
+                >
+                  Add to cart
+                </Button>
+              ) : (
+                <Button
+                  className={` text-white bg-black px-4 my-3 py-2 hover:bg-black`}
+                  onClick={() => handleAddToCart(data.event[0])}
+                >
+                  Add to cart
+                </Button>
+              )}
             </div>
           </div>
         ) : (
@@ -156,19 +165,34 @@ const Events = () => {
                     <div className="flex justify-between space-x-5">
                       <CountDown item={item?.endDate} />
                       <div className="">
-                        <Link href={`/product/${item?._id}?isEvent=true`}>
-                          <div className={` text-white bg-black px-4 py-2`}>
+                        {item.status === "End" ? (
+                          <div className={` text-white bg-black/50 px-4 py-2`}>
                             See Details
                           </div>
-                        </Link>
+                        ) : (
+                          <Link href={`/product/${item?._id}?isEvent=true`}>
+                            <div className={` text-white bg-black px-4 py-2`}>
+                              See Details
+                            </div>
+                          </Link>
+                        )}
                       </div>
                     </div>
-                    <Button
-                      className={` text-white bg-black px-4 my-3 py-2 hover:bg-black`}
-                      onClick={() => handleAddToCart(item)}
-                    >
-                      Add to cart
-                    </Button>
+                    {item.status === "End" ? (
+                      <Button
+                        className={` text-white bg-black/50 px-4 my-3 py-2 hover:bg-black`}
+                        disabled
+                      >
+                        Add to cart
+                      </Button>
+                    ) : (
+                      <Button
+                        className={` text-white bg-black px-4 my-3 py-2 hover:bg-black`}
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        Add to cart
+                      </Button>
+                    )}
                   </div>
                 </div>
               </SwiperSlide>

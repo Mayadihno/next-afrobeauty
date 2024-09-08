@@ -70,9 +70,9 @@ const UserData = () => {
           return (
             <div
               className="flex justify-between py-1 text-sm font-normal"
-              key={item.id}
+              key={item._id}
             >
-              <h2>{item.title}</h2>
+              <h2>{item.name}</h2>
               <div className="flex space-x-2">
                 <h4>
                   {formatCurrency(item.price)} * {item.qty}

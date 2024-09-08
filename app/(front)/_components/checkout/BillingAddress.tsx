@@ -8,6 +8,10 @@ import { formatCurrency } from "@/utils/formatter";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { setItem } from "@/utils/config/storage";
+import { useGetDiscountCodeByNameQuery } from "@/redux/rtk/discount";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { LoaderCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface BillingAddressProps {
   id: string;
@@ -30,6 +34,11 @@ const BillingAddress = () => {
     name: string;
     price: number;
   } | null>(null);
+  const [couponCode, setCouponCode] = useState<string>("");
+  const [couponCodeData, setCouponCodeData] = useState(null);
+  const [codeData, setCodeData] = useState("");
+  const [discountPrice, setDiscountPrice] = useState<number>();
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -55,26 +64,6 @@ const BillingAddress = () => {
     formState: { errors },
   } = useForm<BillingAddressProps>({ defaultValues });
 
-  const handleFormSubmit = (data: BillingAddressProps) => {
-    if (!selected) {
-      toast.error("Please select a shipping method");
-      return;
-    }
-    const shippingFee = selected?.price || 0;
-    const totalPrice = subTotal + shippingFee;
-    const latestOrder = {
-      shippingFee: {
-        shippingCompany: selected.name,
-        shippingPrice: selected.price,
-      },
-      totalPrice: totalPrice,
-      userData: data,
-    };
-    localStorage.setItem("orderData", JSON.stringify(latestOrder));
-    router.push("/payment");
-    reset();
-  };
-
   const data = [
     { value: "", displayValue: "Choose your country" },
     ...Country.getAllCountries().map((country) => ({
@@ -82,8 +71,6 @@ const BillingAddress = () => {
       displayValue: `${country.name}`,
     })),
   ];
-
-  const subTotal = cartItems.reduce((a, b) => a + b.price * b.qty, 0);
 
   const selectedCountry = watch("country");
 
@@ -100,6 +87,130 @@ const BillingAddress = () => {
     const price = parseFloat(e.target.getAttribute("data-price") || "0");
 
     setSelected({ name, price });
+  };
+  const {
+    data: code,
+    error,
+    isError,
+  } = useGetDiscountCodeByNameQuery(
+    { couponName: codeData },
+    { skip: !codeData }
+  );
+
+  const handleCopounSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setCodeData(couponCode);
+  };
+
+  useEffect(() => {
+    if (error && "data" in error && (error as FetchBaseQueryError).data) {
+      const errorMessage = (error as FetchBaseQueryError).data as {
+        message?: string;
+      };
+      toast.error(errorMessage.message || "An error occurred");
+      setLoading(false);
+    } else if (code && code !== couponCodeData) {
+      setCouponCodeData(code); // Update only if the code changes
+    }
+  }, [code, couponCodeData, isError, error]);
+
+  useEffect(() => {
+    if (couponCodeData) {
+      validateCoupon(couponCodeData, cartItems);
+    }
+  }, [couponCodeData, cartItems]);
+
+  const validateCoupon = (coupon: any, cartItems: any[]) => {
+    if (!coupon) {
+      toast.error("Invalid coupon code");
+      setCouponCode("");
+      setLoading(false);
+      return;
+    }
+
+    const eligibleItems = cartItems.filter(
+      (item) => item.shopId === coupon.coupon.shopId
+    );
+
+    if (eligibleItems.length === 0) {
+      toast.error("Coupon code does not apply to this shop");
+      setCouponCode("");
+      setLoading(false);
+      return;
+    }
+
+    // Check each item against minAmount and maxAmount
+    for (let item of eligibleItems) {
+      const itemPrice = item.qty * item.price;
+
+      if (coupon.coupon.minAmount && itemPrice < coupon.coupon.minAmount) {
+        toast.error(
+          `Item price must be at least ${formatCurrency(
+            coupon.coupon.minAmount
+          )} to use this coupon`,
+          {
+            duration: 8000,
+            className: "w-full",
+          }
+        );
+        setCouponCode("");
+        setLoading(false);
+        return;
+      }
+
+      if (coupon.coupon.maxAmount && itemPrice > coupon.coupon.maxAmount) {
+        toast.error(
+          `Item price must not exceed ${formatCurrency(
+            coupon.coupon.minAmount
+          )} to use this coupon`
+        );
+        setCouponCode("");
+        setLoading(false);
+        return;
+      }
+    }
+
+    const eligiblePrice = eligibleItems.reduce(
+      (acc, item) => acc + item.qty * item.price,
+      0
+    );
+
+    const discountPrice =
+      (eligiblePrice * coupon.coupon.discountPercentage) / 100;
+    setDiscountPrice(discountPrice);
+    setCouponCode("");
+    setLoading(false);
+    toast.success("Coupon code applied successfully");
+  };
+
+  const discountPercentage = couponCodeData ? discountPrice || 0 : 0;
+  const subTotal = cartItems.reduce((a, b) => a + b.price * b.qty, 0);
+  const shippingFee = selected?.price || 0;
+
+  const totalPrice = couponCodeData
+    ? (subTotal + shippingFee - discountPercentage).toFixed(2)
+    : (subTotal + shippingFee).toFixed(2);
+
+  const newTotalPrice = totalPrice;
+
+  const handleFormSubmit = (data: BillingAddressProps) => {
+    if (!selected) {
+      toast.error("Please select a shipping method");
+      return;
+    }
+    const totalPrice = newTotalPrice;
+    const latestOrder = {
+      shippingFee: {
+        shippingCompany: selected.name,
+        shippingPrice: selected.price,
+      },
+      totalPrice: totalPrice,
+      userData: data,
+    };
+    localStorage.setItem("orderData", JSON.stringify(latestOrder));
+    router.push("/payment");
+    reset();
   };
 
   return (
@@ -151,11 +262,12 @@ const BillingAddress = () => {
                 </div>
                 <div className="w-full">
                   <TextInput
-                    label="Company Name (optional)"
+                    label="Company Name"
                     placeholder="Company Name"
                     name="companyName"
                     register={register}
                     errors={errors}
+                    isRequired={false}
                     className="w-full !rounded-[5px]"
                   />
                 </div>
@@ -273,12 +385,39 @@ const BillingAddress = () => {
               ))}
             </form>
           </div>
+          <div className="border-t-2 p-4">
+            <form onSubmit={handleCopounSubmit}>
+              <input
+                type="text"
+                className={`w-full border p-1 outline-none rounded-[5px] h-[40px] pl-2`}
+                placeholder="Coupoun code"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                required
+              />
+              <div className="flex justify-center items-center">
+                <Button
+                  className={`w-1/2 mt-5 h-[40px] hover:bg-[#f63b60] hover:text-white border border-[#f63b60] text-center text-[#f63b60] rounded-[3px] cursor-pointer`}
+                  type="submit"
+                >
+                  {loading ? (
+                    <div className="flex space-x-2 items-center">
+                      <LoaderCircle size={22} className=" animate-spin " />
+                      <span>Applying coupon code...</span>
+                    </div>
+                  ) : (
+                    "Apply coupon code"
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
           <div className="flex justify-between items-center border-t-2 p-4">
             <h3 className="text-lg font-ebgaramond font-semibold">
               Total Price
             </h3>
             <h3 className="text-lg font-ebgaramond font-semibold">
-              {formatCurrency(subTotal + (selected?.price || 0))}
+              {formatCurrency(parseFloat(totalPrice))}
             </h3>
           </div>
           <div className="w-2/3 mx-auto p-4">

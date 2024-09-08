@@ -6,7 +6,7 @@ interface DecodedToken {
   email: string;
 }
 
-export async function middleware(req: NextRequest) {
+export async function veryUser(req: NextRequest) {
   const accessToken = req.cookies.get("sellerAccessToken")?.value;
 
   if (!accessToken) {

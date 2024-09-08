@@ -75,11 +75,21 @@ const AllEvent = () => {
     {
       field: "status",
       headerName: "Status",
-      type: "number",
       minWidth: 80,
       flex: 0.5,
       align: "center",
       headerAlign: "center",
+      renderCell: (params) => {
+        const statusClass =
+          params.value === "Running" ? "text-yellow-500" : "text-red-500";
+        return (
+          <span
+            className={`${statusClass} text-lg font-ebgaramond font-semibold`}
+          >
+            {params.value}
+          </span>
+        );
+      },
     },
 
     {

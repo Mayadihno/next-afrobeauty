@@ -182,16 +182,18 @@ const DiscountCode = () => {
   };
   return (
     <div className=" font-ebgaramond my-5">
-      <div className="w-full flex justify-end">
-        <Button
-          className=" bg-green-500 px-3 hover:bg-green-500/50 transition shadow-md duration-100 rounded-[5px] py-2"
-          onClick={() => setOpen(true)}
-        >
-          <span className="text-white hover:text-black text-lg font-semibold">
-            Create coupon code
-          </span>
-        </Button>
-      </div>
+      {data && (
+        <div className="w-full flex justify-end">
+          <Button
+            className=" bg-green-500 px-3 hover:bg-green-500/50 transition shadow-md duration-100 rounded-[5px] py-2"
+            onClick={() => setOpen(true)}
+          >
+            <span className="text-white hover:text-black text-lg font-semibold">
+              Create coupon code
+            </span>
+          </Button>
+        </div>
+      )}
       {isLoading || isFetching ? (
         <div className="flex justify-center items-center h-screen">
           <LoaderCircle className=" animate-spin" size={50} color="#e94560" />

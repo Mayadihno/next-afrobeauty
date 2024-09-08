@@ -22,6 +22,15 @@ const discountApi = createApi({
       }),
       providesTags: [{ type: "Discounts", id: "LIST" }],
     }),
+
+    getDiscountCodeByName: builder.query({
+      query: ({ couponName }: { couponName: string }) => ({
+        url: `user/get-discountCodeByName/?couponName=${couponName}`,
+        method: "GET",
+      }),
+      providesTags: [{ type: "Discounts", id: "LIST" }],
+    }),
+
     deleteDiscountById: builder.mutation({
       query: ({
         discountId,
@@ -42,6 +51,7 @@ export const {
   useCreateDiscountMutation,
   useGetDiscountByShopIdQuery,
   useDeleteDiscountByIdMutation,
+  useGetDiscountCodeByNameQuery,
 } = discountApi;
 
 export default discountApi;
