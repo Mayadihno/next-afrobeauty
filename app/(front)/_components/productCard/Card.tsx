@@ -36,7 +36,7 @@ const Card = ({ item }: any) => {
       (wishListItem) => wishListItem._id === item.id
     );
     setExistingWishList(isExistingInWishlist);
-  }, [cartItems, wishListItems, item._id]);
+  }, [cartItems, wishListItems, item._id, item.id]);
 
   const handleAddToCart = (item: any) => {
     const cartItem = {

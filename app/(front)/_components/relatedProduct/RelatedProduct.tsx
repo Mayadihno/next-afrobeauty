@@ -2,6 +2,7 @@
 import React from "react";
 import Card from "../productCard/Card";
 import { useGetRelatedProductQuery } from "@/redux/rtk/products";
+import { Product } from "@/types/types";
 
 const RelatedProduct = ({ params }: { params: { id: string } }) => {
   const { data } = useGetRelatedProductQuery(params.id);
@@ -21,7 +22,7 @@ const RelatedProduct = ({ params }: { params: { id: string } }) => {
       </h1>
       <div className="grid md:grid-cols-4 grid-cols-1 gap-y-5 gap-x-7">
         {data &&
-          data.relatedProducts.map((item: any) => (
+          data.relatedProducts.map((item: Product) => (
             <div className="" key={item._id}>
               <Card item={item} />
             </div>

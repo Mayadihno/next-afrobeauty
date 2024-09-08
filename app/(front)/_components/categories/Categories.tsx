@@ -4,7 +4,6 @@ import { category } from "@/utils/config/data";
 import Link from "next/link";
 import React from "react";
 import Card from "../productCard/Card";
-import Skeletons from "../skeleton/Skeleton";
 import { Product } from "@/types/types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -14,8 +13,9 @@ import { useFetchProducts } from "@/app/actions/useFetchAllProduct";
 import ProductSkeleton from "@/components/productskeleton/productSkeleton";
 
 const Categories = () => {
-  const { products, isLoading, isFetching } = useFetchProducts();
+  const { products, isLoading } = useFetchProducts();
   const data = products.products || [];
+
   return (
     <div className="">
       <div className="bg-[#B10C62] w-full py-5 text-center font-abril font-bold text-4xl md:text-5xl">
@@ -64,8 +64,10 @@ const Categories = () => {
                 },
               }}
             >
-              {isLoading || isFetching ? (
-                <ProductSkeleton count={4} />
+              {isLoading ? (
+                <div className="my-5">
+                  <ProductSkeleton count={4} />
+                </div>
               ) : (
                 data.map((item: Product) => (
                   <SwiperSlide key={item._id}>

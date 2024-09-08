@@ -1,8 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
-import { data } from "@/components/aboutUs/data";
 import React, { useEffect, useState } from "react";
 
-const CountDown = ({ item }: any) => {
+const CountDown = ({ item }: { item: string }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   useEffect(() => {
     const timer = setTimeout(() => {

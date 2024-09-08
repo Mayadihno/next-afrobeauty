@@ -19,7 +19,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
   const [comment, setComment] = useState("");
   const router = useRouter();
   const totalPrice = order?.cartItems?.reduce(
-    (a: any, b: any) => a + b.price,
+    (a: any, b: any) => a + b.price * b.qty,
     0
   );
 

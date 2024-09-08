@@ -2,7 +2,6 @@
 import { useFetchProducts } from "@/app/actions/useFetchAllProduct";
 import React, { useState } from "react";
 import Card from "../productCard/Card";
-import Skeletons from "../skeleton/Skeleton";
 import { Product } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -11,11 +10,19 @@ import ProductSkeleton from "@/components/productskeleton/productSkeleton";
 
 const Category = ({ category }: { category: string }) => {
   const [page, setPage] = useState(1);
-  const { products, isLoading, isFetching } = useFetchProducts({
+  const { products, isLoading } = useFetchProducts({
     category: category,
     page: page,
   });
   const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <div className="my-8 mx-2">
+        <ProductSkeleton count={4} />
+      </div>
+    );
+  }
 
   return (
     <div className="mb-10">
@@ -47,18 +54,12 @@ const Category = ({ category }: { category: string }) => {
       </div>
       {products.products.length > 0 ? (
         <div className="md:container md:mx-auto">
-          {isLoading || isFetching ? (
-            <div className="my-6">
-              <ProductSkeleton count={4} />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 md:gap-x-7 gap-y-12 mt-10 px-4 md:px-0">
-              {products &&
-                products.products.map((item: Product) => {
-                  return <Card item={item} key={item._id} />;
-                })}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 md:gap-x-7 gap-y-12 mt-10 px-4 md:px-0">
+            {products &&
+              products.products.map((item: Product) => {
+                return <Card item={item} key={item._id} />;
+              })}
+          </div>
           <div className="flex justify-end items-center my-8">
             <Paginate
               setPage={setPage}

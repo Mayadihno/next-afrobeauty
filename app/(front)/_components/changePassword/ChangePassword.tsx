@@ -5,9 +5,9 @@ import toast from "react-hot-toast";
 
 const ChangePassword = () => {
   const { buyer } = useAppSelector((state) => state.users);
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const handlePasswordChange = async (e: React.FormEvent<HTMLFormElement>) => {

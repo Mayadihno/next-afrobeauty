@@ -32,7 +32,7 @@ const Profile = () => {
 
     try {
       const uploadResponse = await fetch(
-        "https://api.cloudinary.com/v1_1/ddsimx7wx/image/upload",
+        process.env.CLOUDINARY_API_FRONTEND as string,
         {
           method: "POST",
           body: formData,

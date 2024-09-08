@@ -18,7 +18,7 @@ const Orders = () => {
 
   const userId = buyer?.data?._id;
 
-  const { data, isFetching, isLoading } = useGetUserOrdersQuery(userId ?? "", {
+  const { data, isLoading } = useGetUserOrdersQuery(userId ?? "", {
     skip: !userId,
   });
 
@@ -84,14 +84,17 @@ const Orders = () => {
         id: item._id,
         itemsQty: item.cartItems.length,
         total: formatCurrency(
-          item.cartItems.reduce((acc, cartItem) => acc + cartItem.price, 0)
+          item.cartItems.reduce(
+            (acc, cartItem) => acc + cartItem.price * cartItem.qty,
+            0
+          )
         ),
         status: item.status,
       })) || [],
     [orders]
   );
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className="mt-[-100px]">
         <Loader />

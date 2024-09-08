@@ -1,5 +1,4 @@
 "use client";
-import { useFetchProducts } from "@/app/actions/useFetchAllProduct";
 import React from "react";
 import Card from "../productCard/Card";
 import { Product } from "@/types/types";
@@ -14,8 +13,7 @@ interface SellerShopProps {
 }
 
 const SellerShop = ({ shopId }: SellerShopProps) => {
-  const { data, isLoading, isFetching } =
-    useGetShopProductByShopIdQuery(shopId);
+  const { data, isLoading } = useGetShopProductByShopIdQuery(shopId);
   const router = useRouter();
 
   return (
@@ -49,8 +47,10 @@ const SellerShop = ({ shopId }: SellerShopProps) => {
           </div>
         </div>
         <div className="md:container md:mx-auto">
-          {isLoading || isFetching ? (
-            <ProductSkeleton count={4} />
+          {isLoading ? (
+            <div className="my-5">
+              <ProductSkeleton count={4} />
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-4 gap-x-4 md:gap-x-7 gap-y-12 md:mt-20 mt-10 px-4 md:px-0">
               {data.products &&

@@ -12,6 +12,7 @@ import { useGetDiscountCodeByNameQuery } from "@/redux/rtk/discount";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CartItem } from "@/types/types";
 
 interface BillingAddressProps {
   id: string;
@@ -134,7 +135,7 @@ const BillingAddress = () => {
     );
 
     if (eligibleItems.length === 0) {
-      toast.error("Coupon code does not apply to this shop");
+      toast.error("Coupon code does not apply to this products");
       setCouponCode("");
       setLoading(false);
       return;

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { addProductToCart } from "@/redux/slice/cartSlice";
 import toast from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { Product } from "@/types/types";
 
 const Events = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
@@ -22,7 +23,7 @@ const Events = () => {
     return null;
   }
 
-  const handleAddToCart = (item: any) => {
+  const handleAddToCart = (item: Product) => {
     const isItemExist = cartItems && cartItems.find((i) => i._id === item._id);
     if (isItemExist) {
       toast.error("Item already exist in cart");
