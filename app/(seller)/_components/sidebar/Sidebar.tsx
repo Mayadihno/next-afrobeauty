@@ -27,7 +27,6 @@ export default function Sidebar() {
       name: "Orders",
       link: "/seller-order",
       icons: ShoppingCart,
-      badgeCount: 6,
     },
     {
       name: "Product",
@@ -51,7 +50,7 @@ export default function Sidebar() {
     },
     {
       name: "Shop Inbox",
-      link: "/dashboard/customers",
+      link: "",
       icons: BiMessageSquareDetail,
     },
     {
@@ -61,12 +60,12 @@ export default function Sidebar() {
     },
     {
       name: "Withdrawal",
-      link: "/",
+      link: "",
       icons: CiMoneyBill,
     },
     {
       name: "Settings",
-      link: "/dashboard/settings",
+      link: "/settings",
       icons: Settings,
     },
   ];
@@ -95,19 +94,14 @@ export default function Sidebar() {
                   href={item.link}
                   key={i}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                    "flex items-center gap-3 rounded-lg px-3 py-2",
                     pathname === item.link
-                      ? " bg-slate-100 rounded-xl font-bold text-secondary"
+                      ? " bg-slate-100 text-lg rounded-xl"
                       : ""
                   )}
                 >
                   <Icon className="h-6 w-6" />
                   {item.name}
-                  {item.badgeCount && (
-                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                      {item.badgeCount}
-                    </Badge>
-                  )}
                 </Link>
               );
             })}
