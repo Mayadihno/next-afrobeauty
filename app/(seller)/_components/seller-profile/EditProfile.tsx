@@ -1,3 +1,4 @@
+"use client";
 import SubmitButton from "@/components/button/SubmitButton";
 import TextInput from "@/components/input/Textinput";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
@@ -174,6 +175,7 @@ const EditProfile = ({ setActive }: Props) => {
               name="description"
               type="textarea"
               className="!h-[150px]"
+              isRequired={false}
             />
           </div>
           <div className=" mt-8">

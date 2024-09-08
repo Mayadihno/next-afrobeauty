@@ -7,7 +7,6 @@ import React from "react";
 const Profile = () => {
   const { seller } = useAppSelector((state) => state.users);
 
-  
   return (
     <div className="">
       <Card className="w-full mt-[150px] p-3 shadow-lg border-none rounded-[10px] bg-[#27272a74]">
@@ -85,6 +84,7 @@ const Profile = () => {
                 name="description"
                 isDisabled={true}
                 value={seller.data?.description}
+                isRequired={false}
               />
             )}
           </div>
