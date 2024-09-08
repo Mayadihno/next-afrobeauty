@@ -4,6 +4,7 @@ import {
   useGetOrdersDetailsByIdQuery,
   useUpdateOrderStatusMutation,
 } from "@/redux/rtk/orders";
+import { CartItem } from "@/types/types";
 import { formatCurrency } from "@/utils/formatter";
 import { LoaderCircle } from "lucide-react";
 import Image from "next/image";
@@ -13,18 +14,13 @@ import toast from "react-hot-toast";
 import { BsFillBagFill } from "react-icons/bs";
 
 const OrderDetails = ({ orderId }: { orderId: string }) => {
-  const { data, isFetching, isLoading } = useGetOrdersDetailsByIdQuery(
-    orderId,
-    {
-      refetchOnMountOrArgChange: false,
-    }
-  );
+  const { data, isFetching, isLoading } = useGetOrdersDetailsByIdQuery(orderId);
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
   const [statuss, setStatuss] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const totalPrice = data?.cartItems?.reduce(
-    (a: any, b: any) => a + b.price,
+    (a: number, b: CartItem) => a + b.price * b.qty,
     0
   );
 
