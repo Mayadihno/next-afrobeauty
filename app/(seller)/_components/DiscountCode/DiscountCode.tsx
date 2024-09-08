@@ -238,7 +238,7 @@ const DiscountCode = () => {
               />
             </div>
             <h5 className="text-center text-[30px]">Create Coupon code</h5>
-            <form onSubmit={handleSubmit(createDiscounts)} aria-required={true}>
+            <form onSubmit={handleSubmit(createDiscounts)}>
               <div className="flex space-x-5 my-8">
                 <div className=" w-full">
                   <TextInput

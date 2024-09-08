@@ -95,7 +95,7 @@ const SellerOrders = () => {
   const rows =
     data?.orders.map((item: any) => {
       const total = item.cartItems.reduce(
-        (acc: number, cartItem: any) => acc + cartItem.price,
+        (acc: number, cartItem: any) => acc + cartItem.price * cartItem.qty,
         0
       );
       return {

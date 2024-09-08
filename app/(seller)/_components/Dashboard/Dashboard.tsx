@@ -1,22 +1,34 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { useGetOrdersByShopIdQuery } from "@/redux/rtk/orders";
 import { useGetProductByShopIdQuery } from "@/redux/rtk/products";
 import { CartItem } from "@/types/types";
 import { formatCurrency } from "@/utils/formatter";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
+import { AiOutlineArrowRight } from "react-icons/ai";
 
 const Dashboard = () => {
   const { seller } = useAppSelector((state) => state.users);
   const [availableBalance, setAvailableBalance] = useState<number>(0);
   const shopId = seller.data?._id ?? "";
   const query = "";
-  const { data: orders, error: ordersError } = useGetOrdersByShopIdQuery({
+  const {
+    data: orders,
+    error: ordersError,
+    isLoading: orderLoading,
+  } = useGetOrdersByShopIdQuery({
     shopId,
     query,
   });
-  const { data: products, error: productsError } = useGetProductByShopIdQuery({
+  const {
+    data: products,
+    error: productsError,
+    isLoading: productLoading,
+  } = useGetProductByShopIdQuery({
     shopId,
     querys: query,
   });
@@ -52,6 +64,95 @@ const Dashboard = () => {
     );
   }
 
+  if (orderLoading || productLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderCircle className=" animate-spin" size={50} color="#e94560" />
+      </div>
+    );
+  }
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+
+    {
+      field: "status",
+      headerName: "Status",
+      minWidth: 180,
+      flex: 0.4,
+      cellClassName: (params) => {
+        return params.value === "Delivered" ? "text-green-500" : "text-red-500";
+      },
+    },
+    {
+      field: "itemsQty",
+      headerName: "Items Qty",
+      type: "number",
+      minWidth: 130,
+      flex: 0.7,
+      headerAlign: "center",
+      align: "center",
+    },
+
+    {
+      field: "total",
+      headerName: "Total Price",
+      type: "number",
+      minWidth: 180,
+      flex: 0.4,
+      headerAlign: "center",
+      align: "center",
+    },
+
+    {
+      field: "payment",
+      headerName: "Payment Info",
+      type: "string",
+      minWidth: 120,
+      flex: 0.8,
+      headerAlign: "center",
+      align: "center",
+    },
+
+    {
+      field: " ",
+      flex: 0.6,
+      minWidth: 100,
+      headerName: "",
+      type: "number",
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link href={`/seller-order/${params.id}`}>
+              <Button className="bg-black hover:bg-[#000000c0] px-4 py-2 my-1 text-white rounded-[5px]">
+                <AiOutlineArrowRight size={20} />
+              </Button>
+            </Link>
+          </>
+        );
+      },
+    },
+  ];
+
+  const rows =
+    orders?.orders
+      .map((item: any) => {
+        const total = item.cartItems.reduce(
+          (acc: number, cartItem: CartItem) =>
+            acc + cartItem.price * cartItem.qty,
+          0
+        );
+        return {
+          id: item._id,
+          itemsQty: item.cartItems.length,
+          total: formatCurrency(total),
+          status: item.status,
+          payment: item.paymentInfo.type,
+        };
+      })
+      .slice(0, 5) || [];
+
   return (
     <div className="w-full font-ebgaramond">
       <h3 className="font-ebgaramond font-bold text-2xl pb-5">Overview</h3>
@@ -80,7 +181,7 @@ const Dashboard = () => {
             </h3>
           </div>
           <h5 className="py-3 pl-4 font-bold text-2xl">
-            {orders?.totalOrders}
+            {orders?.totalOrders ?? 0}
           </h5>
           <Link href={"/seller-order"}>
             <h5 className="pl-4 text-[#077f9c]">View Orders</h5>
@@ -99,6 +200,23 @@ const Dashboard = () => {
           <Link href={"/seller-product"}>
             <h5 className="pl-4 text-[#077f9c]">View Products</h5>
           </Link>
+        </div>
+      </div>
+      <div className="mt-10">
+        <h3 className="font-ebgaramond font-bold text-2xl pb-2">
+          Latest Orders
+        </h3>
+
+        <div className="w-full pt-1 bg-white">
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+            autoHeight
+            pagination
+            pageSizeOptions={[5]}
+          />
         </div>
       </div>
     </div>
