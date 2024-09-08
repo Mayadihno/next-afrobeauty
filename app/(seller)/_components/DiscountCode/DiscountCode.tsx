@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Button } from "@/components/ui/button";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -27,13 +27,14 @@ const DiscountCode = () => {
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [deleteLoading, setDeeleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [row, setRow] = useState<Array<any>>([]);
 
   const shopId = seller.data?._id ?? "";
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "Product Id", minWidth: 150, flex: 1 },
+    { field: "id", headerName: "Discount Code Id", minWidth: 150, flex: 1 },
     {
       field: "couponName",
       headerName: "Coupon Name",
@@ -94,16 +95,6 @@ const DiscountCode = () => {
     formState: { errors },
   } = useForm<DiscountCodeProp>({});
 
-  interface RowData {
-    id: string;
-    couponName: string;
-    discountPercentage: number;
-    maxAmount: number;
-    minAmount: number;
-  }
-
-  const row: RowData[] = [];
-
   const [createDiscountCode] = useCreateDiscountMutation();
   const createDiscounts = async (data: DiscountCodeProp) => {
     setLoading(true);
@@ -131,55 +122,70 @@ const DiscountCode = () => {
       setLoading(false);
     }
   };
-  const { data, isLoading, isFetching } = useGetDiscountByShopIdQuery(shopId);
 
-  if (data) {
-    data.discountCode.forEach(
-      (item: {
-        _id: string;
-        couponName: string;
-        discountPercentage: number;
-        maxAmount: number;
-        minAmount: number;
-      }) => {
-        row.push({
-          id: item._id,
-          couponName: item.couponName,
-          discountPercentage: item.discountPercentage,
-          maxAmount: item.maxAmount ?? "-",
-          minAmount: item.minAmount ?? "-",
-        });
-      }
-    );
-  }
+  const { data, isLoading, isError, error } =
+    useGetDiscountByShopIdQuery(shopId);
+
+  const [deleteDiscountCode, { isError: deleteError }] =
+    useDeleteDiscountByIdMutation();
+
+  useEffect(() => {
+    if (data && data.discountCode) {
+      const discountRows = data.discountCode.map((item: any) => ({
+        id: item._id,
+        couponName: item.couponName,
+        discountPercentage: item.discountPercentage,
+        maxAmount: item.maxAmount ?? "-",
+        minAmount: item.minAmount ?? "-",
+      }));
+      setRow(discountRows);
+    }
+  }, [data]);
+
   const handleDelete = (id: string) => {
     setSelectedEventId(id);
     setOpenDelete(true);
   };
-  const [deleteDiscountCode] = useDeleteDiscountByIdMutation();
+
   const handleDiscountDelete = async () => {
     if (selectedEventId) {
-      setDeeleteLoading(true);
       try {
-        const res = await deleteDiscountCode({
+        setDeleteLoading(true);
+        await deleteDiscountCode({
           discountId: selectedEventId,
           shopId,
         }).unwrap();
-        if (res) {
-          toast.success(res.message);
-          setOpenDelete(false);
-          setSelectedEventId(null);
-          setDeeleteLoading(false);
-        } else {
-          toast.error(res.message);
-        }
+        toast.success("Discount deleted successfully!");
+        setOpenDelete(false);
+        setSelectedEventId(null);
       } catch (error) {
-        toast.error("Failed to delete the coupon code.");
+        toast.error("Failed to delete the discount code.");
       } finally {
-        setDeeleteLoading(false);
+        setDeleteLoading(false);
       }
     }
   };
+
+  useEffect(() => {
+    if (isError && error) {
+      toast.error("Failed to fetch discount codes.");
+      console.error("Error fetching discounts:", error);
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (deleteError) {
+      toast.error("Failed to delete the discount.");
+    }
+  }, [deleteError]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderCircle className=" animate-spin" size={50} color="#e94560" />
+      </div>
+    );
+  }
   return (
     <div className=" font-ebgaramond my-5">
       {data && (
@@ -194,39 +200,33 @@ const DiscountCode = () => {
           </Button>
         </div>
       )}
-      {isLoading || isFetching ? (
-        <div className="flex justify-center items-center h-screen">
-          <LoaderCircle className=" animate-spin" size={50} color="#e94560" />
-        </div>
-      ) : (
-        <div className=" py-10">
-          {data ? (
-            <DataGrid
-              rows={row}
-              columns={columns}
-              checkboxSelection
-              disableRowSelectionOnClick
-              autoHeight
-              pagination
-              pageSizeOptions={[10, 15, 20]}
-            />
-          ) : (
-            <div className=" flex justify-center flex-col items-center mt-10">
-              <h3 className="text-3xl font-ebgaramond font-semibold mb-10">
-                No Discount Code for this Vendor. Kindly create a new one
-              </h3>
-              <Button
-                className=" bg-green-500 px-3 hover:bg-green-500/50 transition shadow-md duration-100 rounded-[5px] py-2"
-                onClick={() => setOpen(true)}
-              >
-                <span className="text-white hover:text-black text-lg font-semibold">
-                  Create coupon code
-                </span>
-              </Button>
-            </div>
-          )}
-        </div>
-      )}
+      <div className=" py-10">
+        {data ? (
+          <DataGrid
+            rows={row}
+            columns={columns}
+            checkboxSelection
+            disableRowSelectionOnClick
+            autoHeight
+            pagination
+            pageSizeOptions={[10, 15, 20]}
+          />
+        ) : (
+          <div className=" flex justify-center flex-col items-center mt-10">
+            <h3 className="text-3xl font-ebgaramond font-semibold mb-10">
+              No Discount Code for this Vendor. Kindly create a new one
+            </h3>
+            <Button
+              className=" bg-green-500 px-3 hover:bg-green-500/50 transition shadow-md duration-100 rounded-[5px] py-2"
+              onClick={() => setOpen(true)}
+            >
+              <span className="text-white hover:text-black text-lg font-semibold">
+                Create coupon code
+              </span>
+            </Button>
+          </div>
+        )}
+      </div>
       {open && (
         <div className="flex font-ebgaramond justify-center items-center w-full top-0 left-0 h-screen bg-[#00000063] fixed z-[2000]">
           <div className="shadow-lg w-[90%] md:w-[40%] h-[60vh] bg-white rounded-[10px] p-6">
