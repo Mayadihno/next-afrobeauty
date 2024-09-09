@@ -22,8 +22,6 @@ const Navbar = () => {
     setMounted(true);
   }, []);
 
-  console.log(isUserAuthenticated);
-
   return (
     <>
       <div

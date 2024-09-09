@@ -1,6 +1,7 @@
 "use client";
 import { loadStart, loadStop } from "@/redux/slice/loadingSlice";
 import { AppDispatch } from "@/redux/store";
+import { LoginProp } from "@/types/types";
 
 export const loginUser = async (
   url: string,
@@ -9,7 +10,6 @@ export const loginUser = async (
 ) => {
   try {
     dispatch(loadStart());
-    console.log(formData);
     const response = await fetch(`/${url}`, {
       method: "POST",
       headers: {
@@ -17,7 +17,6 @@ export const loginUser = async (
       },
       body: JSON.stringify({ formData }),
     });
-    console.log(response);
     dispatch(loadStop());
   } catch (error) {}
 };
