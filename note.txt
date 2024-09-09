@@ -1,0 +1,276 @@
+// Middleware function
+import { NextRequest, NextResponse } from "next/server";
+import { PUBLIC_ROUTES, ROOT, LOGIN } from "./lib/routes";
+
+async function isAuthenticated(request: NextRequest): Promise<boolean> {
+  const token = request.cookies.get("token");
+  return !!token;
+}
+
+export async function middleware(request: NextRequest) {
+  const { nextUrl } = request;
+
+  const userIsAuthenticated = await isAuthenticated(request);
+  console.log(userIsAuthenticated, nextUrl.pathname);
+
+  const isPublicRoute =
+    PUBLIC_ROUTES.some((route) => nextUrl.pathname.startsWith(route)) ||
+    nextUrl.pathname === ROOT ||
+    nextUrl.pathname === LOGIN;
+
+  if (!userIsAuthenticated && !isPublicRoute) {
+    return NextResponse.redirect(new URL(LOGIN, nextUrl));
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};
+
+
+
+// try {
+    //   const res = await fetch("/api/user/logout", {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
+    //   if (res.ok) {
+    //     router.push("/");
+    //     dispatch(logout());
+    //     toast.success("Logged out successfully");
+    //     localStorage.removeItem("sessionToken");
+    //   } else {
+    //     console.error("Failed to log out");
+    //   }
+    // } catch (error) {
+    //   console.error("Error logging out:", error);
+    // }
+
+
+    "use client";
+import React, { useEffect, useState } from "react";
+import {
+  CardNumberElement,
+  CardCvcElement,
+  CardExpiryElement,
+  useElements,
+  useStripe,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
+import { useAppSelector } from "@/redux/hooks/hooks";
+import { StripePaymentElementOptions } from "@stripe/stripe-js";
+
+const Payments = ({ stripeApiKey }: { stripeApiKey: string }) => {
+  const { cartItems } = useAppSelector((state) => state.cart);
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [orderData, setOrderData] = useState({
+    shippingFee: { shippingCompany: "", shippingPrice: 0 },
+    totalPrice: 0,
+    userData: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      country: "",
+      state: "",
+    },
+  });
+
+  useEffect(() => {
+    const storedOrderData = JSON.parse(
+      localStorage.getItem("orderData") || "{}"
+    );
+    setOrderData(storedOrderData);
+  }, []);
+
+  const amount = {
+    amount: Math.round(orderData?.totalPrice),
+  };
+
+  const handlePayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+    try {
+      const response = await fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(amount),
+      });
+
+      const data = await response.json();
+      console.log(data);
+      console.log(data.clientSecret);
+      const clientSecret = data.clientSecret;
+
+      if (!clientSecret) {
+        throw new Error("Missing client secret");
+      }
+
+      const cardElement = elements.getElement(CardNumberElement);
+
+      if (!cardElement) {
+        throw new Error("Card element not found");
+      }
+
+      const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: orderData.userData.name,
+            email: orderData.userData.email,
+            address: {
+              line1: orderData.userData.address,
+              country: orderData.userData.country,
+              state: orderData.userData.state,
+            },
+          },
+        },
+      });
+
+      if (paymentResult.error) {
+        console.error(paymentResult.error.message);
+      } else if (paymentResult.paymentIntent?.status === "succeeded") {
+        console.log("Payment succeeded!");
+        // Handle successful payment here
+      } else {
+        console.error("Payment failed");
+      }
+    } catch (error) {
+      console.error("Payment error", error);
+    }
+  };
+  const paymentElementOptions: StripePaymentElementOptions = {
+    layout: "tabs",
+  };
+
+  return (
+    <div>
+      {stripeApiKey && stripe && elements && (
+        <div className="w-full flex border-b">
+          <form className="w-full" onSubmit={handlePayment}>
+            <PaymentElement
+              id="payment-element"
+              options={paymentElementOptions}
+            />
+            <button disabled={!stripe || !elements} id="submit">
+              <span id="button-text">
+                {!stripe ? (
+                  <div className="spinner" id="spinner"></div>
+                ) : (
+                  "Pay now"
+                )}
+              </span>
+            </button>
+          </form>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Payments;
+
+
+
+ //group cart item by shopId
+    const shopItemsMap = new Map();
+    for (const item of cartItems) {
+      const shopId = item.sellerId;
+      if (!shopItemsMap.has(shopId)) {
+        shopItemsMap.set(shopId, []);
+      }
+      shopItemsMap.get(shopId).push(item);
+    }
+
+    //create orders for each shop
+    const orders = [];
+    for (const [shopId, item] of shopItemsMap) {
+      const order = await orderModel.create({
+        cartItems: item,
+        shippingFee,
+        totalPrice,
+        userData,
+        paymentInfo,
+      });
+      orders.push(order);
+    }
+
+
+
+    export const GET = async (request: NextRequest) => {
+  const url = new URL(request.url);
+  const sellerId = url.searchParams.get("sellerId");
+  const userId = url.searchParams.get("userId");
+
+  try {
+    let orders;
+
+    if (sellerId) {
+      // Retrieve orders containing items from the specified seller
+      orders = await orderModel.find({
+        "cartItems.sellerId": sellerId,
+      });
+    } else if (userId) {
+      // Retrieve orders for the specified user
+      orders = await orderModel.find({
+        "userData.userId": userId,
+      });
+    } else {
+      // Retrieve all orders
+      orders = await orderModel.find();
+    }
+
+    return new NextResponse(
+      JSON.stringify({ message: "Orders retrieved successfully", orders }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (error: any) {
+    return ErrorMessage(error.message, 500);
+  }
+};
+
+
+ // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const query = new URLSearchParams({
+  //       ...filters,
+  //       page: (page + 1).toString(),
+  //       limit: pageSize.toString(),
+  //     }).toString();
+
+  //     const response = await fetch(
+  //       `/api/seller/get-product?shopId=${seller.data?._id}&${query}`
+  //     );
+
+  //     if (!response.ok) {
+  //       console.error("Failed to fetch products");
+  //       return;
+  //     }
+
+  //     try {
+  //       const data: ProductResponse = await response.json();
+  //       setRows(data);
+  //       setTotal(data.total);
+  //       dispatch(setProduct(data.products));
+  //     } catch (error) {
+  //       console.error("Failed to parse JSON:", error);
+  //     }
+  //   };
+
+  //   fetchProducts();
+  // }, [filters, page, pageSize, seller.data?._id, setTotal]);

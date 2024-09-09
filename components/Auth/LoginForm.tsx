@@ -1,12 +1,26 @@
 "use client";
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+import React, { useState } from "react";
 import TextInput from "../input/Textinput";
 import { ICONS } from "@/utils/icons";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import SubmitButton from "../button/SubmitButton";
+import SociaLogin from "./SociaLogin";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { loginUser } from "@/lib/actions/loginUser";
+import { setBuyer, setSessionToken } from "@/redux/slice/userSlice";
+import { loadStart, loadStop } from "@/redux/slice/loadingSlice";
+import { setItem } from "@/utils/config/storage";
+import { LoginProp } from "@/types/types";
 
 const LoginForm = () => {
+  const [loading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const {
     register,
     reset,
@@ -14,52 +28,79 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginProp>();
 
-  function onSubmit(data: LoginProp) {
-    console.log(data);
-    reset();
+  async function onSubmit(data: LoginProp) {
+    try {
+      dispatch(loadStart());
+      setIsLoading(true);
+      const res = await fetch("/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data }),
+      });
+      const result = await res.json();
+      if (result.user) {
+        setItem("sessionToken", result.sessionToken);
+        dispatch(setBuyer({ data: result.user }));
+        toast.success(result.message);
+        router.push("/checkout");
+        setIsLoading(false);
+        reset();
+      } else {
+        setError(result.message);
+        toast.error(result.message);
+        setIsLoading(false);
+        dispatch(loadStop());
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+      dispatch(loadStop());
+    }
   }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className=" my-3">
-        <TextInput
-          label="Email"
-          register={register}
-          errors={errors}
-          placeholder="email"
-          name="email"
-          type="email"
-        />
-      </div>
-      <div className="py-3">
-        <TextInput
-          label="Password"
-          placeholder="password"
-          type="password"
-          name="password"
-          register={register}
-          errors={errors}
-          suffixIcon={<ICONS.eye />}
-        />
-        <div className="flex justify-end py-3 text-gray-400 font-medium font-urbanist text-base">
-          <Link href={"/"}>Forget password?</Link>
+    <>
+      {error && <div className="text-xl text-red-500">{error}</div>}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className=" my-3">
+          <TextInput
+            label="Email"
+            register={register}
+            errors={errors}
+            placeholder="email"
+            name="email"
+            type="email"
+          />
         </div>
-        <div className=" w-full my-3 py-2 font-ebgaramond text-2xl font-semibold text-center bg-[#B10C62] !rounded-2xl text-white">
-          <button type="submit">Login</button>
+        <div className="py-3">
+          <TextInput
+            label="Password"
+            placeholder="password"
+            type="password"
+            name="password"
+            register={register}
+            errors={errors}
+            suffixIcon={<ICONS.eye />}
+          />
+          <div className="flex justify-end py-3 text-gray-400 font-medium font-urbanist text-base">
+            <Link href={"/forget-password"}>Forget password?</Link>
+          </div>
+          <SubmitButton
+            isLoading={loading}
+            loadingTitle="Please wait"
+            title="Login"
+            type="submit"
+          />
         </div>
-      </div>
-      <div className="pb-2 flex items-center justify-center w-2/3 mx-auto">
-        <div className="flex-grow border-t border-gray-300"></div>
-        <span className="px-4">OR</span>
-        <div className="flex-grow border-t border-gray-300"></div>
-      </div>
-      <div className="border w-fit mx-auto rounded-[20px] py-3 px-5 cursor-pointer mt-3">
-        <div className="flex items-center">
-          <ICONS.gogogle />
-          <span className=" font-prociono font-semibold text-sm ml-2">
-            Google
-          </span>
+        <div className="pb-2 flex items-center justify-center w-2/3 mx-auto">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="px-4">OR</span>
+          <div className="flex-grow border-t border-gray-300"></div>
         </div>
-      </div>
+      </form>
+      <SociaLogin />
       <div className="text-center pt-2 font-medium font-urbanist text-sm">
         <h4>
           Don't have an account?
@@ -68,7 +109,7 @@ const LoginForm = () => {
           </Link>
         </h4>
       </div>
-    </form>
+    </>
   );
 };
 

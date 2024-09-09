@@ -7,12 +7,17 @@ import { ICONS } from "@/utils/icons";
 import AccordionNav from "./AccordionNav";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import Link from "next/link";
+import Dropdown from "../dropdown/Dropdown";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const { wishListItems } = useAppSelector((state) => state.wishList);
+  const { isUserAuthenticated } = useAppSelector((state) => state.users);
   const [show, setShow] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -56,6 +61,17 @@ const Navbar = () => {
                 </div>
               </Link>
             )}
+            {isUserAuthenticated ? (
+              <Dropdown />
+            ) : (
+              <Button
+                className="bg-[#B10C62] text-white font-prociono rounded-[10px] hover:bg-[#B10C62]"
+                onClick={() => router.push("/login")}
+              >
+                Login
+              </Button>
+            )}
+            {/* {isUserAuthenticated && <Dropdown />} */}
             <div className="block md:hidden" onClick={() => setShow(!show)}>
               {show ? <ICONS.close size={25} /> : <ICONS.menu size={25} />}
             </div>

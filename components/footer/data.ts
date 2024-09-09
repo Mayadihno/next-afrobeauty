@@ -14,6 +14,11 @@ export const customers = [
     link: "Account-details",
     label: "Account Details",
   },
+  {
+    id: 4,
+    link: "faq",
+    label: "F.A.Q",
+  },
 ];
 
 export const menu = [
@@ -29,7 +34,7 @@ export const menu = [
   },
   {
     id: 3,
-    link: "basket",
+    link: "cart",
     label: "Basket",
   },
   {

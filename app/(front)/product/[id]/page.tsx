@@ -1,5 +1,4 @@
 import { product } from "@/utils/config/products";
-
 import ProductById from "../../_components/productCard/ProductById";
 import RelatedProduct from "../../_components/relatedProduct/RelatedProduct";
 
@@ -14,7 +13,7 @@ export async function generateMetadata({ params }: { params: { id: number } }) {
   };
 }
 
-const ProductPage = ({ params }: { params: { id: number } }) => {
+const ProductPage = ({ params }: { params: { id: string } }) => {
   return (
     <div className="">
       <ProductById params={params} />
