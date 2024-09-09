@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const discountApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/api/",
+    baseUrl:
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_PROD_API_URL
+        : process.env.NEXT_PUBLIC_API_URL,
   }),
   reducerPath: "discountApi",
   tagTypes: ["Discounts"],
