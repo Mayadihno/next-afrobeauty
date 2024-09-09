@@ -3,7 +3,6 @@
 import { useAppSelector } from "@/redux/hooks/hooks";
 import React from "react";
 import image from "../../../../public/assets/product/cart1.jpg";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Cart from "./Cart";
 const CartItems = () => {

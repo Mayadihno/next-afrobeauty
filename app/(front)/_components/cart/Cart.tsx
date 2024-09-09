@@ -29,7 +29,7 @@ const Cart = () => {
             </h3>
           </div>
           {cartItems?.map((item) => (
-            <div key={item._id} className="border-b-[1px] p-3">
+            <div key={item?._id} className="border-b-[1px] p-3">
               <SingleCart item={item} />
             </div>
           ))}
@@ -77,19 +77,19 @@ const Cart = () => {
 export default Cart;
 
 const SingleCart = ({ item }: { item: CartItem }) => {
-  const [value, setValue] = useState(item.qty);
+  const [value, setValue] = useState(item?.qty);
   const dispatch = useAppDispatch();
 
   const increment = () => {
     const newQty = value + 1;
     setValue(newQty);
-    dispatch(updateCartItemQty({ _id: item._id, qty: newQty }));
+    dispatch(updateCartItemQty({ _id: item?._id, qty: newQty }));
   };
 
   const decrement = () => {
     const newQty = value === 1 ? 1 : value - 1;
     setValue(newQty);
-    dispatch(updateCartItemQty({ _id: item._id, qty: newQty }));
+    dispatch(updateCartItemQty({ _id: item?._id, qty: newQty }));
   };
 
   const handleRemoveFromCart = (id: string) => {
@@ -97,17 +97,17 @@ const SingleCart = ({ item }: { item: CartItem }) => {
     dispatch(removeProductFromCart(id));
   };
 
-  const totalPrice = item.price * item.qty;
+  const totalPrice = item?.price * item?.qty;
 
   return (
     <div>
       <div className="flex justify-between">
-        <Link href={`product/${item._id}`} className="flex items-center">
+        <Link href={`product/${item?._id}`} className="flex items-center">
           <div className="w-[80px] h-[80px]">
             <Image
-              src={item.image}
+              src={item?.image}
               className="w-full h-full object-contain"
-              alt={item.name}
+              alt={item?.name}
               width={80}
               height={80}
             />
@@ -121,14 +121,14 @@ const SingleCart = ({ item }: { item: CartItem }) => {
             </div>
             <h4 className="font-urbanist text-base font-normal">
               <span className="text-gray-400">Seller:</span>
-              {item?.shop.shopName || "Maya Store"}
+              {item?.shop?.shopName || "Maya Store"}
             </h4>
           </div>
         </Link>
         <div className="flex flex-col font-urbanist">
           <h3 className="text-sm text-gray-400 font-normal flex items-center">
             <span>
-              {formatCurrency(item.price)} * {formatNumber(item.qty)}
+              {formatCurrency(item?.price)} * {formatNumber(item.qty)}
             </span>
           </h3>
           <h2 className="flex items-center text-lg font-medium py-3">
@@ -139,7 +139,7 @@ const SingleCart = ({ item }: { item: CartItem }) => {
       <div className="flex justify-between items-center px-4 pt-4 pb-2">
         <div
           className="flex items-center font-ebgaramond cursor-pointer"
-          onClick={() => handleRemoveFromCart(item._id)}
+          onClick={() => handleRemoveFromCart(item?._id)}
         >
           <ICONS.delete size={20} className="text-[#B10C62]" />
           <span className="text-[#B10C62] text-lg uppercase ml-2">Remove</span>
