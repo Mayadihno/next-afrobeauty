@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import Link from "next/link";
 import React from "react";
@@ -15,7 +16,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import AccordionContents from "./AccordionContent";
 
 const FaqData = ({ active }: { active: number }) => {
   return (
@@ -79,7 +79,7 @@ const FaqData = ({ active }: { active: number }) => {
             <ul className="list-disc list-outside pl-4 text-lg my-2 marker:text-[#B10C62]">
               <li className="">Select your preferred payment method</li>
               <li>
-                Click on " Confirm Payment Method" and complete the payment
+                Click on "Confirm Payment Method" and complete the payment
                 process.
               </li>
             </ul>

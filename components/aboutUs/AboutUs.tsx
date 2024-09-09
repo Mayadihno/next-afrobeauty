@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -6,6 +7,7 @@ import image from "../../public/assets/about-us.jpg";
 import { ICONS } from "@/utils/icons";
 import { data } from "./data";
 import { Card, CardContent, CardHeader } from "../ui/card";
+import Image from "next/image";
 
 const AboutUs = () => {
   const router = useRouter();
@@ -38,14 +40,14 @@ const AboutUs = () => {
       <div className="md:container md:mx-auto">
         <div className="flex items-center space-x-5 my-10">
           <div className=" h-[300px] w-[350px] rounded-[10px]">
-            <img
+            <Image
               src={image.src}
               alt="about-us"
               className="w-full h-full object-cover rounded-[10px]"
             />
           </div>
           <div className="h-[300px] w-full relative">
-            <img
+            <Image
               src={image.src}
               alt="about-us"
               className="w-full h-full object-cover rounded-[10px] absolute"
@@ -109,7 +111,7 @@ const AboutUs = () => {
                 unique needs of people of color. At Mayabeauty Store, we
                 understand the importance of quality and accessibility. Over the
                 years, we have made it our mission to offer a diverse selection
-                of beauty products that cater to our customers' diverse needs.
+                of beauty products that cater to our customer's diverse needs.
                 With a strong focus on technology, customer satisfaction, and
                 environmental sustainability, we ensure that our products are
                 easily accessible across all European countries through our
