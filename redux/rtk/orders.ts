@@ -5,7 +5,10 @@ const orderApi = createApi({
     baseUrl:
       process.env.NODE_ENV === "production"
         ? process.env.NEXT_PUBLIC_PROD_API_URL
-        : process.env.NEXT_PUBLIC_API_URL,
+        : typeof window !== "undefined" &&
+          window.location.hostname === "localhost"
+        ? process.env.NEXT_PUBLIC_API_URL
+        : process.env.NEXT_PUBLIC_API_BASE_URL_MOBILE,
   }),
   reducerPath: "orderApi",
   tagTypes: ["Orders"],

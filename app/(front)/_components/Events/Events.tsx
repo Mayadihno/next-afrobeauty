@@ -64,9 +64,9 @@ const Events = () => {
         </div>
       </div>
 
-      <div className="w-[80%] mx-auto block py-3">
+      <div className="md:w-[80%] w-full md:px-0 px-3 md:mx-auto block py-3">
         {data.events.length === 1 ? (
-          <div className="w-full flex space-x-3">
+          <div className="w-full md:flex md:space-x-3">
             <div className="w-full">
               <Image
                 src={data.events[0]?.image[0]}
@@ -77,7 +77,9 @@ const Events = () => {
             </div>
             <div className="w-full flex flex-col font-ebgaramond">
               <h2 className="text-2xl font-semibold">{data.events[0]?.name}</h2>
-              <p className="text-base py-3">{data.events[0]?.description}</p>
+              <p className="text-base py-3">
+                {data.events[0]?.description.slice(0, 600)}...
+              </p>
               <div className="flex py-2 flex-col">
                 <div className="flex items-center">
                   <h5 className=" font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
@@ -87,16 +89,41 @@ const Events = () => {
                     {formatCurrency(data.events[0]?.discountPrice)}
                   </h5>
                 </div>
-                <span className=" pr-3 font-[400] text-base py-2 text-[#44a55e]">
-                  120 sold
-                </span>
+                <div className="flex justify-between">
+                  <span className=" pr-3 font-[400] text-base py-2 text-[#44a55e]">
+                    120 sold
+                  </span>
+                  <div className="md:hidden block">
+                    {data.events[0]?.status === "End" ? (
+                      <div className={` text-white bg-black px-4 py-2`}>
+                        See Details
+                      </div>
+                    ) : (
+                      <Link
+                        href={`/product/${data.events[0]?._id}?isEvent=true`}
+                      >
+                        <div className={` text-white bg-black px-4 py-2`}>
+                          See Details
+                        </div>
+                      </Link>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="flex justify-between space-x-5">
                 <CountDown item={data.events[0]?.endDate} />
-                <div className="">
-                  <Link href={`/product/${data.events[0]?._id}?isEvent=true`}>
-                    <div className={` text-white`}>See Details</div>
-                  </Link>
+                <div className=" md:block hidden">
+                  {data.events[0]?.status === "End" ? (
+                    <div className={` text-white bg-black/50 px-4 py-2`}>
+                      See Details
+                    </div>
+                  ) : (
+                    <Link href={`/product/${data.events[0]?._id}?isEvent=true`}>
+                      <div className={` text-white bg-black px-4 py-2`}>
+                        See Details
+                      </div>
+                    </Link>
+                  )}
                 </div>
               </div>
               {data.events[0].status === "End" ? (
@@ -128,6 +155,9 @@ const Events = () => {
             }}
             speed={1000}
             breakpoints={{
+              0: {
+                slidesPerView: 1,
+              },
               768: {
                 slidesPerView: 1,
               },
@@ -138,7 +168,7 @@ const Events = () => {
           >
             {data.events.map((item: any) => (
               <SwiperSlide key={item._id}>
-                <div className="w-full flex space-x-3">
+                <div className="w-full md:flex md:space-x-3">
                   <div className="w-full">
                     <Image
                       src={item?.image[0]}
@@ -149,7 +179,9 @@ const Events = () => {
                   </div>
                   <div className="w-full flex flex-col font-ebgaramond">
                     <h2 className="text-2xl font-semibold">{item?.name}</h2>
-                    <p className="text-base py-3">{item?.description}</p>
+                    <p className="text-base py-3">
+                      {data.events[0]?.description.slice(0, 600)}...
+                    </p>
                     <div className="flex py-2 flex-col">
                       <div className="flex items-center">
                         <h5 className=" font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
@@ -159,13 +191,30 @@ const Events = () => {
                           {formatCurrency(item?.discountPrice)}
                         </h5>
                       </div>
-                      <span className=" pr-3 font-[400] text-base py-2 text-[#44a55e]">
-                        120 sold
-                      </span>
+                      <div className="flex">
+                        <span className=" pr-3 font-[400] text-base py-2 text-[#44a55e]">
+                          120 sold
+                        </span>
+                        <div className="md:hidden block">
+                          {item.status === "End" ? (
+                            <div
+                              className={` text-white bg-black/50 px-4 py-2`}
+                            >
+                              See Details
+                            </div>
+                          ) : (
+                            <Link href={`/product/${item?._id}?isEvent=true`}>
+                              <div className={` text-white bg-black px-4 py-2`}>
+                                See Details
+                              </div>
+                            </Link>
+                          )}
+                        </div>
+                      </div>
                     </div>
                     <div className="flex justify-between space-x-5">
                       <CountDown item={item?.endDate} />
-                      <div className="">
+                      <div className="md:block hidden">
                         {item.status === "End" ? (
                           <div className={` text-white bg-black/50 px-4 py-2`}>
                             See Details

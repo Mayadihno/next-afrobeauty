@@ -31,22 +31,24 @@ const Categories = () => {
         </div>
       </div>
       <div className="">
-        <div className="flex">
-          <div className=" bg-slate-50 shadow-xl h-[500px] overflow-y-auto font-ebgaramond rounded-[10px] w-[13%] custom-scrollbar">
+        <div className="flex flex-col lg:flex-row">
+          <div
+            className="lg:w-[13%] items-center md:grid-cols-1 grid grid-cols-3 w-full lg:h-[500px] h-auto lg:overflow-y-auto 
+          overflow-x-auto lg:custom-scrollbar bg-slate-50 shadow-xl font-ebgaramond 
+          rounded-[10px] custom-scrollbar lg:mb-0 mb-4"
+          >
             {category.map((item) => (
               <Link href={`/category/${item.cat}`} key={item.id}>
                 <div className="flex items-center space-x-1 my-2 py-2 pl-4">
                   <item.icon size={25} />
-                  <p className=" text-lg font-unkempt font-medium">
-                    {item.cat}
-                  </p>
+                  <p className="text-lg font-unkempt font-medium">{item.cat}</p>
                 </div>
               </Link>
             ))}
           </div>
-          <div className="w-[87%] pl-4">
-            <h3 className="text-2xl font-semibold font-ebgaramond my-4">
-              Lastest Products
+          <div className="lg:w-[87%] md:mb-0 mb-5 md:px-0 px-2 w-full lg:pl-4">
+            <h3 className="text-2xl md:pl-0 pl-2 font-semibold font-ebgaramond md:py-0 py-3 md:my-4">
+              Latest Products
             </h3>
             <Swiper
               spaceBetween={20}
@@ -59,6 +61,9 @@ const Categories = () => {
               }}
               speed={3000}
               breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                },
                 768: {
                   slidesPerView: 4,
                 },
