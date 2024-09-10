@@ -21,11 +21,22 @@ const Header = () => {
   return (
     <div className="w-full md:h-[70px] h-[100px] bg-[#B10C62] px-3 md:px-8 py-3">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-        <div className="flex space-x-5 mb-4 md:mb-0 text-white cursor-pointer">
-          <ICONS.facebook size={25} />
-          <ICONS.instagram size={25} />
+        <div className="flex justify-between items-center pb-1">
+          <div className="flex space-x-5 mb-4 md:mb-0 text-white cursor-pointer">
+            <ICONS.facebook size={25} />
+            <ICONS.instagram size={25} />
+          </div>
+          <div className="ml-3 md:hidden block">
+            <Button
+              onClick={() => router.push("/start-selling")}
+              variant={"secondary"}
+              className="bg-black hover:bg-[#000000be] rounded-[5px] text-white p-5 text-lg font-ebgaramond font-semibold"
+            >
+              Become Seller
+            </Button>
+          </div>
         </div>
-        <div className="relative flex-1 mx-10">
+        <div className="relative flex-1 md:mx-10">
           <input
             type="search"
             value={search}
@@ -62,7 +73,7 @@ const Header = () => {
             </div>
           ) : null}
         </div>
-        <div className="ml-3">
+        <div className="ml-3 md:block hidden">
           <Button
             onClick={() => router.push("/start-selling")}
             variant={"secondary"}
