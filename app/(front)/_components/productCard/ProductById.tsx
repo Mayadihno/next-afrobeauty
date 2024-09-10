@@ -139,7 +139,10 @@ const ProductById = ({ params }: { params: { id: string } }) => {
   const productList = productResponse && productResponse.totalProductsByVendor;
   return (
     <div>
-      <div className="w-full bg-[#B10C62] md:flex md:justify-between md:items-center text-white font-prociono md:text-3xl text-lg font-semibold py-4 md:py-5 md:pl-10 pl-8">
+      <div
+        className="w-full bg-[#B10C62] flex justify-between items-center
+       text-white font-prociono md:text-3xl text-lg font-semibold py-4 md:py-5 md:pl-10 pl-8"
+      >
         <div className="md:hidden block">
           <div className="flex space-x-3 items-center">
             {mounted && (
@@ -159,7 +162,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
                       className="h-[800px] overflow-y-scroll"
                       asChild
                     >
-                      <div className="pt-2 space-y-3 font-urbanist cursor-pointer mb-[200px]">
+                      <div className="pt-2 space-y-3 font-urbanist cursor-pointer pb-[180px]">
                         {productCatogories.map((category) => (
                           <div
                             className="flex items-center space-x-2"
@@ -200,7 +203,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
       </div>
 
       <div className="md:w-11/12 w-[95%] mx-auto">
-        <div className="flex md:flex-row flex-col mt-10">
+        <div className="flex md:flex-row flex-col md:mt-10">
           <div className="md:flex hidden flex-col md:w-[15%] w-full">
             <div className="flex space-x-3 items-center">
               <div className="bg-[#B10C62] h-[20px] w-[3px]" />
@@ -255,8 +258,8 @@ const ProductById = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="md:w-[85%] w-[95%]">
             <div className="flex flex-col md:flex-row">
-              <div className="w-[60%] h-[300px] flex items-center space-x-6">
-                <div className="w-[500px] h-[500px] mt-10">
+              <div className="md:w-[60%] w-full md:h-[300px] flex md:flex-row flex-col items-center md:space-x-6">
+                <div className="md:w-[500px] w-full md:h-[500px] my-5 md:mt-10">
                   <Image
                     src={item.image[select]}
                     alt={item.name}
@@ -265,7 +268,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
                     height={300}
                   />
                 </div>
-                <div className="w-full grid grid-cols-3">
+                <div className="w-full grid grid-cols-3 mb-8">
                   {item &&
                     item.image.map((i: string, index: number) => (
                       <div
@@ -290,14 +293,19 @@ const ProductById = ({ params }: { params: { id: string } }) => {
                     ))}
                 </div>
               </div>
-              <div className="w-[40%] font-ebgaramond">
-                <h3 className="md:text-3xl text-base font-medium">
+              <div className="md:w-[40%] w-full md:pt-0 pt-8 font-ebgaramond">
+                <h3 className="md:text-3xl text-xl font-semibold">
                   {item.name}
                 </h3>
                 <div className="flex justify-between py-3">
-                  <h3 className="text-2xl font-semibold flex items-center text-[#B10C62]">
-                    {formatCurrency(item.price)}
-                  </h3>
+                  <div className="flex items-center space-x-3">
+                    <h3 className="text-2xl font-semibold flex items-center text-[#B10C62]">
+                      {formatCurrency(item.price)}
+                    </h3>
+                    <h3 className="text-xl font-medium flex items-center line-through text-[#B10C62]">
+                      {formatCurrency(item.discountPrice)}
+                    </h3>
+                  </div>
                   <div className="">
                     {click ? (
                       <ICONS.heartFilled
@@ -407,7 +415,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
             <div className="w-full mt-10">
               <div
                 className="flex items-center text-[#9999] font-ebgaramond md:text-base text-sm
-              font-medium cursor-pointer md:space-x-8 space-x-7 justify-center border-y-[1px] border-x-0"
+               font-medium cursor-pointer md:space-x-8 space-x-7 justify-center border-y-[1px] border-x-0"
               >
                 <h3
                   className={`${
@@ -463,7 +471,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
                       Additional information
                     </h2>
                     <div className="md:p-4 p-1">
-                      <table className="md:min-w-full !w-1/2 border">
+                      <table className="md:min-w-full !w-full border">
                         <tbody>
                           <tr className="bg-white divide-x-2">
                             <td className="md:px-6 px-2 md:py-4 py-1 whitespace-nowrap text-sm font-normal md:font-medium text-gray-900">
@@ -537,7 +545,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
                     </div>
                     <div className="w-full md:w-[50%] mt-5 md:mt-0 md:flex items-end flex-col">
                       <div className="text-left">
-                        <h5 className="font-[600]">
+                        <h5 className="font-semibold">
                           Joined on:
                           <span className="font-[500] ml-1">
                             {item.shop?.createdAt?.slice(0, 10)}
@@ -550,7 +558,7 @@ const ProductById = ({ params }: { params: { id: string } }) => {
                         <h5 className="font-[600] pt-3">
                           Total Reviews:
                           <span className="font-[500]">
-                            {/* {totalProductReview} */}
+                            {/* {totalProductReview} */} 0
                           </span>
                         </h5>
                         <Link href={`/shop/${item.shop._id}`}>
