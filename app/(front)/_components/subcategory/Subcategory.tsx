@@ -23,6 +23,7 @@ const Subcategory = ({ subCategory }: { subCategory: string }) => {
   const [page, setPage] = useState(1);
   const [price, setPrice] = useState<number[]>([1000]);
   const [sortOrder, setSortOrder] = useState("");
+  const [show, setShow] = useState(false);
   const router = useRouter();
 
   const { products, isLoading } = useFetchProducts({
@@ -57,12 +58,12 @@ const Subcategory = ({ subCategory }: { subCategory: string }) => {
   }
   return (
     <div>
-      <div className="bg-[#B10C62] w-full py-5 text-center font-abril font-bold text-4xl md:text-5xl">
+      <div className="bg-[#B10C62] w-full py-5 text-center font-abril font-bold text-xl md:text-5xl">
         <div className="flex justify-between items-center">
           <div className="flex flex-col items-center flex-grow">
             <h3>
               Shop By
-              <span className="text-white hover:text-black pl-4">
+              <span className="text-white hover:text-black pl-2 md:pl-4">
                 {subCategory}
               </span>
             </h3>
@@ -84,77 +85,94 @@ const Subcategory = ({ subCategory }: { subCategory: string }) => {
         </div>
       </div>
       <div className="md:container md:mx-auto">
-        <div className="flex space-x-5 my-10">
-          <div className="relative">
-            <input
-              type="search"
-              className="border w-72 h-10 border-[#9FEEA7] py-1 px-3 outline-none"
-              placeholder="Search Product..."
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <div className=" absolute right-2 top-2">
-              <ICONS.search size={20} />
-            </div>
-          </div>
-          <div className="">
-            <Select value={gender} onValueChange={(value) => setGender(value)}>
-              <SelectTrigger className="w-[180px] bg-blue-100 border-none shadow-md">
-                <SelectValue placeholder="Filter by gender" />
-              </SelectTrigger>
-              <SelectContent className="bg-black border-none text-white shadow-xl rounded-[5px] mt-[-3px] cursor-pointer">
-                <SelectItem value="men">Men</SelectItem>
-                <SelectItem value="woman">Women</SelectItem>
-                <SelectItem value="unisex">Unisex</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="w-full font-ebgaramond h-10">
-            <Slider
-              defaultValue={[1000]}
-              min={1000}
-              max={200000}
-              step={500}
-              value={price}
-              className=" !rounded-[10px]"
-              onValueChange={(value) => setPrice(value)}
-            />
-            <div className="flex items-center justify-between mt-1">
-              <span className="text-sm">
-                Price: {price.toLocaleString()} Naira
-              </span>
-              <button
-                onClick={handleFilter}
-                className=" text-sm p-1 rounded-[1px] border-[#B10C62] border text-black"
-              >
-                Filter
-              </button>
-            </div>
-          </div>
-          <div className="">
-            <Select
-              value={sortOrder}
-              onValueChange={(value) => setSortOrder(value)}
-            >
-              <SelectTrigger className="w-[250px] border-none !shadow-md bg-green-100">
-                <SelectValue placeholder="Default sorting" />
-              </SelectTrigger>
-              <SelectContent className="bg-black border-none shadow-xl rounded-[5px] text-white mt-[-3px] cursor-pointer">
-                <SelectItem value="popular">Sort by popularity</SelectItem>
-                <SelectItem value="latest">Sort by latest</SelectItem>
-                <SelectItem value="low">Sort by price: low to high</SelectItem>
-                <SelectItem value="high">Sort by price: high to low</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="">
-            <Button
-              onClick={handleClearFilter}
-              className="bg-[#B10C62] text-white hover:bg-[#B10C62]"
-            >
-              Clear
-            </Button>
-          </div>
+        <div className=" flex justify-end md:mt-10 mt-5 md:mr-0 mr-3">
+          <Button
+            onClick={() => setShow(!show)}
+            className="flex text-lg px-5 rounded-[5px] shadow-md bg-[#B10C62] hover:bg-[#B10C62] text-white"
+          >
+            <ICONS.filter size={20} /> Filter
+          </Button>
         </div>
+        {show && (
+          <div className="flex md:flex-row flex-col md:mx-0 mx-4 md:space-x-5 md:my-10 my-3">
+            <div className="relative">
+              <input
+                type="search"
+                className="border md:w-72 w-full md:mb-0 mb-3 h-10 border-[#9FEEA7] py-1 px-3 outline-none"
+                placeholder="Search Product..."
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <div className=" absolute right-2 top-2">
+                <ICONS.search size={20} />
+              </div>
+            </div>
+            <div className="mb-3 md:mb-0">
+              <Select
+                value={gender}
+                onValueChange={(value) => setGender(value)}
+              >
+                <SelectTrigger className="md:w-[180px] w-full bg-blue-100 border-none shadow-md">
+                  <SelectValue placeholder="Filter by gender" />
+                </SelectTrigger>
+                <SelectContent className="bg-black border-none text-white shadow-xl rounded-[5px] mt-[-3px] cursor-pointer">
+                  <SelectItem value="men">Men</SelectItem>
+                  <SelectItem value="woman">Women</SelectItem>
+                  <SelectItem value="unisex">Unisex</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="w-full mb-3 md:mb-0 font-ebgaramond h-10">
+              <Slider
+                defaultValue={[1000]}
+                min={1000}
+                max={200000}
+                step={500}
+                value={price}
+                className=" !rounded-[10px]"
+                onValueChange={(value) => setPrice(value)}
+              />
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm">
+                  Price: {price.toLocaleString()} Naira
+                </span>
+                <button
+                  onClick={handleFilter}
+                  className=" text-sm p-1 rounded-[1px] border-[#B10C62] border text-black"
+                >
+                  Filter
+                </button>
+              </div>
+            </div>
+            <div className="mb-3 md:mb-0">
+              <Select
+                value={sortOrder}
+                onValueChange={(value) => setSortOrder(value)}
+              >
+                <SelectTrigger className="md:w-[250px] w-full border-none !shadow-md bg-green-100">
+                  <SelectValue placeholder="Default sorting" />
+                </SelectTrigger>
+                <SelectContent className="bg-black border-none shadow-xl rounded-[5px] text-white mt-[-3px] cursor-pointer">
+                  <SelectItem value="popular">Sort by popularity</SelectItem>
+                  <SelectItem value="latest">Sort by latest</SelectItem>
+                  <SelectItem value="low">
+                    Sort by price: low to high
+                  </SelectItem>
+                  <SelectItem value="high">
+                    Sort by price: high to low
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="">
+              <Button
+                onClick={handleClearFilter}
+                className="bg-[#B10C62] text-white hover:bg-[#B10C62]"
+              >
+                Clear
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
       <div className="w-full">
         {products.products.length > 0 ? (
@@ -175,7 +193,7 @@ const Subcategory = ({ subCategory }: { subCategory: string }) => {
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center my-[50px]">
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-3xl text-center font-bold">
               No Products Avaialable for {subCategory}
             </h1>
             <Button

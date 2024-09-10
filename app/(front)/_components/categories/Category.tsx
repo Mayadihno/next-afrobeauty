@@ -26,16 +26,16 @@ const Category = ({ category }: { category: string }) => {
 
   return (
     <div className="mb-10">
-      <div className="bg-[#B10C62] w-full py-5 text-center font-abril font-bold text-4xl md:text-5xl">
+      <div className="bg-[#B10C62] w-full py-5 text-center font-abril font-bold text-xl md:text-5xl">
         <div className="flex justify-between items-center">
           <div className="flex flex-col items-center flex-grow">
             <h3>
               Shop By
-              <span className="text-white hover:text-black pl-4">
+              <span className="text-white hover:text-black pl-2 md:pl-4">
                 {category}
               </span>
             </h3>
-            <div className="flex justify-center items-center space-x-2 pt-5">
+            <div className="flex justify-center items-center space-x-2 pt-3 md:pt-5">
               <div className="w-[10px] h-[10px] rounded-full bg-white"></div>
               <div className="w-[10px] h-[10px] rounded-full bg-white"></div>
               <div className="w-[10px] h-[10px] rounded-full bg-white"></div>
@@ -70,7 +70,7 @@ const Category = ({ category }: { category: string }) => {
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center my-[50px]">
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl text-center font-bold">
             No Products Avaialable for {category}
           </h1>
           <Button

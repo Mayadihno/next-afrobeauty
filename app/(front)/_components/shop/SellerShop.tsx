@@ -20,18 +20,18 @@ const SellerShop = ({ shopId }: SellerShopProps) => {
     <div className="my-10">
       <div className="w-[95%] mx-auto">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+          <div className="flex md:flex-row flex-col items-center md:space-x-4">
             <Button
               onClick={() => router.back()}
               className=" bg-black text-white rounded-[10px] px-5 py-2 hover:bg-black"
             >
               Back
             </Button>
-            <h3 className="text-xl font-ebgaramond font-semibold">
+            <h3 className="text-xl md:pt-0 pt-4 font-ebgaramond font-semibold">
               Shop Product
             </h3>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex md:flex-row flex-col-reverse items-center space-x-4">
             <h3 className="text-lg font-ebgaramond font-semibold">
               {data && data?.shopName}
             </h3>

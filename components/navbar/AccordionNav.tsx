@@ -34,12 +34,20 @@ const AccordionNav = ({ setShow }: SetShowProp) => {
   return (
     <div className="w-full text-base mt-4">
       <div className="relative navbar mb-4 w-full border-b-1 border-t-0 border-l-0 border-r-0 border">
-        <Link href="/" className="focus:outline-none ">
+        <Link
+          href="/"
+          onClick={() => setShow(false)}
+          className="focus:outline-none "
+        >
           Home
         </Link>
       </div>
       <div className="relative navbar mb-4 w-full border-b-1 border-t-0 border-l-0 border-r-0 border">
-        <Link href="/brands" className="focus:outline-none ">
+        <Link
+          href="/brands"
+          onClick={() => setShow(false)}
+          className="focus:outline-none "
+        >
           Brands
         </Link>
       </div>
