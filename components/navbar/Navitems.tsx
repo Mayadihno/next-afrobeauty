@@ -12,7 +12,6 @@ import { ICONS } from "@/utils/icons";
 import Link from "next/link";
 import React from "react";
 import Dropdown from "./Dropdown";
-import AccordionNav from "./AccordionNav";
 
 const Navitems = () => {
   return (

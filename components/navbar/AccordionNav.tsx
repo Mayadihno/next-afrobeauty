@@ -26,7 +26,11 @@ const sections = [
   { title: "Food", items: foods },
 ];
 
-const AccordionNav = () => {
+type SetShowProp = {
+  setShow: (show: boolean) => void;
+};
+
+const AccordionNav = ({ setShow }: SetShowProp) => {
   return (
     <div className="w-full text-base mt-4">
       <div className="relative navbar mb-4 w-full border-b-1 border-t-0 border-l-0 border-r-0 border">
@@ -52,6 +56,7 @@ const AccordionNav = () => {
                     <Link
                       href={`/subcategory/${item.label}`}
                       key={item.id}
+                      onClick={() => setShow(false)}
                       className={`block py-2 border-b-1 border-t-0 border-l-0 border-r-0 border ${
                         itemIndex === section.items.length - 1
                           ? "border-b-0"

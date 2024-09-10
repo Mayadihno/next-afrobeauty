@@ -82,7 +82,7 @@ const Navbar = () => {
         {show && (
           <div className="mt-3 border-t-[#B10C62] shadow-md border-b-[#B10C62] border-t-[2px] border-b-[2px] px-3 h-[380px] overflow-y-scroll">
             <div>
-              <AccordionNav />
+              <AccordionNav setShow={setShow} />
             </div>
           </div>
         )}
