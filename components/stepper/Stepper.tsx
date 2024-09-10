@@ -3,8 +3,8 @@ import React from "react";
 
 const Stepper = ({ active }: { active: number }) => {
   return (
-    <div className="w-[80%] flex justify-center items-center ml-[300px]">
-      <ol className="flex items-center w-full mb-4 sm:mb-5">
+    <div className=" w-[100%] mx-auto">
+      <ol className="flex items-center justify-center w-full mb-4 sm:mb-5">
         <li
           className={`flex w-full items-center text-blue-600 dark:text-blue-500 
           ${

@@ -215,9 +215,9 @@ const BillingAddress = () => {
   };
 
   return (
-    <div className="w-[80%] mx-auto mt-10">
+    <div className="md:w-[80%] w-[98%] mx-auto mt-10">
       <div className="grid md:grid-cols-5 gap-5 grid-cols-1">
-        <div className="overflow-x-auto px-4 py-3 col-span-3 bg-[#ffffff] shadow-md">
+        <div className="overflow-x-auto px-4 py-3 md:col-span-3 col-span-1 bg-[#ffffff] shadow-md">
           <h3 className=" text-lg font-ebgaramond font-semibold">
             Billing address
           </h3>
@@ -227,7 +227,7 @@ const BillingAddress = () => {
               className="font-medium font-ebgaramond"
               id="billingForm"
             >
-              <div className="flex space-x-8 my-5">
+              <div className="flex md:space-x-8 space-x-2 my-5">
                 <div className="w-full">
                   <TextInput
                     label="Full Name"
@@ -250,7 +250,7 @@ const BillingAddress = () => {
                   />
                 </div>
               </div>
-              <div className="flex space-x-8 my-5">
+              <div className="flex md:space-x-8 space-x-2 my-5">
                 <div className="w-full">
                   <TextInput
                     label="Phone Number"
@@ -273,7 +273,7 @@ const BillingAddress = () => {
                   />
                 </div>
               </div>
-              <div className="flex space-x-8 my-5 ">
+              <div className="flex md:space-x-8 space-x-2 my-5">
                 <div className="w-full">
                   <TextInput
                     label="Choose your Country"
@@ -303,7 +303,7 @@ const BillingAddress = () => {
                   />
                 </div>
               </div>
-              <div className="flex space-x-8 my-5">
+              <div className="flex md:space-x-8 space-x-2 my-5">
                 <div className="w-full">
                   <TextInput
                     label="Street Adddress"
@@ -328,7 +328,7 @@ const BillingAddress = () => {
             </form>
           </div>
         </div>
-        <div className="col-span-2 h-fit bg-slate-100">
+        <div className="md:col-span-2 col-span-1 h-fit bg-slate-100">
           <h3 className="text-lg font-ebgaramond font-semibold p-4">
             Order Summary
           </h3>
@@ -346,11 +346,11 @@ const BillingAddress = () => {
               {formatCurrency(subTotal)}
             </h3>
           </div>
-          <div className="flex justify-between p-4">
+          <div className="flex justify-between md:items-start items-center p-4">
             <h3 className="text-lg font-ebgaramond font-semibold">
               Shipping Fee
             </h3>
-            <form className="font-urbanist text-base font-medium">
+            <form className="font-urbanist md:text-base text-sm font-medium">
               {[
                 {
                   id: "postnode",

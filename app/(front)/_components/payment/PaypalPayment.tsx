@@ -4,8 +4,9 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { RxCross1 } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { useAppSelector } from "@/redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { ICONS } from "@/utils/icons";
+import { clearCart } from "@/redux/slice/cartSlice";
 
 const PaypalPayment = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
@@ -22,6 +23,7 @@ const PaypalPayment = () => {
       state: "",
     },
   });
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
 
@@ -54,51 +56,57 @@ const PaypalPayment = () => {
   };
 
   const onApprove = async (data: any, actions: any) => {
-    return actions.order.capture().then(function (details: any) {
+    try {
+      const details = await actions.order.capture();
       const { payer } = details;
 
-      let paymentInfo = payer;
-
-      if (paymentInfo !== undefined) {
-        paypalPaymentHandler(paymentInfo);
+      if (payer) {
+        await paypalPaymentHandler(payer);
       }
-    });
+    } catch (error) {
+      console.error("Error capturing PayPal payment:", error);
+      toast.error("Payment failed. Please try again.");
+    }
   };
 
-  const paypalPaymentHandler = async (paymentInfo: any) => {
-    paymentInfo = {
-      id: paymentInfo.payer_id,
-      status: "succeeded",
-      type: "Paypal",
-    };
+  const paypalPaymentHandler = async (payerInfo: any) => {
+    try {
+      const paymentInfo = {
+        type: "Paypal",
+        value: "Paid",
+      };
 
-    const res = await fetch("/api/create-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userData: orderData.userData,
-        cartItems,
-        shippingFee: orderData.shippingFee,
-        totalPrice: orderData.totalPrice,
-        paymentInfo,
-      }),
-    });
+      const response = await fetch("/api/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userData: orderData.userData,
+          cartItems,
+          shippingFee: orderData.shippingFee,
+          totalPrice: orderData.totalPrice,
+          paymentInfo,
+        }),
+      });
 
-    const data = res.json();
+      const data = await response.json();
 
-    console.log(data);
-
-    // await axios.post("/order/create-order", orderData, config).then((res) => {
-    //   setOpen(false);
-    //   router("/order/success");
-    //   toast.success("Order Successful!!!");
-    //   localStorage.setItem("cartItems", JSON.stringify([]));
-    //   localStorage.setItem("latestOrder", JSON.stringify([]));
-    //   console.log(res);
-    //   window.location.reload();
-    // });
+      if (response.ok) {
+        toast.success("Order successfully created");
+        localStorage.removeItem("orderData");
+        dispatch(clearCart());
+        router.push("/payment/success");
+      } else {
+        console.error("Error creating order:", data.message);
+        toast.error("Failed to create order. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error handling PayPal payment:", error);
+      toast.error(
+        "An error occurred while processing your payment. Please try again."
+      );
+    }
   };
 
   return (

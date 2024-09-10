@@ -22,17 +22,13 @@ const orderSchema = new mongoose.Schema({
     default: "Processing",
   },
   paymentInfo: {
-    id: {
-      type: String,
-    },
-    status: {
-      type: String,
-    },
     type: {
       type: String,
+      default: "Cash on delivery",
     },
     value: {
       type: String,
+      default: "Not Paid",
     },
   },
   paidAt: {

@@ -43,20 +43,6 @@ const PaymentInfo = () => {
       value: "Not Paid",
     };
 
-    // const res = await fetch("/api/create-order", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     userData: orderData.userData,
-    //     cartItems,
-    //     shippingFee: orderData.shippingFee,
-    //     totalPrice: orderData.totalPrice,
-    //     paymentInfo,
-    //   }),
-    // });
-
     const result = await createOrder({
       userData: orderData.userData,
       cartItems,

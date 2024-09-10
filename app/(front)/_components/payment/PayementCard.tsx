@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Payments from "./Payments";
-import { useMemo } from "react";
 import convertToSubcurrency from "@/utils/convertTosubCurrency";
 const PaymentCard = () => {
   const [stripeApiKey, setStripeApiKey] = useState<string>("");
@@ -39,13 +38,6 @@ const PaymentCard = () => {
   }, []);
 
   const amount = orderData?.totalPrice;
-
-  // const amount = useMemo(
-  //   () => ({
-  //     amount: Math.round(orderData?.totalPrice),
-  //   }),
-  //   [orderData?.totalPrice]
-  // );
 
   useEffect(() => {
     getStripeApiKey();

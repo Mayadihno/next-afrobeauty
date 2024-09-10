@@ -59,6 +59,10 @@ const Payments = ({ amount }: { amount: number }) => {
   }, [amount]);
 
   const handleOrderCreation = async () => {
+    const paymentInfo = {
+      type: "Stripe",
+      value: "Paid",
+    };
     try {
       const response = await fetch("/api/create-order", {
         method: "POST",
@@ -70,6 +74,7 @@ const Payments = ({ amount }: { amount: number }) => {
           cartItems,
           shippingFee: orderData.shippingFee,
           totalPrice: amount,
+          paymentInfo,
         }),
       });
       const data = await response.json();

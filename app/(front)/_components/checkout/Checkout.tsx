@@ -5,8 +5,8 @@ import BillingAddress from "./BillingAddress";
 
 const Checkout = () => {
   return (
-    <div className="w-full mt-10">
-      <Stepper active={1} />
+    <div className="w-full md:mt-10">
+      {/* <Stepper active={1} /> */}
       <BillingAddress />
     </div>
   );

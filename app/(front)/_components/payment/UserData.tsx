@@ -27,36 +27,36 @@ const UserData = () => {
   }, []);
 
   return (
-    <div className="px-5 py-5 pt-1 flex flex-col font-urbanist">
+    <div className="md:px-5 px-2 md:py-5 py-2 pt-1 flex flex-col font-urbanist">
       <div className="py-2 border-b-2 text-sm text-nowrap">
         <h2 className="text-2xl font-semibold">Buyer Information</h2>
-        <div className="flex justify-between py-2 items-center">
+        <div className="flex justify-between space-y-4 md:space-y-0 md:flex-row flex-col py-2 md:items-center">
           <h2>
             <span className="font-semibold mr-1"> Name:</span>
             <span>{orderData.userData.name}</span>
           </h2>
           <h2>
-            <span className="font-semibold mr-1"> Email:</span>{" "}
+            <span className="font-semibold mr-1"> Email:</span>
             <span>{orderData.userData.email}</span>
           </h2>
         </div>
-        <div className="flex justify-between py-2 items-center">
+        <div className="flex justify-between space-y-4 md:space-y-0 md:flex-row flex-col py-2 md:items-center">
           <h2>
-            <span className="font-semibold mr-1">Phone Number:</span>{" "}
+            <span className="font-semibold mr-1">Phone Number:</span>
             <span>{orderData.userData.phone}</span>
           </h2>
           <h2>
-            <span className="font-semibold mr-1">Country:</span>{" "}
+            <span className="font-semibold mr-1">Country:</span>
             <span>{orderData.userData.country}</span>
           </h2>
         </div>
-        <div className="flex justify-between py-2 items-center">
+        <div className="flex justify-between space-y-4 md:space-y-0 md:flex-row flex-col py-2 md:items-center">
           <h2>
-            <span className="font-semibold mr-1"> State:</span>{" "}
+            <span className="font-semibold mr-1"> State:</span>
             <span>{orderData.userData.state}</span>
           </h2>
           <h2>
-            <span className="font-semibold mr-1"> Address:</span>{" "}
+            <span className="font-semibold mr-1"> Address:</span>
             <span>{orderData.userData.address}</span>
           </h2>
         </div>

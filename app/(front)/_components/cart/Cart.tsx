@@ -21,7 +21,7 @@ const Cart = () => {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="mt-10 md:grid md:grid-cols-4 md:gap-5 flex flex-col-reverse">
+      <div className="md:mt-10 mt-5 md:grid md:grid-cols-4 md:gap-5 flex flex-col-reverse">
         <div className="overflow-x-auto md:col-span-3 bg-[#ffffff] shadow-md">
           <div className="border-b-2 font-ebgaramond py-2">
             <h3 className="px-4 text-xl font-medium">
