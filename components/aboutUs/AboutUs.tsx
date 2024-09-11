@@ -38,12 +38,14 @@ const AboutUs = () => {
       </div>
 
       <div className="md:container md:mx-auto">
-        <div className="flex items-center space-x-5 my-10">
-          <div className=" h-[300px] w-[350px] rounded-[10px]">
+        <div className="flex items-center md:space-x-5 md:my-10 my-5">
+          <div className=" h-[300px] w-[350px] rounded-[10px] md:block hidden">
             <Image
               src={image.src}
               alt="about-us"
               className="w-full h-full object-cover rounded-[10px]"
+              width={350}
+              height={300}
             />
           </div>
           <div className="h-[300px] w-full relative">
@@ -51,9 +53,11 @@ const AboutUs = () => {
               src={image.src}
               alt="about-us"
               className="w-full h-full object-cover rounded-[10px] absolute"
+              height={300}
+              width={800}
             />
             <div className="bg-[#a04f7991] w-full h-full absolute z-10 rounded-[10px]"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 rounded-[10px] z-20">
+            <div className="absolute top-10 md:top-1/2 md:left-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 p-4 rounded-[10px] z-20">
               <div className="border border-dashed shadow-xl p-3 rounded-[5px] text-center font-urbanist text-white">
                 <div className="flex justify-center pt-2">
                   <ICONS.glass size={60} color="#B10C62" />
@@ -67,7 +71,7 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-        <div className="grid md:grid-cols-4 grid-cols-2 my-10">
+        <div className="grid md:grid-cols-4 md:gap-y-0 gap-y-8 grid-cols-2 my-10">
           {data.map((item) => {
             return (
               <div
@@ -85,7 +89,7 @@ const AboutUs = () => {
           })}
         </div>
         <div className="mb-10 mt-20">
-          <Card className=" w-[85%] mx-auto bg-gray-50 border-none shadow-xl">
+          <Card className=" md:w-[85%] w-[95%] mx-auto bg-gray-50 border-none shadow-xl">
             <CardHeader className="flex justify-center items-center">
               <div className="flex border mt-[-60px] w-fit p-3 rounded-full justify-center items-center">
                 <ICONS.hourglass

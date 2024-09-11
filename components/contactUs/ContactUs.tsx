@@ -63,7 +63,7 @@ const ContactUs = () => {
       </div>
 
       <div className="md:container md:mx-auto">
-        <div className="w-[100%]">
+        <div className="md:w-[100%] w-[95%] mx-auto">
           <iframe
             style={{ marginTop: "25px" }}
             className=" w-full"
@@ -78,13 +78,13 @@ const ContactUs = () => {
           ></iframe>
         </div>
         <div className="my-10">
-          <Card className="w-[75%] mx-auto border-none shadow-2xl rounded-md">
+          <Card className="md:w-[75%] w-[95%] mx-auto border-none shadow-2xl rounded-md">
             <CardHeader className="text-center text-2xl font-semibold my-4">
               <h3>Message Us</h3>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit(handleFormSubmit)}>
-                <div className="flex justify-between space-x-8 items-center">
+                <div className="flex justify-between md:space-x-8 space-x-3 items-center">
                   <div className=" w-full">
                     <TextInput
                       label="First Name"
@@ -104,7 +104,7 @@ const ContactUs = () => {
                     />
                   </div>
                 </div>
-                <div className="flex justify-between space-x-8 my-8 items-center">
+                <div className="flex justify-between md:space-x-8 space-x-3 my-8 items-center">
                   <div className=" w-full">
                     <TextInput
                       label="Email Address"
