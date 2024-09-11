@@ -77,6 +77,7 @@ export interface CartItem {
 
 export interface PaymentInfo {
   type: string;
+  value?: string;
 }
 
 export interface ShippingFee {

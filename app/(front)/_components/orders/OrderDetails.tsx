@@ -220,11 +220,17 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
             </h4>
           </div>
           <div className="w-full md:w-[40%]">
-            <h4 className="text-lg font-semibold pb-2">Payment Info:</h4>
-            <h4>
-              Status:
+            <h4 className="text-lg font-semibold pb-1">Payment Info:</h4>
+            <h4 className="py-2">
+              <span className=" font-semibold"> Payment Status:</span>
               <span className="pl-2">
-                {order?.paymentInfo ? order?.paymentInfo?.type : "Not Paid"}
+                {order?.paymentInfo ? order?.paymentInfo?.value : "Not Paid"}
+              </span>
+            </h4>
+            <h4>
+              <span className=" font-semibold">Payment Type:</span>
+              <span className="pl-2">
+                {order?.paymentInfo ? order?.paymentInfo?.type : "Cash"}
               </span>
             </h4>
           </div>
