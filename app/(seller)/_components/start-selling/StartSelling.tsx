@@ -8,14 +8,14 @@ import { useRouter } from "next/navigation";
 const StartSelling = () => {
   const router = useRouter();
   return (
-    <div className="w-[90%] mx-auto">
+    <div className="md:w-[90%] w-full mx-auto">
       <div className="bg-[#B10C62] w-full text-white rounded-[20px]">
-        <div className="flex justify-between">
-          <div className="w-2/3 p-8">
+        <div className="flex justify-between md:flex-row flex-col">
+          <div className="md:w-2/3 w-full p-8">
             <h3 className="text-3xl font-ebgaramond font-semibold">
               Start Your Beauty Empire
             </h3>
-            <p className="text-base font-ebgaramond font-medium leading-9 pt-4 w-[75%]">
+            <p className="text-base font-ebgaramond font-medium leading-9 pt-4 md:w-[75%] w-full">
               Join mayaBeauty to Sell Your New Cosmetics and Watch Your Profits
               Skyrocket! Whether you're a budding entrepreneur or an established
               beauty expert, mayaBeauty provides the perfect platform to
@@ -31,22 +31,22 @@ const StartSelling = () => {
         </div>
       </div>
 
-      <div className="my-10 text-center">
+      <div className="my-10 text-center md:mx-0 mx-4">
         <h3 className="text-3xl font-ebgaramond font-semibold">
           What You Can Do
         </h3>
-        <p className="text-lg font-ebgaramond font-semibold leading-9 pt-2">
+        <p className="text-lg font-ebgaramond font-medium leading-9 pt-2">
           You can start selling your products on mayaBeauty in just a few
           minutes. Simply upload your products, add pricing, and start selling.
         </p>
       </div>
-      <div className="my-10">
-        <div className="flex justify-between items-center">
+      <div className="my-10 mx-4">
+        <div className="flex justify-between md:flex-row flex-col items-center">
           <div className="">
             <h3 className="text-3xl font-ebgaramond font-semibold">
               Capture photos
             </h3>
-            <p className="text-xl font-urbanist w-2/3 font-medium leading-9 pt-2">
+            <p className="md:text-xl text-base pb-3 md:pb-0 font-urbanist md:w-2/3 w-full font-medium leading-9 pt-2">
               Ensure good lighting, use a clean background, and take multiple
               shots of your item.
             </p>
@@ -62,7 +62,7 @@ const StartSelling = () => {
             />
           </div>
         </div>
-        <div className="flex justify-between items-center my-8">
+        <div className="flex justify-between md:flex-row flex-col-reverse md:items-center">
           <div className="">
             <Image
               src={
@@ -73,22 +73,22 @@ const StartSelling = () => {
               height={400}
             />
           </div>
-          <div className=" text-right">
+          <div className=" md:text-right my-5 md:my-0">
             <h3 className="text-3xl font-ebgaramond font-semibold">
               Upload Your Items
             </h3>
-            <p className="text-xl font-urbanist font-medium leading-9 pt-2">
+            <p className="md:text-xl text-base pb-3 md:pb-0 font-urbanist md:w-2/3 w-full font-medium leading-9 md:pt-2">
               Share essential details about your item: <br /> brand, size,
               color, and also your own Price.
             </p>
           </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between md:flex-row flex-col md:items-center md:mt-0 mt-8">
           <div className="">
             <h3 className="text-3xl font-ebgaramond font-semibold">
               List & Sell
             </h3>
-            <p className="text-xl font-urbanist w-2/3 font-medium leading-9 pt-2">
+            <p className="md:text-xl text-base pb-3 md:pb-0 font-urbanist md:w-2/3 w-full font-medium leading-9 pt-2">
               Review your items, then click 'Sell.' Your item is now visible to
               potential buyers. Start earning
             </p>
