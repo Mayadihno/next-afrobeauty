@@ -53,7 +53,7 @@ const Dropdown = () => {
       {isUserAuthenticated && (
         <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
           <DropdownMenuTrigger asChild>
-            <Avatar className="cursor-pointer">
+            <Avatar className="cursor-pointer md:mr-0 mr-[-20px]">
               {buyer ? (
                 <CircleUser className="h-[30px] w-[30px]" />
               ) : (

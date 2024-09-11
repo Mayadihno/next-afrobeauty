@@ -121,8 +121,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-[70%] mx-auto font-ebgaramonds">
-      <div className="flex flex-col justify-center items-center mt-20">
+    <div className="md:w-[70%] w-[95%] mx-auto font-ebgaramonds">
+      <div className="flex flex-col justify-center items-center md:mt-20 mt-10">
         <div className="flex justify-center w-full">
           <div className="relative">
             {avatar ? (
@@ -177,7 +177,7 @@ const Profile = () => {
         >
           <button>{loading ? "Uploading..." : "Upload"}</button>
         </div>
-        <div className="w-[60%]">
+        <div className="md:w-[60%] w-full font-ebgaramond">
           <form onSubmit={updateProfile}>
             <div className="w-full">
               <label className="pb-2 block">Full name</label>

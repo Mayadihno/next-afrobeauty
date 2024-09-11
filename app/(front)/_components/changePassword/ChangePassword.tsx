@@ -52,7 +52,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="w-[75%] mx-auto">
+    <div className="md:w-[75%] w-[90%] mx-auto">
       <h1 className="font-semibold text-3xl my-5 text-center">
         Change Password
       </h1>
@@ -60,7 +60,7 @@ const ChangePassword = () => {
         <div className="my-3">
           <label
             htmlFor="oldPassword"
-            className="block w-1/2 mx-auto text-sm pb-2 font-medium text-gray-700"
+            className="block md:w-1/2 w-full mx-auto text-sm pb-2 font-medium text-gray-700"
           >
             Old Password
           </label>
@@ -71,13 +71,13 @@ const ChangePassword = () => {
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
             name="oldPassword"
-            className="block w-1/2 p-3 rounded-md border-gray-300 shadow-sm border sm:text-sm mx-auto"
+            className="block md:w-1/2 w-full p-3 rounded-md border-gray-300 shadow-sm border sm:text-sm mx-auto"
           />
         </div>
         <div className="my-3">
           <label
             htmlFor="newPassword"
-            className="block w-1/2 mx-auto text-sm pb-2 font-medium text-gray-700"
+            className="block md:w-1/2 w-full mx-auto text-sm pb-2 font-medium text-gray-700"
           >
             New Password
           </label>
@@ -88,13 +88,13 @@ const ChangePassword = () => {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             name="newPassword"
-            className="block w-1/2 p-3 rounded-md border-gray-300 shadow-sm border sm:text-sm mx-auto"
+            className="block md:w-1/2 w-full p-3 rounded-md border-gray-300 shadow-sm border sm:text-sm mx-auto"
           />
         </div>
         <div className="my-3">
           <label
             htmlFor="confirmPassword"
-            className="block w-1/2 mx-auto text-sm pb-2 font-medium text-gray-700"
+            className="block md:w-1/2 w-full mx-auto text-sm pb-2 font-medium text-gray-700"
           >
             Confirm Password
           </label>
@@ -105,10 +105,10 @@ const ChangePassword = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             name="confirmPassword"
-            className="block w-1/2 p-3 rounded-md border-gray-300 shadow-sm border sm:text-sm mx-auto"
+            className="block md:w-1/2 w-full p-3 rounded-md border-gray-300 shadow-sm border sm:text-sm mx-auto"
           />
         </div>
-        <div className="text-center">
+        <div className="text-center md:mt-0 mt-5">
           <button className="!bg-black px-6 py-3 !rounded-[4px] font-[600] text-white text-[18px]">
             {loading ? "Updating..." : "Change Password"}
           </button>

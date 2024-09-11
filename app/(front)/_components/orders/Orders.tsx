@@ -103,11 +103,11 @@ const Orders = () => {
   }
 
   return (
-    <div className="w-[90%] mx-auto">
+    <div className="md:w-[90%] w-[98%] mx-auto">
       <h3 className="text-3xl font-ebgaramond my-5 text-center font-bold">
         Orders
       </h3>
-      <div className="pt-1 w-[90%] mx-auto">
+      <div className="pt-1 md:w-[90%] w-full mx-auto">
         <DataGrid
           rows={rows}
           columns={columns}

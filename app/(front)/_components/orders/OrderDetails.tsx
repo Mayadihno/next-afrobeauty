@@ -26,7 +26,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
   const refundHandler = () => {};
   const handleSubmit = () => {};
   return (
-    <div className="w-[85%] mx-auto py-4 min-h-screen font-ebgaramond">
+    <div className="md:w-[85%] w-[95%] mx-auto py-4 min-h-screen font-ebgaramond">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center">
           <BsFillBagFill size={30} color="crimson" />
@@ -52,7 +52,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
       </div>
       <br />
       <br />
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-6">
         {order?.cartItems?.map((item) => (
           <div
             className="flex flex-col p-3 border items-center justify-center space-y-2"
@@ -105,7 +105,7 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
       {/* review pop modal */}
       {open && (
         <div className="w-full fixed top-0 left-0 h-screen bg-[#00000054] z-50 flex items-center justify-center">
-          <div className="w-[50%] h-min bg-white shadow rounded-md p-3">
+          <div className="md:w-[50%] w-[95%] h-min bg-white shadow rounded-md p-3">
             <div className="w-full flex justify-end">
               <RxCross1
                 onClick={() => setOpen(false)}
@@ -183,11 +183,11 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
           </div>
         </div>
       )}
-      <div className="border-b flex justify-between items-center pr-2 w-full">
+      <div className="border-b flex justify-between items-center pr-2 w-full md:mt-0 mt-5">
         <div className="">
           {order?.shippingFee !== undefined ? (
             <>
-              <h5 className="pt-3 text-[18px]">
+              <h5 className="md:pt-3 text-[18px]">
                 Shipping fee:
                 <span className="text-base font-semibold pl-2">
                   {formatCurrency(Number(order.shippingFee.shippingPrice))}
@@ -195,17 +195,17 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
               </h5>
             </>
           ) : (
-            <h5 className="pt-3 text-[18px]">
+            <h5 className="md:pt-3 text-[18px]">
               Shipping fee <strong>N/A</strong>
             </h5>
           )}
         </div>
-        <h5 className="py-3 text-[18px]">
+        <h5 className="md:py-3 text-[18px]">
           Total price <strong>{formatCurrency(totalPrice)}</strong>
         </h5>
       </div>
-      <br />
-      <div className="w-full md:flex items-center">
+      {/* <br /> */}
+      <div className="w-full md:flex items-center md:mt-5">
         <div className="w-full md:flex py-4">
           <div className="w-full md:w-[60%]">
             <h4 className="text-lg font-semibold pb-2">Shipping Address</h4>
@@ -219,9 +219,9 @@ const OrderDetails = ({ orderId }: { orderId: string }) => {
               Phone Number: {order?.userData?.phone}
             </h4>
           </div>
-          <div className="w-full md:w-[40%]">
+          <div className="w-full md:w-[40%] my-5 md:my-0 ">
             <h4 className="text-lg font-semibold pb-1">Payment Info:</h4>
-            <h4 className="py-2">
+            <h4 className="md:py-2">
               <span className=" font-semibold"> Payment Status:</span>
               <span className="pl-2">
                 {order?.paymentInfo ? order?.paymentInfo?.value : "Not Paid"}
