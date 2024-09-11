@@ -77,7 +77,7 @@ const StartSelling = () => {
             <h3 className="text-3xl font-ebgaramond font-semibold">
               Upload Your Items
             </h3>
-            <p className="md:text-xl text-base pb-3 md:pb-0 font-urbanist md:w-2/3 w-full font-medium leading-9 md:pt-2">
+            <p className="md:text-xl text-base pb-3 md:pb-0 font-urbanist w-full font-medium leading-9 pt-2">
               Share essential details about your item: <br /> brand, size,
               color, and also your own Price.
             </p>

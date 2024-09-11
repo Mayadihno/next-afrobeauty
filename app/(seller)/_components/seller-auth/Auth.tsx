@@ -9,7 +9,7 @@ const Auth = () => {
 
   return (
     <div className="flex justify-between">
-      <div className="my-10 w-1/2 mx-auto px-10">
+      <div className="my-10 md:w-1/2 w-full mx-auto md:px-10 px-5">
         <Tabs value={active} onValueChange={setActive} className="w-full">
           <TabsList className="grid w-full grid-cols-2 py-3 px-6 font-prociono rounded-[5px] bg-[#27272a74]">
             <TabsTrigger
