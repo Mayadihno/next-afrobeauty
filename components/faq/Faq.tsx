@@ -6,6 +6,7 @@ import { faqAccordion, faqCard } from "./data";
 import { Card, CardContent } from "../ui/card";
 import { ICONS } from "@/utils/icons";
 import FaqData from "./FaqData";
+import FaqAccordion from "./MobileFaq";
 
 const Faq = () => {
   const [active, setActive] = useState<number>(1);
@@ -13,11 +14,13 @@ const Faq = () => {
 
   return (
     <div>
-      <div className="bg-[#B10C62] h-[180px] w-full py-5 font-ebgaramond ">
+      <div className="bg-[#B10C62] md:h-[180px] w-full py-5 font-ebgaramond ">
         <div className="flex justify-between items-center">
           <div className="w-[75%] mx-auto text-white">
-            <h3 className="text-xl py-1">Help Center</h3>
-            <h5 className="text-3xl font-semibold">Hi, how can we help you?</h5>
+            <h3 className="md:text-xl text-lg py-1">Help Center</h3>
+            <h5 className="md:text-3xl text-xl font-semibold">
+              Hi, how can we help you?
+            </h5>
           </div>
           <div className="flex justify-end mr-3">
             <Button
@@ -29,8 +32,8 @@ const Faq = () => {
           </div>
         </div>
       </div>
-      <div className="w-[85%] mx-auto">
-        <div className="grid grid-cols-5 gap-x-4 mt-[-40px]">
+      <div className="w-[85%] mx-auto md:block hidden">
+        <div className="grid md:grid-cols-5 grid-cols-1 gap-x-4 mt-[-40px]">
           {faqCard.map((item) => {
             return (
               <div key={item.id}>
@@ -94,6 +97,9 @@ const Faq = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="md:hidden block w-[90%] mx-auto">
+        <FaqAccordion active={active} />
       </div>
     </div>
   );
