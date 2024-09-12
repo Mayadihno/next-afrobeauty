@@ -154,12 +154,12 @@ const Dashboard = () => {
       .slice(0, 5) || [];
 
   return (
-    <div className="md:w-full max-w-[85%] font-ebgaramond">
+    <div className="md:w-full font-ebgaramond">
       <h3 className="font-ebgaramond font-bold text-2xl pb-2 md:pb-5">
         Overview
       </h3>
       <div className="md:flex-row flex-col w-full md:flex items-center justify-between">
-        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-white shadow px-2 rounded py-5">
+        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-white shadow-md md:shadow px-2 rounded py-5">
           <div className="flex items-center pl-4">
             <h3 className={`text-2xl font-medium text-black`}>
               Account Balance
@@ -173,12 +173,12 @@ const Dashboard = () => {
             <h5 className="pl-4 text-[#077f9c]">Withdraw Money</h5>
           </Link>
         </div>
-        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-white shadow px-2 rounded py-5">
+        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-white shadow-md md:shadow px-2 rounded py-5">
           <div className="flex items-center pl-4">
             <h3 className={`text-2xl font-medium text-black`}>
               All Orders
-              <span className="text-sm pl-2">
-                (including pending and completed orders)
+              <span className="text-sm pl-1">
+                (including pending & completed orders)
               </span>
             </h3>
           </div>
@@ -189,7 +189,7 @@ const Dashboard = () => {
             <h5 className="pl-4 text-[#077f9c]">View Orders</h5>
           </Link>
         </div>
-        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-white shadow px-2 rounded py-5">
+        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-white shadow-md md:shadow px-2 rounded py-5">
           <div className="flex items-center pl-4">
             <h3 className={`text-2xl font-medium text-black`}>
               All Products
@@ -204,7 +204,7 @@ const Dashboard = () => {
           </Link>
         </div>
       </div>
-      <div className="mt-10">
+      <div className="mt-10 md:my-0 my-6">
         <h3 className="font-ebgaramond font-bold text-2xl pb-2">
           Latest Orders
         </h3>

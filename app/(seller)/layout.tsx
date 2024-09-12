@@ -14,9 +14,12 @@ const Layout = async ({ children }: { children: ReactNode }) => {
           <div className="sticky top-0 z-50">
             <Navbar />
           </div>
-          {/* <div className="p-2 flex-1 w-full md:p-4 md:w-full md:overflow-y-auto">
+          <div
+            className="p-2 xl:max-w-screen-xl 2xl:max-w-screen-2xl sm:max-w-screen-sm
+           md:max-w-screen-md lg:max-w-screen-lg mx-auto max-w-[410px] md:p-4 w-full md:overflow-y-auto"
+          >
             {children}
-          </div> */}
+          </div>
         </div>
       </SellerProtectedRoute>
     </div>

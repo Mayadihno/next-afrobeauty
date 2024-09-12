@@ -9,9 +9,9 @@ const Profile = () => {
 
   return (
     <div className="">
-      <Card className="w-full mt-[150px] p-3 shadow-lg border-none rounded-[10px] bg-[#27272a74]">
-        <CardHeader className="mt-[-100px]">
-          <div className="w-[150px] h-[150px] mx-auto">
+      <Card className="w-full md:mt-[150px] mt-[80px] p-3 shadow-lg border-none rounded-[10px] bg-[#27272a74]">
+        <CardHeader className="md:mt-[-100px] mt-[-80px]">
+          <div className="md:w-[150px] w-[100px] h-[100px] md:h-[150px] mx-auto">
             <Image
               src={seller.data?.image ?? ""}
               alt="seller-profile image"
@@ -22,7 +22,7 @@ const Profile = () => {
           </div>
         </CardHeader>
         <CardContent className=" font-urbanist">
-          <div className="flex space-x-5 my-5">
+          <div className="flex md:space-x-5 my-5 md:flex-row flex-col space-y-4 md:space-y-0">
             <div className="flex-1 !text-base">
               <TextInput
                 label="Shop Name"
@@ -51,7 +51,7 @@ const Profile = () => {
               />
             </div>
           </div>
-          <div className="flex space-x-5 my-5">
+          <div className="flex md:space-x-5 my-5 md:flex-row flex-col space-y-4 md:space-y-0">
             <div className="flex-1 !text-base">
               <TextInput
                 label="Shop Address"

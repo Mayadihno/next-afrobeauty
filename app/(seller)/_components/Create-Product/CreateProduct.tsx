@@ -120,12 +120,12 @@ const CreateProduct = () => {
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-2">
+        <div className="flex justify-between items-center mt-3 md:mt-0">
+          <div className="md:flex hidden items-center space-x-2">
             <ICONS.product size={25} />
             <h3>Add New Product</h3>
           </div>
-          <div className="flex items-center space-x-5">
+          <div className="flex items-center ml-6 md:ml-0 space-x-12 md:space-x-5">
             <div className="border flex items-center space-x-2 rounded-3xl px-5 py-2">
               <ICONS.draft />
               <button>Save to draft</button>
@@ -137,7 +137,7 @@ const CreateProduct = () => {
           </div>
         </div>
 
-        <div className="mt-10 md:grid md:grid-cols-6 md:gap-5 flex flex-col">
+        <div className="md:mt-10 mt-5 md:grid md:grid-cols-6 md:gap-5 flex flex-col">
           <GeneralInformation
             control={control}
             errors={errors}
@@ -184,7 +184,7 @@ const CreateProduct = () => {
           loadingTitle="Please wait"
           title="Create Product"
           type="submit"
-          className="border text-center !bg-[#9FEEA7] cursor-pointer mt-10 mb-5 rounded-[5px] px-5 py-2"
+          className="border text-center !bg-[#9FEEA7] cursor-pointer md:mt-10 mt-5 mb-5 rounded-[5px] px-5 py-2"
         />
       </form>
     </div>

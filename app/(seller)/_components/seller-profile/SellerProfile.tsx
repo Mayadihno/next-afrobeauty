@@ -9,7 +9,7 @@ const SellerProfile = () => {
   return (
     <div>
       <div className="flex justify-between">
-        <div className="my-10 w-[85%] mx-auto px-10">
+        <div className="md:my-10 my-4 md:w-[85%] w-full mx-auto md:px-10 px-2">
           <Tabs value={active} onValueChange={setActive} className="w-full">
             <TabsList className="grid w-full grid-cols-2 py-3 px-6 font-prociono rounded-[5px] bg-[#27272a74]">
               <TabsTrigger

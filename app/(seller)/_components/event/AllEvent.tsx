@@ -194,7 +194,7 @@ const AllEvent = () => {
             <LoaderCircle className=" animate-spin" size={50} color="#e94560" />
           </div>
         ) : (
-          <div className="w-[95%] mx-auto">
+          <div className="md:w-[95%] w-full mx-auto">
             <h5 className=" text-center text-[30px] py-5">All Event</h5>
             <DataGrid
               rows={row}
@@ -210,8 +210,8 @@ const AllEvent = () => {
       </div>
       {open && (
         <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-50 flex justify-center items-center">
-          <div className=" w-[35%] md:w-[300px] h-[85vh] md:h-[200px] bg-white rounded-[10px] p-4 shadow-md">
-            <h3 className="text-sm my-5 text-nowrap">
+          <div className="w-[95%] md:w-[300px] h-[25vh] md:h-[200px] bg-white rounded-[10px] p-4 shadow-md">
+            <h3 className="text-sm my-5 text-nowrap text-center">
               Are you sure you want to delete this Event?
             </h3>
             {loading ? (

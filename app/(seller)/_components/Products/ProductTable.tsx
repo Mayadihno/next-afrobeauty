@@ -140,7 +140,7 @@ const ProductTable = ({
     {
       field: "Actions",
       flex: 1,
-      minWidth: 80,
+      minWidth: 150,
       headerName: "Actions",
       headerAlign: "center",
       align: "center",
@@ -156,7 +156,11 @@ const ProductTable = ({
                 </div>
               ) : (
                 <Button variant="ghost">
-                  <ICONS.eye title="View Product" size={20} />
+                  <ICONS.eye
+                    title="View Product"
+                    size={20}
+                    className="text-green-500"
+                  />
                 </Button>
               )}
             </Link>
@@ -281,7 +285,7 @@ const ProductTable = ({
 
   return (
     <div>
-      <div className="w-[98%] mx-auto">
+      <div className="md:w-[98%] w-full mx-auto">
         {data && data.products?.length > 0 ? (
           <DataGrid
             rows={row}
@@ -315,8 +319,8 @@ const ProductTable = ({
       </div>
       {confirmDelete.open && (
         <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-50 flex justify-center items-center">
-          <div className=" w-[35%] md:w-[300px] h-[85vh] md:h-[200px] bg-white rounded-[10px] p-4 shadow-md">
-            <h3 className="text-sm my-5 text-nowrap">
+          <div className=" w-[95%] md:w-[300px] h-[25vh] md:h-[200px] bg-white rounded-[10px] p-4 shadow-md">
+            <h3 className="text-sm my-5 text-nowrap text-center">
               Are you sure you want to delete this Product?
             </h3>
             <div className="flex justify-center mt-[40px] items-center space-x-7">

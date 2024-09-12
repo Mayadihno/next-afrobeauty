@@ -71,7 +71,7 @@ const Product = () => {
         </Link>
       </div>
       <div className="my-5">
-        <Card className=" rounded-[7px] border-0 shadow-lg bg-[#F6F6F6] w-full p-3">
+        <Card className=" rounded-[7px] border-0 shadow-lg bg-[#F6F6F6] w-full md:p-3">
           <div className="flex p-2">
             {tab.map((item) => (
               <div
@@ -85,15 +85,15 @@ const Product = () => {
               </div>
             ))}
           </div>
-          <div className="flex justify-between items-center my-3">
-            <h3 className="text-xl font-medium font-ebgaramond pl-5">
+          <div className="flex justify-between md:flex-row flex-col-reverse md:items-center md:my-3">
+            <h3 className="text-xl mt-3 font-medium font-ebgaramond md:pl-5">
               {total
                 ? total > 1
                   ? `${total} Products`
                   : `${total} Product`
                 : ""}
             </h3>
-            <div className="flex space-x-6 items-center">
+            <div className="flex md:space-x-6 space-x-3 mt-5 md:mt-0 items-center">
               <div className="relative">
                 <input
                   type="search"
@@ -114,9 +114,9 @@ const Product = () => {
               </div>
             </div>
           </div>
-          <div className="my-5">
+          <div className="md:my-5 my-2">
             {show && (
-              <div className="flex items-center space-x-10">
+              <div className="flex md:flex-row flex-col space-y-3 md:space-y-0 md:items-center md:space-x-10">
                 <div className="">
                   <label htmlFor="category">Category</label>
                   <Select
@@ -191,10 +191,10 @@ const Product = () => {
                     classNamePrefix="select"
                   />
                 </div>
-                <div className="pl-28">
+                <div className="md:pl-28">
                   <div
                     onClick={handleFilter}
-                    className=" bg-[#9FEEA7] cursor-pointer text-white rounded-[5px]  mt-6 px-8 py-2"
+                    className=" bg-[#9FEEA7] cursor-pointer text-center text-white rounded-[5px] mt-6 px-8 py-2"
                   >
                     <h2>Clear</h2>
                   </div>

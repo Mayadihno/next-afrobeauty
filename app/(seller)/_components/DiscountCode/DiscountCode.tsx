@@ -239,7 +239,7 @@ const DiscountCode = () => {
             </div>
             <h5 className="text-center text-[30px]">Create Coupon code</h5>
             <form onSubmit={handleSubmit(createDiscounts)}>
-              <div className="flex space-x-5 my-8">
+              <div className="flex md:space-x-5 space-x-2 my-8">
                 <div className=" w-full">
                   <TextInput
                     register={register}
@@ -259,8 +259,8 @@ const DiscountCode = () => {
                   />
                 </div>
               </div>
-              <div className="flex space-x-5 mt-8">
-                <div className=" w-full">
+              <div className="flex md:space-x-5 space-x-2 md:mt-8 mt-4">
+                <div className="w-full">
                   <TextInput
                     name="minAmount"
                     register={register}
@@ -295,7 +295,7 @@ const DiscountCode = () => {
       )}
       {openDelete && (
         <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-50 flex justify-center items-center">
-          <div className=" w-[35%] md:w-[400px] h-[85vh] md:h-[200px] bg-white rounded-[10px] p-4 shadow-md">
+          <div className=" w-[95%] md:w-[400px] h-[25vh] md:h-[200px] bg-white rounded-[10px] p-4 shadow-md">
             <h3 className="text-sm font-bold my-5 text-center text-nowrap">
               Are you sure you want to delete this Discount Code?
             </h3>

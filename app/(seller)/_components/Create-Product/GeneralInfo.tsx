@@ -47,7 +47,7 @@ const GeneralInformation = ({
           </p>
         )}
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between md:items-center md:flex-row flex-col">
         <div>
           <h3 className="text-lg">Size</h3>
           <h5 className="text-sm pb-2">Pick available size</h5>
@@ -92,7 +92,7 @@ const GeneralInformation = ({
           </div>
           <p className="text-red-500">{errors.size?.message}</p>
         </div>
-        <div>
+        <div className="pt-5 md:pt-0">
           <h3 className="text-lg">Gender</h3>
           <h5 className="text-sm pb-2">Pick available gender</h5>
           <div className="flex space-x-2">

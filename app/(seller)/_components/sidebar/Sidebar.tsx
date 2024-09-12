@@ -102,7 +102,8 @@ export default function Sidebar() {
                     "flex items-center gap-3 rounded-lg px-3 py-2",
                     pathname === item.link
                       ? " bg-slate-100 text-lg rounded-xl"
-                      : ""
+                      : "",
+                    item.mobileOnly ? "md:hidden" : ""
                   )}
                 >
                   <Icon className="h-6 w-6" />

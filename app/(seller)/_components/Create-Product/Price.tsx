@@ -14,7 +14,7 @@ const PriceAndQuantity = ({
   return (
     <div className="col-span-2 bg-[#F9F9F9] rounded-[10px] shadow-lg p-5 font-ebgaramond">
       <h2 className="text-xl font-semibold pb-3">{title} Price and Quantity</h2>
-      <div className="flex space-x-10 items-center">
+      <div className="flex md:space-x-10 space-y-4 md:space-y-0 md:items-center flex-col md:flex-row">
         <div className="flex-1">
           <div className="">
             <label
@@ -79,7 +79,7 @@ const PriceAndQuantity = ({
           )}
         </div>
       </div>
-      <div className="flex space-x-10 items-center mt-4">
+      <div className="flex md:space-x-10 space-y-4 md:space-y-0 md:items-center flex-col md:flex-row mt-4">
         <div className="flex-1">
           <div className="">
             <label

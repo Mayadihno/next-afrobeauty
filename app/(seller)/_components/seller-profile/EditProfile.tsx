@@ -60,10 +60,10 @@ const EditProfile = ({ setActive }: Props) => {
   };
   return (
     <form onSubmit={handleSubmit(handleUpdateProfile)} className="">
-      <Card className="w-full mt-[150px] p-3 shadow-lg border-none rounded-[10px] bg-[#27272a74]">
-        <CardHeader className="mt-[-100px]">
+      <Card className="w-full md:mt-[150px] mt-[80px] p-3 shadow-lg border-none rounded-[10px] bg-[#27272a74]">
+        <CardHeader className="md:mt-[-100px] mt-[-80px]">
           <div className="relative">
-            <div className="w-[150px] h-[150px] mx-auto">
+            <div className="md:w-[150px] w-[100px] h-[100px] md:h-[150px] mx-auto">
               {avatar ? (
                 <Image
                   src={
@@ -86,7 +86,7 @@ const EditProfile = ({ setActive }: Props) => {
                 />
               )}
             </div>
-            <div className="w-[30px] h-[30px] bg-[#E3E9EE] left-[56%] bottom-[30px] flex justify-center items-center rounded-full cursor-pointer absolute">
+            <div className="md:w-[30px] w-[25px] h-[25px] md:h-[30px] bg-[#E3E9EE] md:left-[56%] left-[58%] md:bottom-[30px] bottom-[20px] flex justify-center items-center rounded-full cursor-pointer absolute">
               <input
                 type="file"
                 id="image"
@@ -104,7 +104,7 @@ const EditProfile = ({ setActive }: Props) => {
           </div>
         </CardHeader>
         <CardContent className=" font-urbanist">
-          <div className="flex space-x-5 my-5">
+          <div className="flex md:space-x-5 my-5 md:flex-row flex-col space-y-4 md:space-y-0">
             <div className="flex-1 !text-base">
               <TextInput
                 register={register}
@@ -133,7 +133,7 @@ const EditProfile = ({ setActive }: Props) => {
               />
             </div>
           </div>
-          <div className="flex space-x-5 my-5">
+          <div className="flex md:space-x-5 my-5 md:flex-row flex-col space-y-4 md:space-y-0">
             <div className="flex-1 !text-base">
               <TextInput
                 label="Shop Address"

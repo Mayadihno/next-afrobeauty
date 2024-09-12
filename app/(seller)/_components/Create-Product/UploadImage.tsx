@@ -29,7 +29,7 @@ const UploadImageAndColor = ({
     <div className="col-span-2 h-fit bg-[#F9F9F9] rounded-[10px] shadow-lg p-5">
       <h3 className="text-xl pb-5 font-semibold">Upload {title} Image</h3>
       <div className="flex justify-center items-center mb-1">
-        <div className="border-2 border-dashed md:w-[95%] w-[300px] h-52 relative mt-2">
+        <div className="border-2 border-dashed md:w-[95%] w-full h-52 relative md:mt-2">
           <Controller
             name="images"
             control={control}
@@ -96,9 +96,8 @@ const UploadImageAndColor = ({
           ))}
         </div>
       </div>
-      <div className="mt-10 space-y-2">
+      <div className="md:mt-10 mt-5 space-y-2">
         <label htmlFor="colors">Available Colors</label>
-
         <Select
           {...control}
           {...register("colors", {

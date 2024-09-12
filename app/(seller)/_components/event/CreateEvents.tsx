@@ -194,7 +194,7 @@ const CreateEvents = () => {
             />
           </div>
         </div>
-        <div className="flex my-5 font-ebgaramond w-[80%] mx-auto justify-center space-x-4 items-center">
+        <div className="flex my-5 font-ebgaramond md:w-[80%] w-full mx-auto justify-center space-x-4 items-center">
           <div className="w-1/2">
             <label htmlFor="startDate" className="pb-1">
               Event Start Date <span className=" text-red-500">*</span>
