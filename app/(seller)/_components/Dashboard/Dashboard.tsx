@@ -154,9 +154,11 @@ const Dashboard = () => {
       .slice(0, 5) || [];
 
   return (
-    <div className="w-full font-ebgaramond">
-      <h3 className="font-ebgaramond font-bold text-2xl pb-5">Overview</h3>
-      <div className="block w-full md:flex items-center justify-between">
+    <div className="md:w-full max-w-[85%] font-ebgaramond">
+      <h3 className="font-ebgaramond font-bold text-2xl pb-2 md:pb-5">
+        Overview
+      </h3>
+      <div className="md:flex-row flex-col w-full md:flex items-center justify-between">
         <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-white shadow px-2 rounded py-5">
           <div className="flex items-center pl-4">
             <h3 className={`text-2xl font-medium text-black`}>
