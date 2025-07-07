@@ -1,4 +1,3 @@
-import { Weight } from "lucide-react";
 import image1 from "../../public/assets/product/product1.jpg";
 import image2 from "../../public/assets/product/product2.jpg";
 import image3 from "../../public/assets/product/product3.jpeg";

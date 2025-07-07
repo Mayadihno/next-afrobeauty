@@ -388,14 +388,6 @@ const BillingAddress = () => {
           </div>
           <div className="border-t-2 p-4">
             <form onSubmit={handleCopounSubmit}>
-              <input
-                type="text"
-                className={`w-full border p-1 outline-none rounded-[5px] h-[40px] pl-2`}
-                placeholder="Coupoun code"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                required
-              />
               <div className="flex justify-center items-center">
                 <Button
                   className={`w-1/2 mt-5 h-[40px] hover:bg-[#f63b60] hover:text-white border border-[#f63b60] text-center text-[#f63b60] rounded-[3px] cursor-pointer`}
